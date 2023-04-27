@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ShitChat</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_direct">Direct</string>
+    <string name="title_groups">Groups</string>
+    <string name="title_settings">Settings</string>
 </resources>

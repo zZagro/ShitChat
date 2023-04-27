@@ -4,14 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD:app/src/main/res/layout/fragment_direct.xml
     tools:context=".ui.direct.DirectFragment">
-=======
-    tools:context=".ui.dashboard.DashboardFragment">
->>>>>>> 308c7abeae68b7b233d849f5ac0cbbdced401e5a:app/src/main/res/layout/fragment_dashboard.xml
 
     <TextView
-        android:id="@+id/text_dashboard"
+        android:id="@+id/text_direct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -25,4 +21,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
