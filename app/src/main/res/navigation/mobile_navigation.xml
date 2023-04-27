@@ -13,6 +13,17 @@
 
     <fragment
         android:id="@+id/navigation_direct"
+        android:name="de.zagro.shitchat.ui.direct.DirectFragment"
         android:label="@string/title_direct"
         tools:layout="@layout/fragment_direct" />
+
+    <fragment
+        android:id="@+id/navigation_groups"
+        android:label="@string/title_groups"
+        tools:layout="@layout/fragment_groups" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_settings"-->
+<!--        android:label="@string/title_settings"-->
+<!--        tools:layout="@layout/fragment_settings" />-->
 </navigation>
