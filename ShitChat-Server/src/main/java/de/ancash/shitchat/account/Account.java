@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,9 +30,11 @@ public class Account {
 	private String profilePicType;
 	private byte[] pass;
 	private final YamlFile yml;
+	private long lastAccess = System.currentTimeMillis();
+	private final ConcurrentHashMap<UUID, Session> sessions = new ConcurrentHashMap<>();
 	
 	@SuppressWarnings("nls")
-	public Account(File file) throws InvalidConfigurationException, IOException {
+	Account(File file) throws InvalidConfigurationException, IOException {
 		this.file = file;
 		this.uid = UUID.fromString(file.getName().split(".yml")[0]);
 		this.profilePicFile = new File(file.getParentFile().getPath() + "/" + uid + "-pp");
@@ -39,8 +44,39 @@ public class Account {
 		loadFromFile();
 	}
 	
+	synchronized Session newSession() {
+		Session s = new Session(UUID.randomUUID(), this);
+		sessions.put(s.getSessionId(), s);
+		return s;
+	}
+	
+	Session removeSession(UUID sid) {
+		return sessions.remove(sid);
+	}
+	
+	public Session getSession(UUID id) {
+		return sessions.get(id);
+	}
+	
+	public boolean hasSessions() {
+		return !sessions.isEmpty();
+	}
+	
+	public int countSessions() {
+		return sessions.size();
+	}
+	
 	public ShitChatImage getProfilePic() throws IOException {
 		return new ShitChatImage(Files.readAllBytes(profilePicFile.toPath()), profilePicType);
+	}
+	
+	public long getLastAccess() {
+		return lastAccess;
+	}
+	
+	public Account updateLastAccess() {
+		lastAccess = System.currentTimeMillis();
+		return this;
 	}
 	
 	public byte[] getPassword() {
