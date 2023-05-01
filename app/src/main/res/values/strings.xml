@@ -5,5 +5,5 @@
     <string name="title_groups">Groups</string>
     <string name="title_settings">Settings</string>
 
-    <string id="username" name="username">Username</string>
+    <string name="username">Username</string>
 </resources>

@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import de.zagro.shitchat.R;
 import de.zagro.shitchat.databinding.FragmentDirectBinding;
-import de.zagro.shitchat.ui.home.HomeViewModel;
 
 public class DirectFragment extends Fragment {
 
@@ -25,6 +25,9 @@ public class DirectFragment extends Fragment {
 
         final TextView textView = binding.textDirect;
         directViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        getActivity().setTitle(R.string.username);
+
         return root;
     }
 
