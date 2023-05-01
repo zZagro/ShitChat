@@ -3,7 +3,9 @@ package de.ancash.shitchat.account;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,30 +24,62 @@ public class AccountRegistry extends Thread {
 	private final ConcurrentHashMap<String, UUID> uidByEmail = new ConcurrentHashMap<>();
 	private final ConcurrentHashMap<UUID, Account> accByUId = new ConcurrentHashMap<UUID, Account>();
 	private final ConcurrentHashMap<UUID, Session> sesByUId = new ConcurrentHashMap<UUID, Session>();
-	
+
 	public AccountRegistry(ShitChatServer server) throws InvalidConfigurationException, IOException {
 		this.server = server;
+		if (!accountsDir.exists())
+			accountsDir.mkdirs();
+		loadAccounts();
+	}
+
+	private void loadAccounts() throws InvalidConfigurationException, IOException {
+		System.out.println("Loading accounts");
 		accountLink.load();
 		accountLink.getKeys(false).forEach(k -> uidByEmail.put(k, UUID.fromString(accountLink.getString(k))));
-		if(!accountsDir.exists())
-			accountsDir.mkdirs();
+		System.out.println(uidByEmail.size() + " accounts found");
 	}
 
 	@Override
 	public void run() {
+		while (server.isRunning()) {
 
+			lock.writeLock(this::checkCacheTimeout);
+
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				System.err.println("interrupted " + e);
+				return;
+			}
+		}
 	}
-	
+
+	private void checkCacheTimeout() {
+		Iterator<UUID> keys = accByUId.keySet().iterator();
+		long now = System.currentTimeMillis();
+		while (keys.hasNext()) {
+			UUID cur = keys.next();
+			Account acc = accByUId.get(cur);
+			if (acc.getLastAccess() + now < System.currentTimeMillis()) {
+				System.out.println("cache life time of " + acc.getEmail() + ":" + acc.getUserName() + " expired");
+				Set<Session> sss = acc.getAllSessions();
+				sss.forEach(Session::exit);
+			}
+		}
+	}
+
 	public Session newSession(Account acc) {
-		return acc.newSession().setOnExit(ses -> {
+		Session s = acc.newSession().setOnExit(ses -> {
 			sesByUId.remove(ses.getSessionId());
 			acc.removeSession(ses.getSessionId());
 		});
+		sesByUId.put(acc.getId(), s);
+		return s;
 	}
 
 	public Account getAccount(UUID id) {
 		Account a = lock.conditionalReadLock(() -> accByUId.containsKey(id), () -> null, () -> getAccount0(id));
-		if(a != null)
+		if (a != null)
 			return a;
 		return lock.writeLock(() -> getAccount0(id));
 	}

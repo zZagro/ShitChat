@@ -7,12 +7,12 @@ import de.ancash.sockets.async.client.AbstractAsyncClient;
 public class UserNameChangeHandler {
 
 	private final ShitChatServer server;
-	
+
 	public UserNameChangeHandler(ShitChatServer server) {
 		this.server = server;
 	}
-	
+
 	public void changeProfilePic(AbstractAsyncClient client, UserNameChangePacket packet) {
-		
+
 	}
 }
