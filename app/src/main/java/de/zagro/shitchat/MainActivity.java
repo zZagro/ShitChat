@@ -1,7 +1,12 @@
 package de.zagro.shitchat;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +21,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import de.zagro.shitchat.databinding.ActivityMainBinding;
+import de.zagro.shitchat.ui.toolbar.ToolbarManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbarUserIconClick();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
@@ -38,9 +45,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void toolbarUserIconClick()
+    {
+        ImageView imageView = (ImageView) findViewById(R.id.userIconToolbar);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Link To Profile Settings Here
+                Toast.makeText(getBaseContext(), "Hello World", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
