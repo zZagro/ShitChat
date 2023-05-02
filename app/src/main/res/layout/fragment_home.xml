@@ -22,7 +22,9 @@
             android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"/>
+            android:paddingStart="10dp"
+            android:textColor="#D4D4D4"
+            android:textStyle="bold"/>
 
         <include
             layout="@layout/recent_message"
@@ -47,9 +49,11 @@
             android:layout_height="wrap_content"
             android:text="Recent Group Messages"
             android:textSize="20sp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"/>
+            android:paddingStart="10dp"
+            android:textColor="#D4D4D4"
+            android:textStyle="bold"/>
 
         <include
             layout="@layout/recent_message"
