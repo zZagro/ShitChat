@@ -26,8 +26,6 @@ public class DirectFragment extends Fragment {
         final TextView textView = binding.textDirect;
         directViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        getActivity().setTitle(R.string.username);
-
         return root;
     }
 
