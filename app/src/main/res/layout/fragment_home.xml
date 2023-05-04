@@ -7,7 +7,7 @@
     tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
-        android:id="@+id/fragment_view"
+        android:id="@+id/home_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/home_recent_direct_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Recent Direct Messages"
@@ -26,25 +27,8 @@
             android:textColor="#D4D4D4"
             android:textStyle="bold"/>
 
-        <include
-            layout="@layout/recent_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
-
-        <include
-            layout="@layout/recent_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
-
-        <include
-            layout="@layout/recent_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
-
         <TextView
+            android:id="@+id/home_recent_groups_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Recent Group Messages"
@@ -54,24 +38,6 @@
             android:paddingStart="10dp"
             android:textColor="#D4D4D4"
             android:textStyle="bold"/>
-
-        <include
-            layout="@layout/recent_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
-
-        <include
-            layout="@layout/recent_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
-
-        <include
-            layout="@layout/recent_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 
