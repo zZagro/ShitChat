@@ -15,7 +15,7 @@ public final class AuthenticationUtil {
 
 	private static final int salts = 16;
 	private static SecretKeyFactory f;
-	
+
 	static {
 		try {
 			f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -23,7 +23,7 @@ public final class AuthenticationUtil {
 			throw new IllegalStateException(e);
 		}
 	}
-	
+
 	public static byte[] hashPassword(char[] c) {
 		SecureRandom random = new SecureRandom();
 		byte[] salt = new byte[salts];
@@ -35,12 +35,12 @@ public final class AuthenticationUtil {
 			throw new IllegalStateException(e);
 		}
 	}
-	
+
 	public static boolean isEmailValid(String e) {
 		return EmailValidator.getInstance().isValid(e);
 	}
-	
+
 	AuthenticationUtil() {
 	}
-	
+
 }

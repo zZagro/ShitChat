@@ -8,10 +8,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import de.ancash.libs.org.simpleyaml.configuration.file.YamlFile;
 import de.ancash.libs.org.simpleyaml.exceptions.InvalidConfigurationException;
 import de.ancash.misc.CustomReentrantReadWriteLock;
+import de.ancash.shitchat.ShitChatKeys;
 import de.ancash.shitchat.ShitChatServer;
 
 @SuppressWarnings("nls")
@@ -39,6 +42,23 @@ public class AccountRegistry extends Thread {
 		System.out.println(uidByEmail.size() + " accounts found");
 	}
 
+	private void saveAccounts() throws InvalidConfigurationException, IOException {
+		System.out.println("Saving accounts");
+		accountLink.createNewFile();
+		accountLink.load();
+		uidByEmail.entrySet().forEach(e -> accountLink.set(e.getKey(), e.getValue().toString()));
+		accountLink.save();
+		System.out.println(uidByEmail.size() + " accounts saved");
+	}
+
+	public UUID getUIdByEmail(String email) {
+		return uidByEmail.get(email);
+	}
+
+	public boolean exists(String email) {
+		return uidByEmail.containsKey(email);
+	}
+
 	@Override
 	public void run() {
 		while (server.isRunning()) {
@@ -52,6 +72,14 @@ public class AccountRegistry extends Thread {
 				return;
 			}
 		}
+		lock.writeLock(() -> {
+			try {
+				saveAccounts();
+			} catch (IOException e) {
+				System.err.println("could not save accounts");
+				e.printStackTrace();
+			}
+		});
 	}
 
 	private void checkCacheTimeout() {
@@ -84,21 +112,64 @@ public class AccountRegistry extends Thread {
 		return lock.writeLock(() -> getAccount0(id));
 	}
 
+	public File getDir(UUID id) {
+		String[] split = id.toString().split("-");
+		List<String> path = Arrays.asList(split);
+		path.add(0, accountsDir.getPath());
+		return new File(String.join("//", path));
+	}
+
+	public Account createAccount(String email, String name, byte[] pass) {
+		return lock.writeLock(() -> {
+			if (exists(email))
+				return null;
+			UUID id = UUID.randomUUID();
+			File dir = getDir(id);
+			while (dir.exists()) {
+				System.err.println("duplicate uid during acc creation found: " + id);
+				id = UUID.randomUUID();
+				dir = getDir(id);
+			}
+			dir.mkdirs();
+			File data = new File(String.join("//", dir.getPath(), "data.yml"));
+			try {
+				data.createNewFile();
+				YamlFile yf = new YamlFile(data);
+				yf.load();
+				yf.set(ShitChatKeys.USER_EMAIL, email);
+				yf.set(ShitChatKeys.USER_NAME, name);
+				yf.set(ShitChatKeys.USER_PASSWORD,
+						IntStream.range(0, pass.length).map(i -> pass[i]).boxed().collect(Collectors.toList()));
+				yf.set(ShitChatKeys.PROFILE_PIC_FILE, ShitChatServer.getInstance().getDefaultProfilePicFile());
+				yf.set(ShitChatKeys.UID, id.toString());
+				yf.save();
+				uidByEmail.put(email, id);
+			} catch (IOException e) {
+				System.err.println("could not create/load new data file");
+				e.printStackTrace();
+				return null;
+			}
+			return getAccount0(id);
+		});
+	}
+
 	private Account getAccount0(UUID id) {
 		if (accByUId.containsKey(id)) {
 			return accByUId.get(id).updateLastAccess();
 		}
-		String[] split = id.toString().split("-");
-		List<String> path = Arrays.asList(split);
-		path.add(0, accountsDir.getPath());
-		File dir = new File(String.join("//", path));
-		dir.mkdirs();
+		File dir = getDir(id);
+		if (!dir.exists()) {
+			System.err.println("no files found for " + id);
+			return null;
+		}
 		try {
 			Account acc = new Account(new File(String.join("//", dir.getPath(), "data.yml")));
 			accByUId.put(id, acc);
 			return acc;
 		} catch (IOException e) {
-			throw new IllegalStateException("could not load account", e);
+			System.err.println("could not load account at " + dir.getPath());
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

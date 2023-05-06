@@ -5,5 +5,5 @@ import de.ancash.shitchat.ShitChatImage;
 public interface IImagePacket {
 
 	public ShitChatImage getImage();
-	
+
 }
