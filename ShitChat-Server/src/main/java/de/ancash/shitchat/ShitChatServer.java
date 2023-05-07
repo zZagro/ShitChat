@@ -77,6 +77,10 @@ public class ShitChatServer {
 		worker = config.getInt("server.worker");
 	}
 
+	public AccountRegistry getAccountRegistry() {
+		return accRegistry;
+	}
+
 	public boolean isRunning() {
 		return running;
 	}

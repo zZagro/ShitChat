@@ -5,7 +5,7 @@ import de.ancash.libs.org.bukkit.event.Listener;
 import de.ancash.shitchat.ShitChatServer;
 import de.ancash.shitchat.listener.handler.auth.LoginHandler;
 import de.ancash.shitchat.listener.handler.auth.SignInHandler;
-import de.ancash.shitchat.packet.SessionedShitChatPacket;
+import de.ancash.shitchat.packet.SessionedPacket;
 import de.ancash.shitchat.packet.ShitChatPacket;
 import de.ancash.shitchat.packet.auth.AuthenticationPacket;
 import de.ancash.shitchat.packet.auth.LoginPacket;
@@ -16,16 +16,18 @@ import de.ancash.sockets.packet.Packet;
 
 public class ShitChatPacketListener implements Listener {
 
+	@SuppressWarnings("unused")
 	private final ShitChatServer server;
 	private final LoginHandler loginHandler;
 	private final SignInHandler signInHandler;
 
 	public ShitChatPacketListener(ShitChatServer server) {
 		this.server = server;
-		loginHandler = new LoginHandler(server);
-		this.signInHandler = new SignInHandler(this.server);
+		loginHandler = new LoginHandler(server.getAccountRegistry());
+		this.signInHandler = new SignInHandler(server.getAccountRegistry());
 	}
 
+	@SuppressWarnings("nls")
 	@EventHandler
 	public void onPacket(ServerPacketReceiveEvent event) {
 		Packet p = event.getPacket();
@@ -35,8 +37,8 @@ public class ShitChatPacketListener implements Listener {
 
 		if (scp instanceof AuthenticationPacket) {
 			handleAuthPacket(event.getClient(), (AuthenticationPacket) scp);
-		} else if (scp instanceof SessionedShitChatPacket) {
-			handleSessionesPacket(event.getClient(), (SessionedShitChatPacket) scp);
+		} else if (scp instanceof SessionedPacket) {
+			handleSessionesPacket(event.getClient(), (SessionedPacket) scp);
 		} else
 			throw new IllegalStateException("unhandled packet of type " + scp.getClass());
 
@@ -49,7 +51,7 @@ public class ShitChatPacketListener implements Listener {
 			signInHandler.signIn(client, (SignInPacket) scp);
 	}
 
-	private void handleSessionesPacket(AbstractAsyncClient client, SessionedShitChatPacket scp) {
+	private void handleSessionesPacket(AbstractAsyncClient client, SessionedPacket scp) {
 
 	}
 }
