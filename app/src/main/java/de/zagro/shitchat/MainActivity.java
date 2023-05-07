@@ -2,6 +2,7 @@ package de.zagro.shitchat;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        if (getIntent() != null)
+        {
+            Toast.makeText(this, getIntent().getStringExtra("name"), Toast.LENGTH_SHORT).show();
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -43,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_direct, R.id.navigation_groups, R.id.navigation_settings).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    private boolean isUserLoggedIn()
+    {
+        return false;
     }
 
     public void toolbarUserIconClick()
