@@ -1,4 +1,4 @@
-package de.zagro.shitchat.ui.direct;
+package de.zagro.shitchat.ui.registration.direct;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,13 +18,8 @@ public class DirectFragment extends Fragment {
     private FragmentDirectBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        DirectViewModel directViewModel = new ViewModelProvider(this).get(DirectViewModel.class);
-
         binding = FragmentDirectBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        final TextView textView = binding.textDirect;
-        directViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
     }

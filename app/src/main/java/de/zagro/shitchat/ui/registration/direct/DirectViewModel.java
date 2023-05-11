@@ -1,4 +1,4 @@
-package de.zagro.shitchat.ui.direct;
+package de.zagro.shitchat.ui.registration.direct;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
