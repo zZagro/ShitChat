@@ -20,12 +20,6 @@
         android:title="@string/title_groups" />
 
     <item
-        android:id="@+id/navigation_minigames"
-        android:icon="@drawable/ic_minigames_24"
-        android:iconTint="#E9E9E9"
-        android:title="MiniGames"/>
-
-    <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings_black_24"
         android:iconTint="#E9E9E9"

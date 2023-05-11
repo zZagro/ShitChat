@@ -19,4 +19,9 @@
     <color name="gray_background">#262626</color>
 
     <color name="splash_inactive">#a1a1a1</color>
+
+    <color name="bg_black">#171625</color>
+    <color name="bg_msg">#99323050</color>
+    <color name="highlight">#4e47cd</color>
+    <color name="light">#e0e7ff</color>
 </resources>
