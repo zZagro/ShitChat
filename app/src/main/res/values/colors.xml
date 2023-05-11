@@ -20,7 +20,7 @@
 
     <color name="splash_inactive">#a1a1a1</color>
 
-    <color name="bg_black">#171625</color>
+    <color name="background_color">#1e1e1e</color>
     <color name="bg_msg">#99323050</color>
     <color name="highlight">#4e47cd</color>
     <color name="light">#e0e7ff</color>
