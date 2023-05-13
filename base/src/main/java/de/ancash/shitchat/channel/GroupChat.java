@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.UUID;
 
-public class GroupChat extends AbstractChannel implements Serializable {
+public class GroupChat extends AbstractChat implements Serializable {
 
 	private static final long serialVersionUID = -6883606748860448005L;
 

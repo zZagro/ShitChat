@@ -8,6 +8,8 @@ public final class ShitChatKeys {
 	public static final String USER_PASSWORD = "uPass";
 	public static final String PROFILE_PIC_FILE = "profilPicLoc";
 	public static final String UID = "uid";
+	public static final String DIRECT_CHANNELS = "directChannels";
+	public static final String GROUP_CHANNELS = "groupChannels";
 
 	private ShitChatKeys() {
 	}

@@ -27,7 +27,7 @@ public class User implements Serializable {
 		return name;
 	}
 
-	public UUID getUId() {
+	public UUID getUserId() {
 		return id;
 	}
 }

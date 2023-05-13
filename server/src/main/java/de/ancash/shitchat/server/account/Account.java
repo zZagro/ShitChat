@@ -34,6 +34,8 @@ public class Account {
 	private final YamlFile yml;
 	private long lastAccess = System.currentTimeMillis();
 	private final ConcurrentHashMap<UUID, Session> sessions = new ConcurrentHashMap<>();
+	private final Set<UUID> directChannels = new HashSet<>();
+	private final Set<UUID> groupChannels = new HashSet<>();
 
 	@SuppressWarnings("nls")
 	Account(File file) throws InvalidConfigurationException, IOException {

@@ -1,3 +1,4 @@
+
 package de.ancash.shitchat.server.account;
 
 import java.io.File;
@@ -40,8 +41,7 @@ public class AccountRegistry extends Thread {
 	private void loadAccounts() throws InvalidConfigurationException, IOException {
 		System.out.println("Loading accounts");
 		accountLink.load();
-		accountLink.getKeys(false)
-				.forEach(k -> uidByEmail.put(formatEmail(k), UUID.fromString(accountLink.getString(k))));
+		accountLink.getKeys(false).forEach(k -> uidByEmail.put(accountLink.getString(k), UUID.fromString(k)));
 		System.out.println(uidByEmail.size() + " accounts found");
 	}
 
@@ -49,25 +49,17 @@ public class AccountRegistry extends Thread {
 		System.out.println("Saving accounts");
 		accountLink.createNewFile();
 		accountLink.load();
-		uidByEmail.entrySet().forEach(e -> accountLink.set(formatEmail(e.getKey()), e.getValue().toString()));
+		uidByEmail.entrySet().forEach(e -> accountLink.set(e.getValue().toString(), e.getKey()));
 		accountLink.save();
 		System.out.println(uidByEmail.size() + " accounts saved");
 	}
 
-	private String formatEmail(String e) {
-		return e.replaceAll("\\.", toUnicode('.'));
-	}
-
-	private static String toUnicode(char ch) {
-		return "{" + String.format("\\u%04x", (int) ch) + "}";
-	}
-
 	public UUID getUIdByEmail(String email) {
-		return uidByEmail.get(formatEmail(email));
+		return uidByEmail.get(email);
 	}
 
 	public boolean exists(String email) {
-		return uidByEmail.containsKey(formatEmail(email))
+		return uidByEmail.containsKey(email)
 				&& new File(String.join("//", getDir(getUIdByEmail(email)).getPath(), "data.yml")).exists();
 	}
 
@@ -154,8 +146,10 @@ public class AccountRegistry extends Thread {
 						IntStream.range(0, pass.length).map(i -> pass[i]).boxed().collect(Collectors.toList()));
 				yf.set(ShitChatKeys.PROFILE_PIC_FILE, server.getDefaultProfilePicFile());
 				yf.set(ShitChatKeys.UID, id.toString());
+				yf.set(ShitChatKeys.DIRECT_CHANNELS, new ArrayList<>());
+				yf.set(ShitChatKeys.GROUP_CHANNELS, new ArrayList<>());
 				yf.save();
-				uidByEmail.put(formatEmail(email), id);
+				uidByEmail.put(email, id);
 			} catch (IOException e) {
 				System.err.println("could not create/load new data file");
 				e.printStackTrace();
