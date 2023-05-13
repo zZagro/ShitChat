@@ -48,8 +48,6 @@ public class HomeFragment extends Fragment {
         users.add(new User("John", "Hello, how are you?", R.drawable.user_pb_default));
         users.add(new User("Serena", "Hello, how are you?", R.drawable.user_pb_default));
         users.add(new User("Person1", "Hello, how are you?", R.drawable.user_pb_default));
-        users.add(new User("Another Person", "Hello, how are you?", R.drawable.user_pb_default));
-        users.add(new User("Hello", "Hello, how are you?", R.drawable.user_pb_default));
     }
 
     private void showRecentMessages(View view)

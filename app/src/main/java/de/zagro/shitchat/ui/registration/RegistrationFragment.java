@@ -1,13 +1,28 @@
 package de.zagro.shitchat.ui.registration;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -15,14 +30,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
 import de.zagro.shitchat.databinding.FragmentLoginBinding;
 import de.zagro.shitchat.databinding.FragmentRegistrationBinding;
 
 public class RegistrationFragment extends Fragment {
 
+    Button registerButton;
+    EditText username, email, password;
+
+    TextView goToLoginText, titleText;
+
+    ImageView showPasswordBtn;
+
     FragmentRegistrationBinding binding;
-    EditText email, username, password;
 
     OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
         @Override
@@ -44,26 +66,97 @@ public class RegistrationFragment extends Fragment {
         View root = binding.getRoot();
 
         return root;
-//        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        email = view.findViewById(R.id.registration_email);
-        username = view.findViewById(R.id.registration_username);
-        password = view.findViewById(R.id.registration_password);
+        registerButton = binding.registerButton;
+        username = binding.registerUsername;
+        email = binding.registerEmail;
+        password = binding.registerPassword;
+        goToLoginText = binding.goToLoginText;
+        showPasswordBtn = binding.viewPasswordIcon;
+        titleText = binding.splashTitle;
 
         requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         requireActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
 
+        changeTextColorTitle();
+        changeTextColorLogIn();
         onClick();
+    }
+
+    private void changeTextColorTitle()
+    {
+        SpannableString string = new SpannableString(getString(R.string.app_title));
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(requireActivity().getColor(R.color.primary_purple));
+        string.setSpan(foregroundColorSpan, 8, 9, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        titleText.setText(string);
+    }
+
+    private void changeTextColorLogIn()
+    {
+        SpannableString string = new SpannableString(getString(R.string.goToLoginText));
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(requireActivity().getColor(R.color.primary_indigo));
+        StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                Navigation.findNavController(view).navigateUp();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                goToLoginText.setHighlightColor(Color.TRANSPARENT);
+            }
+        };
+
+        string.setSpan(clickableSpan, 25, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        goToLoginText.setMovementMethod(LinkMovementMethod.getInstance());
+        string.setSpan(foregroundColorSpan, 25, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        string.setSpan(boldSpan, 25, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        goToLoginText.setText(string);
     }
 
     private void onClick()
     {
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), MainActivity.class);
+                intent.putExtra("name", "Signup");
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
+
+        showPasswordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (password.getTag().toString())
+                {
+                    case "password":
+                        password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        password.setTag("text");
+                        break;
+
+                    case "text":
+                        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        password.setTag("password");
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

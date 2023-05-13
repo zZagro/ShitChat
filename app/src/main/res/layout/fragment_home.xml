@@ -1,56 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.home.HomeFragment"
+    android:background="@color/background_color">
 
-    <LinearLayout
-        android:id="@+id/home_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="1">
+
+        <ImageView
+            android:id="@+id/icon_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="start"
+            android:clickable="true"
+            android:src="@drawable/ic_app_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.55"
+            app:layout_constraintHorizontal_bias="0.07"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/splash_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:autoSizePresetSizes="@array/max24"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/dm_sans"
+            android:gravity="center"
+            android:letterSpacing="0.02"
+            android:text="@string/app_title"
+            android:textColor="@color/neutrals_8"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintStart_toEndOf="@id/icon_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.33" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/primary_indigo"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            app:icon="@drawable/ic_plus_white"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="15dp"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.55"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/to_direct"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/home_recent_direct_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Recent Direct Messages"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:paddingStart="10dp"
-            android:textColor="#D4D4D4"
-            android:textStyle="bold"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintHorizontal_bias="0"
+            android:text="DIRECT MESSAGES"
+            android:autoSizePresetSizes="@array/max20"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/dm_sans"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#939393"
+            android:letterSpacing="0.02"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recent_recycler_direct"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/direct_line"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#232323"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.002"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/to_direct"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recent_recycler_direct"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:nestedScrollingEnabled="true"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHeight_percent="0.37"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/direct_line" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/to_groups"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintTop_toBottomOf="@id/recent_recycler_direct"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/home_recent_groups_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Recent Group Messages"
-            android:textSize="20sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:paddingStart="10dp"
-            android:textColor="#D4D4D4"
-            android:textStyle="bold"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintHorizontal_bias="0"
+            android:text="GROUP MESSAGES"
+            android:autoSizePresetSizes="@array/max20"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/dm_sans"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#939393"
+            android:letterSpacing="0.02"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recent_recycler_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
+    <View
+        android:id="@+id/groups_line"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#232323"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.002"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/to_groups"
+        app:layout_constraintVertical_bias="0.01"
+        app:layout_constraintWidth_percent="0.9" />
 
-</ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recent_recycler_groups"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:nestedScrollingEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groups_line"
+        app:layout_constraintHeight_percent="0.37"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_percent="0.9"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

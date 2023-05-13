@@ -1,4 +1,4 @@
-package de.zagro.shitchat.ui.registration.direct;
+package de.zagro.shitchat.ui.direct;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

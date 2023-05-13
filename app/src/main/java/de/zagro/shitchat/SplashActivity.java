@@ -8,38 +8,39 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
+import de.zagro.shitchat.databinding.ActivitySplashBinding;
 import de.zagro.shitchat.ui.login.LoginFragment;
 
 public class SplashActivity extends AppCompatActivity {
 
     Button goToRegistration, goToLogin, loginButton;
     View registerUnderline, loginUnderline;
+
+    TextView goToRegisterText;
     int inactiveColor, activeColor;
     boolean onLogin = true;
     boolean onRegister = false;
 
+    ActivitySplashBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.splash_container);
         NavController navController = navHostFragment.getNavController();
-
-        inactiveColor = getResources().getColor(R.color.splash_inactive);
-        activeColor = getResources().getColor(R.color.indigo_400);
-
-        goToRegistration = findViewById(R.id.splash_register_title);
-        goToLogin = findViewById(R.id.splash_login_title);
-        registerUnderline = findViewById(R.id.splash_register_underline);
-        loginUnderline = findViewById(R.id.splash_login_underline);
-
-        onClick(navController);
     }
 
     private void onClick(NavController navController)

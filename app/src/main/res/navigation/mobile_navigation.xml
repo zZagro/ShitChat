@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_direct"
-        android:name="de.zagro.shitchat.ui.registration.direct.DirectFragment"
+        android:name="de.zagro.shitchat.ui.direct.DirectFragment"
         android:label="@string/title_direct"
         tools:layout="@layout/fragment_direct" />
 
