@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import de.ancash.libs.org.bukkit.event.EventHandler;
 import de.ancash.libs.org.bukkit.event.EventManager;
@@ -15,7 +16,7 @@ import de.ancash.shitchat.packet.auth.AuthFailedPacket;
 import de.ancash.shitchat.packet.auth.AuthResultPacket;
 import de.ancash.shitchat.packet.auth.AuthSuccessPacket;
 import de.ancash.shitchat.packet.auth.LoginPacket;
-import de.ancash.shitchat.packet.auth.SignInPacket;
+import de.ancash.shitchat.packet.auth.SignUpPacket;
 import de.ancash.shitchat.user.User;
 import de.ancash.shitchat.util.AuthenticationUtil;
 import de.ancash.sockets.async.impl.packet.client.AsyncPacketClient;
@@ -29,7 +30,7 @@ import de.ancash.sockets.packet.PacketFuture;
 public class ShitChatClient implements Listener {
 
 	public static void main(String[] args) throws InterruptedException {
-		ShitChatClient client = new ShitChatClient("localhost", 12345);
+		ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565);
 		if (client.connect()) {
 			System.out.println("connected");
 			System.out.println(client.login("joe@gmail.com",
@@ -43,7 +44,7 @@ public class ShitChatClient implements Listener {
 
 	private static final AsyncPacketClientFactory factory = new AsyncPacketClientFactory();
 
-	private AsyncPacketClient client;
+	private volatile AsyncPacketClient client;
 	private final String address;
 	private final int port;
 	private volatile State state = State.DISCONNECTED;
@@ -54,6 +55,7 @@ public class ShitChatClient implements Listener {
 		EventManager.registerEvents(this, this);
 		this.address = address;
 		this.port = port;
+
 	}
 
 	public State getState() {
@@ -87,7 +89,7 @@ public class ShitChatClient implements Listener {
 
 	protected PacketFuture sendShitChatPacket0(ShitChatPacket packet) {
 		Packet p = packet.toPacket();
-		client.write(p);
+		new Thread(() -> client.write(p)).start();
 		return new PacketFuture(p, null);
 	}
 
@@ -102,22 +104,26 @@ public class ShitChatClient implements Listener {
 
 	public Optional<String> login(String email, byte[] pass) {
 		if (state != State.CONNECTING || !isConnected())
-			throw new IllegalStateException(state.name());
+			return Optional.of(ShitChatPlaceholder.CANNOT_AUTH);
 		state = State.AUTHENTICATING;
 		return authenticate(sendShitChatPacket0(new LoginPacket(email, pass)));
 	}
 
-	public Optional<String> signIn(String email, byte[] pass, String user) {
+	public Optional<String> signUp(String email, byte[] pass, String user) {
 		if (state != State.CONNECTING || !isConnected())
-			throw new IllegalStateException(state.name());
+			return Optional.of(ShitChatPlaceholder.CANNOT_AUTH);
 		state = State.AUTHENTICATING;
-		return authenticate(sendShitChatPacket0(new SignInPacket(email, pass, user)));
+		return authenticate(sendShitChatPacket0(new SignUpPacket(email, pass, user)));
 	}
 
 	@SuppressWarnings("nls")
 	private Optional<String> authenticate(PacketFuture future) {
 		Optional<AuthResultPacket> opt = null;
 		opt = future.get(30, TimeUnit.SECONDS);
+
+		Logger.getGlobal().info(client + "");
+		Logger.getGlobal().info(future + "");
+		Logger.getGlobal().info(opt + "");
 		if (!opt.isPresent()) {
 			client.onDisconnect(new IllegalStateException("could not authorize"));
 			return Optional.of(ShitChatPlaceholder.INTERNAL_ERROR);
@@ -127,6 +133,7 @@ public class ShitChatClient implements Listener {
 			onAuthSuccess((AuthSuccessPacket) result);
 			return Optional.empty();
 		} else {
+			state = State.CONNECTING;
 			return Optional.of(((AuthFailedPacket) opt.get()).getReason());
 		}
 	}
@@ -166,6 +173,12 @@ public class ShitChatClient implements Listener {
 		if (event.getClient() == null || client == null || event.getClient().equals(client)) {
 			state = State.DISCONNECTED;
 			client = null;
+			Logger.getGlobal().info("on disconnect");
+			if (event.getThrowable() != null)
+				event.getThrowable().printStackTrace();
+			else
+				Logger.getGlobal().info("no throwable");
+			Thread.dumpStack();
 		}
 	}
 
@@ -173,6 +186,7 @@ public class ShitChatClient implements Listener {
 	public void onClientConnect(ClientConnectEvent event) {
 		if (event.getClient() == null || client == null || event.getClient().equals(client)) {
 			state = State.CONNECTING;
+			Logger.getGlobal().info("on connect" + client + " " + event.getClient());
 		}
 	}
 

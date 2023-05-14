@@ -6,7 +6,7 @@ import de.ancash.misc.ReflectionUtils;
 import de.ancash.shitchat.ShitChatPlaceholder;
 import de.ancash.shitchat.packet.auth.AuthFailedPacket;
 import de.ancash.shitchat.packet.auth.AuthSuccessPacket;
-import de.ancash.shitchat.packet.auth.SignInPacket;
+import de.ancash.shitchat.packet.auth.SignUpPacket;
 import de.ancash.shitchat.server.account.Account;
 import de.ancash.shitchat.server.account.AccountRegistry;
 import de.ancash.shitchat.user.User;
@@ -22,7 +22,7 @@ public class SignInHandler {
 	}
 
 	@SuppressWarnings("nls")
-	public void signIn(AbstractAsyncClient cl, SignInPacket sip, Packet packet) {
+	public void signIn(AbstractAsyncClient cl, SignUpPacket sip, Packet packet) {
 		System.out.println("signin: " + ReflectionUtils.toStringRec(packet, true));
 		if (registry.exists(sip.getEmail())) {
 			packet.setSerializable(new AuthFailedPacket(ShitChatPlaceholder.ACCOUNT_ALREADY_EXISTS));

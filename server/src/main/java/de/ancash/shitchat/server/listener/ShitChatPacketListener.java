@@ -8,7 +8,7 @@ import de.ancash.shitchat.packet.SessionedPacket;
 import de.ancash.shitchat.packet.ShitChatPacket;
 import de.ancash.shitchat.packet.auth.AuthenticationPacket;
 import de.ancash.shitchat.packet.auth.LoginPacket;
-import de.ancash.shitchat.packet.auth.SignInPacket;
+import de.ancash.shitchat.packet.auth.SignUpPacket;
 import de.ancash.shitchat.server.ShitChatServer;
 import de.ancash.shitchat.server.listener.handler.auth.LoginHandler;
 import de.ancash.shitchat.server.listener.handler.auth.SignInHandler;
@@ -50,8 +50,8 @@ public class ShitChatPacketListener implements Listener {
 	private void handleAuthPacket(AbstractAsyncClient client, AuthenticationPacket scp, Packet packet) {
 		if (scp instanceof LoginPacket)
 			loginHandler.login(client, (LoginPacket) scp, packet);
-		else if (scp instanceof SignInPacket)
-			signInHandler.signIn(client, (SignInPacket) scp, packet);
+		else if (scp instanceof SignUpPacket)
+			signInHandler.signIn(client, (SignUpPacket) scp, packet);
 	}
 
 	private void handleSessionesPacket(AbstractAsyncClient client, SessionedPacket scp) {
