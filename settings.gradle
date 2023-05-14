@@ -5,12 +5,29 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+def localPropertiesFile = new File(rootProject.projectDir, "github.properties")
+def localProperties = new Properties()
+
+localProperties.load(new FileInputStream(localPropertiesFile))
+
+def gh_name = localProperties.getProperty("github_username")
+def gh_token = localProperties.getProperty("github_token")
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        maven {
+            url "https://maven.pkg.github.com/zZagroDev/ShitChat"
+            credentials {
+                username = gh_name
+                password = gh_token
+            }
+        }
     }
 }
+
 rootProject.name = "ShitChat"
 include ':app'

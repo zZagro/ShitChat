@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         if (getIntent() != null)
         {
-            Toast.makeText(this, getIntent().getStringExtra("name"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getIntent().getStringExtra("status"), Toast.LENGTH_SHORT).show();
         }
 
         BottomNavigationView navView = findViewById(R.id.nav_view);

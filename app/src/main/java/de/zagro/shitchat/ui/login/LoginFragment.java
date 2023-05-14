@@ -143,7 +143,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(requireContext(), MainActivity.class);
-                intent.putExtra("name", "Login");
+                intent.putExtra("status", "Login");
                 startActivity(intent);
                 requireActivity().finish();
             }

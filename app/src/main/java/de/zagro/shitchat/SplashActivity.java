@@ -41,6 +41,19 @@ public class SplashActivity extends AppCompatActivity {
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.splash_container);
         NavController navController = navHostFragment.getNavController();
+
+        if (isLoggedIn())
+        {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("status", "Already logged in!");
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    public boolean isLoggedIn()
+    {
+        return false;
     }
 
     private void onClick(NavController navController)

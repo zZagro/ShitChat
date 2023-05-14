@@ -130,7 +130,7 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(requireContext(), MainActivity.class);
-                intent.putExtra("name", "Signup");
+                intent.putExtra("status", "Signup");
                 startActivity(intent);
                 requireActivity().finish();
             }
