@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -36,7 +37,14 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import de.ancash.shitchat.ShitChatPlaceholder;
 import de.ancash.shitchat.util.AuthenticationUtil;
@@ -111,7 +119,9 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        Optional<String> optional = SplashActivity.client.login(email.getText().toString(), AuthenticationUtil.hashPassword(email.getText().toString(), password.getText().toString().toCharArray()));
+        byte[] hashedPassword = AuthenticationUtil.hashPassword(email.getText().toString(), password.getText().toString().toCharArray());
+
+        Optional<String> optional = SplashActivity.client.login(email.getText().toString(), hashedPassword);
         if (optional.isPresent())
         {
             String errorMessage = optional.get();
@@ -124,11 +134,21 @@ public class LoginFragment extends Fragment {
         }
         else
         {
+            SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = userDetails.edit();
+            edit.putString("email", email.getText().toString());
+            edit.putString("hashedPassword",  passToString(hashedPassword));
+            edit.apply();
+
             Intent intent = new Intent(requireContext(), MainActivity.class);
             intent.putExtra("status", "Login");
             startActivity(intent);
             requireActivity().finish();
         }
+    }
+
+    private static String passToString(byte[] b) {
+        return String.join(" ", IntStream.range(0, b.length).map(i -> b[i]).boxed().map(String::valueOf).collect(Collectors.toList()));
     }
 
     private void changeTextColorTitle()

@@ -7,7 +7,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.SpannableString;
@@ -21,9 +23,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import de.ancash.shitchat.ShitChatPlaceholder;
 import de.ancash.shitchat.client.ShitChatClient;
+import de.ancash.shitchat.util.AuthenticationUtil;
 import de.zagro.shitchat.databinding.ActivitySplashBinding;
 import de.zagro.shitchat.ui.login.LoginFragment;
 
@@ -38,14 +50,12 @@ public class SplashActivity extends AppCompatActivity {
     boolean onRegister = false;
 
     ActivitySplashBinding binding;
-    public static ShitChatClient client;
+    public static final ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
+        super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -53,7 +63,8 @@ public class SplashActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.splash_container);
         NavController navController = navHostFragment.getNavController();
 
-        client = new ShitChatClient("denzo.algoholics.eu", 25565);
+        Log.i("CONNECTED?", String.valueOf(client.isConnected()));
+
         AtomicReference<Boolean> connected = new AtomicReference<Boolean>(false);
         Thread t = new Thread(() -> connected.set(client.connect()));
         t.start();
@@ -62,6 +73,7 @@ public class SplashActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        Thread.dumpStack();
         if (connected.get())
         {
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
@@ -70,19 +82,72 @@ public class SplashActivity extends AppCompatActivity {
         {
             Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
         }
+        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = userDetails.edit();
+        edit.clear();
+        edit.apply();
+        logIn();
+    }
 
-        if (isLoggedIn())
-        {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("status", "Already logged in!");
-            startActivity(intent);
-            finish();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("DESTROY", "DESTROY");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("STOP", "STOP");
     }
 
     public boolean isLoggedIn()
     {
-        return false;
+        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+        return !userDetails.getString("email", "0").equals("0");
+    }
+
+    private void logIn()
+    {
+        if (isLoggedIn())
+        {
+            while(!client.isConnected()) Thread.yield();
+
+            SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+            String email = userDetails.getString("email", null);
+            String password = userDetails.getString("hashedPassword", null);
+
+            Optional<String> optional = SplashActivity.client.login(email, stringToPass(password));
+
+            if (optional.isPresent())
+            {
+                String errorMessage = optional.get();
+                if (errorMessage.equals(ShitChatPlaceholder.WRONG_PASSWORD))
+                    Toast.makeText(this, "Wrong Password!", Toast.LENGTH_SHORT).show();
+                if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_NONEXISTENT))
+                    Toast.makeText(this, "The Account does not exist!", Toast.LENGTH_SHORT).show();
+                if (errorMessage.equals(ShitChatPlaceholder.INTERNAL_ERROR))
+                    Toast.makeText(this, "Something went wrong! Try again later!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("status", "Already logged in!");
+                startActivity(intent);
+                finish();
+            }
+
+            Log.i("Password", password);
+            Log.i("email", email);
+        }
+    }
+
+    private static byte[] stringToPass(String s) {
+        byte[] b2 = new byte[s.split(" ").length];
+        int i = 0;
+        for(byte by : Stream.of(s.split(" ")).map(Byte::valueOf).collect(Collectors.toList()))
+            b2[i++] = by;
+        return b2;
     }
 
     private void onClick(NavController navController)
