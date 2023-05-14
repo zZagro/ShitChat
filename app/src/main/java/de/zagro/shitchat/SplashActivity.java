@@ -63,8 +63,6 @@ public class SplashActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.splash_container);
         NavController navController = navHostFragment.getNavController();
 
-        Log.i("CONNECTED?", String.valueOf(client.isConnected()));
-
         AtomicReference<Boolean> connected = new AtomicReference<Boolean>(false);
         Thread t = new Thread(() -> connected.set(client.connect()));
         t.start();
@@ -82,23 +80,11 @@ public class SplashActivity extends AppCompatActivity {
         {
             Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
         }
-        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = userDetails.edit();
-        edit.clear();
-        edit.apply();
+//        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor edit = userDetails.edit();
+//        edit.clear();
+//        edit.apply();
         logIn();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("DESTROY", "DESTROY");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("STOP", "STOP");
     }
 
     public boolean isLoggedIn()
