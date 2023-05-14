@@ -16,7 +16,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import de.ancash.shitchat.client.ShitChatClient;
 import de.zagro.shitchat.databinding.ActivitySplashBinding;
 import de.zagro.shitchat.ui.login.LoginFragment;
 
@@ -41,6 +43,12 @@ public class SplashActivity extends AppCompatActivity {
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.splash_container);
         NavController navController = navHostFragment.getNavController();
+
+        ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565);
+        if (!client.connect())
+        {
+            Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
+        }
 
         if (isLoggedIn())
         {

@@ -19,13 +19,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://maven.pkg.github.com/zZagroDev/ShitChat"
-            credentials {
-                username = gh_name
-                password = gh_token
-            }
-        }
     }
 }
 
