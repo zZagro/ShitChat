@@ -125,7 +125,7 @@ public class RegistrationFragment extends Fragment {
 
         byte[] hashedPassword = AuthenticationUtil.hashPassword(email.getText().toString(), password.getText().toString().toCharArray());
 
-        Optional<String> optional = SplashActivity.client.signIn(email.getText().toString(), hashedPassword, username.getText().toString());
+        Optional<String> optional = SplashActivity.client.signUp(email.getText().toString(), hashedPassword, username.getText().toString());
         if (optional.isPresent())
         {
             String errorMessage = optional.get();
