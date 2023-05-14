@@ -4,9 +4,9 @@ import android.graphics.drawable.Drawable;
 
 public class User {
     String name, message, time;
-    Integer drawable;
+    Drawable drawable;
 
-    public User(String name, String message, String time, Integer drawable) {
+    public User(String name, String message, String time, Drawable drawable) {
         this.name = name;
         this.message = message;
         this.drawable = drawable;
@@ -37,11 +37,11 @@ public class User {
         this.time = time;
     }
 
-    public Integer getDrawable() {
+    public Drawable getDrawable() {
         return drawable;
     }
 
-    public void setDrawable(Integer drawable) {
+    public void setDrawable(Drawable drawable) {
         this.drawable = drawable;
     }
 }

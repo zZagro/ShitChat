@@ -33,7 +33,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.templateName.setText(users.get(position).getName());
         holder.templateMessage.setText(users.get(position).getMessage());
-        holder.templateIcon.setImageResource(users.get(position).getDrawable());
+        holder.templateIcon.setImageDrawable(users.get(position).getDrawable());
         holder.templateTime.setText(users.get(position).getTime());
     }
 

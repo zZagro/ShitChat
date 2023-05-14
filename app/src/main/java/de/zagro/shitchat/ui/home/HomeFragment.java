@@ -1,5 +1,6 @@
 package de.zagro.shitchat.ui.home;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import de.ancash.shitchat.ShitChatImage;
+import de.ancash.shitchat.client.ShitChatClient;
 import de.zagro.shitchat.R;
+import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.User;
 import de.zagro.shitchat.databinding.FragmentHomeBinding;
 
@@ -63,9 +67,9 @@ public class HomeFragment extends Fragment {
     protected void addToUsers()
     {
         users.clear();
-        users.add(new User("John", "Hello, how are you?", "12:06", R.drawable.user_pb_default));
-        users.add(new User("Serena", "Hello, how are you?", "10:12", R.drawable.user_pb_default));
-        users.add(new User("Person1", "Hello, how are you?", "21:01", R.drawable.user_pb_default));
+        users.add(new User("John", "Hello, how are you?", "12:06", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
+        users.add(new User("Serena", "Hello, how are you?", "10:12", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
+        users.add(new User("Person1", "Hello, how are you?", "21:01", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
     }
 
     private void showRecentMessages(View view)

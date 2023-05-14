@@ -13,6 +13,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import java.util.Optional;
+
+import de.ancash.shitchat.ShitChatPlaceholder;
+import de.ancash.shitchat.util.AuthenticationUtil;
 import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
+import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.databinding.FragmentLoginBinding;
 import de.zagro.shitchat.databinding.FragmentRegistrationBinding;
 
@@ -80,6 +86,8 @@ public class RegistrationFragment extends Fragment {
         showPasswordBtn = binding.viewPasswordIcon;
         titleText = binding.splashTitle;
 
+        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
         requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         requireActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
@@ -87,6 +95,44 @@ public class RegistrationFragment extends Fragment {
         changeTextColorTitle();
         changeTextColorLogIn();
         onClick();
+    }
+
+    private void registerUser()
+    {
+        if (password.length() < 8)
+        {
+            Toast.makeText(requireActivity(), "Password has to be at least 8 Character Long!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!isEmailValid(email.getText()))
+        {
+            Toast.makeText(requireActivity(), "Email is invalid!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (username.length() < 1)
+        {
+            Toast.makeText(requireActivity(), "Username cannot be empty!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Optional<String> optional = SplashActivity.client.signIn(email.getText().toString(), AuthenticationUtil.hashPassword(email.getText().toString(), password.getText().toString().toCharArray()), username.getText().toString());
+        if (optional.isPresent())
+        {
+            String errorMessage = optional.get();
+            if (errorMessage.equals(ShitChatPlaceholder.INTERNAL_ERROR))
+                Toast.makeText(requireActivity(), "Something went wrong! Try again later!", Toast.LENGTH_SHORT).show();
+            if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_ALREADY_EXISTS))
+                Toast.makeText(requireActivity(), "The Email is already in use!", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Intent intent = new Intent(requireContext(), MainActivity.class);
+            intent.putExtra("status", "Signup");
+            startActivity(intent);
+            requireActivity().finish();
+        }
     }
 
     private void changeTextColorTitle()
@@ -129,10 +175,7 @@ public class RegistrationFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(requireContext(), MainActivity.class);
-                intent.putExtra("status", "Signup");
-                startActivity(intent);
-                requireActivity().finish();
+                registerUser();
             }
         });
 
@@ -169,5 +212,9 @@ public class RegistrationFragment extends Fragment {
                 imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
             }
         });
+    }
+
+    private boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

@@ -18,6 +18,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.util.Optional;
+
+import de.ancash.shitchat.ShitChatPlaceholder;
+import de.ancash.shitchat.util.AuthenticationUtil;
 import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
+import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.databinding.FragmentDirectBinding;
 import de.zagro.shitchat.databinding.FragmentLoginBinding;
 
@@ -91,6 +97,40 @@ public class LoginFragment extends Fragment {
         onClick();
     }
 
+    private void loginUser()
+    {
+        if (!isEmailValid(email.getText()))
+        {
+            Toast.makeText(requireActivity(), "Email is invalid!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (password.length() < 1)
+        {
+            Toast.makeText(requireActivity(), "Please enter your Password!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Optional<String> optional = SplashActivity.client.login(email.getText().toString(), AuthenticationUtil.hashPassword(email.getText().toString(), password.getText().toString().toCharArray()));
+        if (optional.isPresent())
+        {
+            String errorMessage = optional.get();
+            if (errorMessage.equals(ShitChatPlaceholder.WRONG_PASSWORD))
+                Toast.makeText(requireActivity(), "Wrong Password!", Toast.LENGTH_SHORT).show();
+            if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_NONEXISTENT))
+                Toast.makeText(requireActivity(), "The Account does not exist!", Toast.LENGTH_SHORT).show();
+            if (errorMessage.equals(ShitChatPlaceholder.INTERNAL_ERROR))
+                Toast.makeText(requireActivity(), "Something went wrong! Try again later!", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Intent intent = new Intent(requireContext(), MainActivity.class);
+            intent.putExtra("status", "Login");
+            startActivity(intent);
+            requireActivity().finish();
+        }
+    }
+
     private void changeTextColorTitle()
     {
         SpannableString string = new SpannableString(getString(R.string.app_title));
@@ -142,10 +182,7 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(requireContext(), MainActivity.class);
-                intent.putExtra("status", "Login");
-                startActivity(intent);
-                requireActivity().finish();
+                loginUser();
             }
         });
 
@@ -180,5 +217,9 @@ public class LoginFragment extends Fragment {
                 imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
             }
         });
+    }
+
+    private boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }
