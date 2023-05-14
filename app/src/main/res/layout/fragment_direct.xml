@@ -37,97 +37,97 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/recent_message"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/recent_message"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_sent"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_sent"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_sent"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_sent"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_sent"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_sent"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_received"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_received"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_received"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_received"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_received"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_received"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_received"/>
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/user_list_item"/>
+                layout="@layout/user_display_last_received"/>
 
         </LinearLayout>
 

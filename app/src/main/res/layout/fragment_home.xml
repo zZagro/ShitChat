@@ -75,38 +75,39 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/to_direct"
+    <TextView
+        android:id="@+id/home_recent_direct_text"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:autoSizePresetSizes="@array/max16"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:maxLines="1"
+        android:text="DIRECT MESSAGES"
+        android:textColor="#939393"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/direct_line"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintWidth_percent="0.8" />
 
-        <TextView
-            android:id="@+id/home_recent_direct_text"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="1"
-            app:layout_constraintWidth_percent="0.6"
-            app:layout_constraintHorizontal_bias="0"
-            android:text="DIRECT MESSAGES"
-            android:autoSizePresetSizes="@array/max20"
-            android:autoSizeTextType="uniform"
-            android:fontFamily="@font/dm_sans"
-            android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:textColor="#939393"
-            android:letterSpacing="0.02"
-            android:maxLines="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/direct_arrow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_arrow_right_alt_24"
+        app:layout_constraintBottom_toBottomOf="@+id/home_recent_direct_text"
+        app:layout_constraintDimensionRatio="1:1.2"
+        app:layout_constraintStart_toEndOf="@+id/home_recent_direct_text"
+        app:layout_constraintTop_toTopOf="@+id/home_recent_direct_text"
+        app:tint="@color/white"
+        app:layout_constraintHeight_percent="0.05"/>
 
     <View
         android:id="@+id/direct_line"
@@ -116,56 +117,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.002"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/to_direct"
+        app:layout_constraintTop_toBottomOf="@id/home_recent_direct_text"
         app:layout_constraintWidth_percent="0.9" />
 
     <androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/recent_message"
+        tools:itemCount="3"
+        android:overScrollMode="never"
         android:id="@+id/recent_recycler_direct"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:nestedScrollingEnabled="true"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintHeight_percent="0.37"
-        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/direct_line" />
+        app:layout_constraintTop_toBottomOf="@+id/direct_line"
+        app:layout_constraintBottom_toTopOf="@id/home_recent_groups_text"
+        android:layout_marginBottom="8dp"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/to_groups"
+    <TextView
+        android:id="@+id/home_recent_groups_text"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintTop_toBottomOf="@id/recent_recycler_direct"
+        android:autoSizePresetSizes="@array/max16"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:maxLines="1"
+        android:text="GROUP MESSAGES"
+        android:textColor="#939393"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/groups_line"
+        app:layout_constraintTop_toBottomOf="@+id/home_recent_direct_text"
+        app:layout_constraintWidth_percent="0.8" />
 
-        <TextView
-            android:id="@+id/home_recent_groups_text"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="1"
-            app:layout_constraintWidth_percent="0.6"
-            app:layout_constraintHorizontal_bias="0"
-            android:text="GROUP MESSAGES"
-            android:autoSizePresetSizes="@array/max20"
-            android:autoSizeTextType="uniform"
-            android:fontFamily="@font/dm_sans"
-            android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:textColor="#939393"
-            android:letterSpacing="0.02"
-            android:maxLines="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_arrow_right_alt_24"
+        app:layout_constraintBottom_toBottomOf="@+id/home_recent_groups_text"
+        app:layout_constraintDimensionRatio="1:1.2"
+        app:layout_constraintStart_toEndOf="@+id/home_recent_groups_text"
+        app:layout_constraintTop_toTopOf="@+id/home_recent_groups_text"
+        app:layout_constraintHeight_percent="0.05"
+        app:tint="@color/white" />
 
     <View
         android:id="@+id/groups_line"
@@ -176,21 +175,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.002"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/to_groups"
+        app:layout_constraintTop_toBottomOf="@id/home_recent_groups_text"
         app:layout_constraintVertical_bias="0.01"
         app:layout_constraintWidth_percent="0.9" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recent_recycler_groups"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:nestedScrollingEnabled="true"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/groups_line"
-        app:layout_constraintHeight_percent="0.37"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintWidth_percent="0.9"/>
+        tools:itemCount="3"
+        tools:listitem="@layout/recent_message"
+        android:layout_marginBottom="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

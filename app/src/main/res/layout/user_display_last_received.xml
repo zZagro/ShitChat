@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/recent_template"
+    android:id="@+id/user_received_display"
     android:layout_width="match_parent"
     android:layout_marginVertical="4dp"
     android:layout_height="wrap_content">
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintWidth_percent="0.9"
-        android:background="@drawable/gradient_border"/>
+        android:background="@drawable/message_bg_default"/>
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/received_user_icon"
@@ -53,36 +53,6 @@
         app:layout_constraintWidth_percent="0.4"
         android:textStyle="bold"/>
 
-    <ImageView
-        android:id="@+id/sent_message_count_background"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/circle_green"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="@id/received_username"
-        app:layout_constraintTop_toTopOf="@id/received_message"
-        app:layout_constraintEnd_toEndOf="@id/received_background"
-        app:layout_constraintBottom_toBottomOf="@id/received_message"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintWidth_percent="0.04"/>
-
-    <TextView
-        android:id="@+id/recent_message_count"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="1"
-        android:autoSizePresetSizes="@array/max8"
-        android:autoSizeTextType="uniform"
-        android:textColor="@color/white"
-        android:gravity="center"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintTop_toTopOf="@id/sent_message_count_background"
-        app:layout_constraintStart_toStartOf="@id/sent_message_count_background"
-        app:layout_constraintEnd_toEndOf="@id/sent_message_count_background"
-        app:layout_constraintBottom_toBottomOf="@id/sent_message_count_background"/>
-
     <TextView
         android:id="@+id/received_message"
         android:layout_width="0dp"
@@ -91,14 +61,14 @@
         android:autoSizeTextType="uniform"
         android:gravity="center_vertical"
         android:text="Message Content"
-        android:textColor="#35B200"
+        android:textColor="#A6A6A6"
         android:fontFamily="@font/dm_sans_medium"
         android:maxLines="1"
         app:layout_constraintDimensionRatio="8:1"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintStart_toEndOf="@id/sent_message_count_background"
+        app:layout_constraintStart_toStartOf="@id/received_username"
         app:layout_constraintTop_toBottomOf="@id/received_username"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

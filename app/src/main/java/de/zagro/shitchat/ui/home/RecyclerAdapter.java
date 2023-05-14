@@ -1,7 +1,5 @@
 package de.zagro.shitchat.ui.home;
 
-import android.content.Context;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -37,6 +34,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.templateName.setText(users.get(position).getName());
         holder.templateMessage.setText(users.get(position).getMessage());
         holder.templateIcon.setImageResource(users.get(position).getDrawable());
+        holder.templateTime.setText(users.get(position).getTime());
     }
 
     @Override
@@ -48,18 +46,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 class ViewHolder extends RecyclerView.ViewHolder {
 
     ImageView templateIcon;
-    TextView templateName;
-    TextView templateMessage;
-//    TextView templateDate;
-//    TextView templateTime;
+    TextView templateName, templateMessage, templateTime;
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
-        templateIcon = itemView.findViewById(R.id.recent_icon);
-        templateName = itemView.findViewById(R.id.recent_name);
-        templateMessage = itemView.findViewById(R.id.recent_message);
-//        templateDate = itemView.findViewById(R.id.recent_date);
-//        templateTime = itemView.findViewById(R.id.recent_time);
+        templateIcon = itemView.findViewById(R.id.received_user_icon);
+        templateName = itemView.findViewById(R.id.received_username);
+        templateMessage = itemView.findViewById(R.id.received_message);
+        templateTime = itemView.findViewById(R.id.received_time);
     }
 }
 

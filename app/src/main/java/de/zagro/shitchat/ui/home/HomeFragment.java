@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import de.zagro.shitchat.R;
 import de.zagro.shitchat.User;
+import de.zagro.shitchat.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
@@ -30,24 +31,41 @@ public class HomeFragment extends Fragment {
     RecyclerAdapter recyclerAdapter;
     ArrayList<User> users = new ArrayList<>();
 
+    FragmentHomeBinding binding;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        addToUsers();
-        return view;
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        addToUsers();
         showRecentMessages(view);
+        onClick();
+    }
+
+    private void onClick()
+    {
+        View.OnClickListener directMessageListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(requireActivity(), "Go to Direct", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        binding.homeRecentDirectText.setOnClickListener(directMessageListener);
+        binding.directArrow.setOnClickListener(directMessageListener);
     }
 
     protected void addToUsers()
     {
-        users.add(new User("John", "Hello, how are you?", R.drawable.user_pb_default));
-        users.add(new User("Serena", "Hello, how are you?", R.drawable.user_pb_default));
-        users.add(new User("Person1", "Hello, how are you?", R.drawable.user_pb_default));
+        users.clear();
+        users.add(new User("John", "Hello, how are you?", "12:06", R.drawable.user_pb_default));
+        users.add(new User("Serena", "Hello, how are you?", "10:12", R.drawable.user_pb_default));
+        users.add(new User("Person1", "Hello, how are you?", "21:01", R.drawable.user_pb_default));
     }
 
     private void showRecentMessages(View view)
