@@ -38,10 +38,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/icon_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.055"
-        app:layout_constraintStart_toEndOf="@id/icon_toolbar"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toEndOf="@+id/icon_toolbar"
         app:layout_constraintTop_toTopOf="@+id/icon_toolbar"
-        app:layout_constraintWidth_percent="0.33"
-        app:layout_constraintHorizontal_bias="0.05" />
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_percent="0.33" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -76,16 +77,16 @@
         android:layout_height="0dp"
         android:src="@drawable/circle_outline"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/splash_title"
-        app:layout_constraintVertical_bias="0.02"
-        app:layout_constraintWidth_percent="0.4"
-        app:layout_constraintDimensionRatio="1:1" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintWidth_percent="0.31" />
 
     <ImageView
-        android:id="@+id/user_icon_button"
+        android:id="@+id/user_icon"
         style="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -94,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="@id/user_icon_circle"
         app:layout_constraintStart_toStartOf="@id/user_icon_circle"
         app:layout_constraintTop_toTopOf="@id/user_icon_circle"
-        app:layout_constraintWidth_percent="0.35"
+        app:layout_constraintWidth_percent="0.26"
         app:layout_constraintDimensionRatio="1:1"
         android:insetLeft="0dp"
         android:insetTop="0dp"
@@ -102,17 +103,195 @@
         android:insetBottom="0dp"
         android:padding="0dp"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/user_icon_edit_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="#161616"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        app:icon="@drawable/edit_icon"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="15dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/user_icon_circle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@+id/user_icon_circle"
+        app:layout_constraintHeight_percent="0.045"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle"
+        app:strokeColor="#3D3D3D"
+        app:strokeWidth="1dp" />
+
     <ImageView
         android:id="@+id/username_icon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/username_icon"
+        android:scaleType="fitStart"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintDimensionRatio="1:2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintVertical_bias="1"
+        app:layout_constraintWidth_percent="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_icon_circle" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.33"
+        app:layout_constraintHorizontal_bias="0.1"/>
+
+    <TextView
+        android:id="@+id/username_label"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizePresetSizes="@array/max18"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans"
+        android:gravity="center_vertical|top"
+        android:letterSpacing="0.03"
+        android:maxLines="1"
+        android:text="Username"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.034"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toEndOf="@id/username_icon"
+        app:layout_constraintTop_toTopOf="@+id/username_icon"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_percent="0.59" />
+
+    <TextView
+        android:id="@+id/username_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizePresetSizes="@array/max16"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans_medium"
+        android:gravity="center_vertical|top"
+        android:maxLines="1"
+        android:text="Your Mom"
+        android:textColor="#8A8A8A"
+        app:layout_constraintBottom_toTopOf="@id/username_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toEndOf="@id/username_icon"
+        app:layout_constraintTop_toBottomOf="@+id/username_label"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_percent="0.59" />
+
+    <ImageView
+        android:id="@+id/username_arrow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/baseline_arrow_right_alt_24"
+        app:layout_constraintBottom_toBottomOf="@id/username_label"
+        app:layout_constraintDimensionRatio="1:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/username_label"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_percent="0.08"
+        app:tint="@color/white" />
+
+    <View
+        android:id="@+id/username_line"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#232323"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.002"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username_arrow"
+        app:layout_constraintWidth_percent="0.85" />
+
+    <ImageView
+        android:id="@+id/email_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/email_icon"
+        android:scaleType="fitStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:scaleX="0.9"
+        android:scaleY="0.9"/>
+
+    <TextView
+        android:id="@+id/email_label"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizePresetSizes="@array/max18"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans"
+        android:gravity="center_vertical|top"
+        android:letterSpacing="0.03"
+        android:maxLines="1"
+        android:text="Email"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.034"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toEndOf="@id/email_icon"
+        app:layout_constraintTop_toTopOf="@+id/email_icon"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_percent="0.59" />
+
+    <TextView
+        android:id="@+id/email_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizePresetSizes="@array/max16"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans_medium"
+        android:gravity="center_vertical|top"
+        android:maxLines="1"
+        android:text="yourmom@gmail.com"
+        android:textColor="#8A8A8A"
+        app:layout_constraintBottom_toTopOf="@id/email_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toEndOf="@id/email_icon"
+        app:layout_constraintTop_toBottomOf="@id/email_label"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_percent="0.59" />
+
+    <ImageView
+        android:id="@+id/email_arrow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/baseline_arrow_right_alt_24"
+        app:layout_constraintBottom_toBottomOf="@id/email_label"
+        app:layout_constraintDimensionRatio="1:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/email_label"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_percent="0.08"
+        app:tint="@color/white" />
+
+    <View
+        android:id="@+id/email_line"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#232323"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.002"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_arrow"
+        app:layout_constraintWidth_percent="0.85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
