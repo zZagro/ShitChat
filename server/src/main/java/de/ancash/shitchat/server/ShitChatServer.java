@@ -18,6 +18,7 @@ import de.ancash.sockets.async.impl.packet.server.AsyncPacketServer;
 
 public class ShitChatServer {
 
+	@SuppressWarnings("unused")
 	private static volatile ShitChatServer singleton;
 
 	public static void main(String[] args) throws InvalidConfigurationException, IOException {
@@ -56,17 +57,19 @@ public class ShitChatServer {
 
 	@SuppressWarnings("nls")
 	private void start() throws IOException {
-		System.out.println("Binding to " + address + ":" + port);
 		server = new AsyncPacketServer(address, port, worker);
-		System.out.println("Done");
+		server.setAsyncClientFactory(new ShitChatServerClientFactory());
 		running = true;
+		System.out.println("Binding to " + address + ":" + port);
 		server.start();
+		System.out.println("Done");
 		pool.submit(accRegistry);
 		EventManager.registerEvents(listener, this);
 		cli.onInput(this::onInput);
 		cli.run();
 	}
 
+	@SuppressWarnings("nls")
 	private void onInput(String s) {
 		if ("stop".equals(s.toLowerCase())) {
 			running = false;

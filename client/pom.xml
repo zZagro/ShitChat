@@ -41,12 +41,6 @@
 			<artifactId>shitchat-base</artifactId>
 			<version>0.0.1</version>
 		</dependency>
-		<dependency>
-			<groupId>de.ancash</groupId>
-			<artifactId>sockets</artifactId>
-			<version>0.0.4</version>
-			<scope>compile</scope>
-		</dependency>
 	</dependencies>
 	<distributionManagement>
 		<repository>
