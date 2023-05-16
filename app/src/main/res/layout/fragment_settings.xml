@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.settings.SettingsFragment"
@@ -38,10 +39,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/icon_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.055"
-        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toEndOf="@+id/icon_toolbar"
         app:layout_constraintTop_toTopOf="@+id/icon_toolbar"
-        app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_percent="0.33" />
 
     <com.google.android.material.button.MaterialButton
@@ -76,6 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/circle_outline"
+        android:transitionName="user_image_frame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,25 +84,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.15"
-        app:layout_constraintWidth_percent="0.31" />
+        app:layout_constraintWidth_percent="0.35" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/user_icon"
-        style="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/circle_green"
+        android:transitionName="user_image"
+        app:srcCompat="@drawable/circle_green"
         app:layout_constraintBottom_toBottomOf="@id/user_icon_circle"
         app:layout_constraintEnd_toEndOf="@id/user_icon_circle"
         app:layout_constraintStart_toStartOf="@id/user_icon_circle"
         app:layout_constraintTop_toTopOf="@id/user_icon_circle"
-        app:layout_constraintWidth_percent="0.26"
+        app:layout_constraintWidth_percent="0.3"
         app:layout_constraintDimensionRatio="1:1"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"
         android:insetBottom="0dp"
-        android:padding="0dp"/>
+        android:padding="0dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/user_icon_edit_button"
@@ -121,7 +123,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/user_icon_circle"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@+id/user_icon_circle"
-        app:layout_constraintHeight_percent="0.045"
+        app:layout_constraintHeight_percent="0.05"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle"
         app:strokeColor="#3D3D3D"
         app:strokeWidth="1dp" />
@@ -138,7 +140,7 @@
         app:layout_constraintWidth_percent="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.33"
+        app:layout_constraintVertical_bias="0.38"
         app:layout_constraintHorizontal_bias="0.1"/>
 
     <TextView
@@ -221,7 +223,7 @@
         app:layout_constraintWidth_percent="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.44"
+        app:layout_constraintVertical_bias="0.51"
         app:layout_constraintHorizontal_bias="0.1"
         android:scaleX="0.9"
         android:scaleY="0.9"/>
@@ -293,5 +295,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email_arrow"
         app:layout_constraintWidth_percent="0.85" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Log Out"
+        android:textColor="@color/white"
+        android:backgroundTint="#E40000"
+        android:autoSizePresetSizes="@array/max16"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans_medium"
+        android:letterSpacing="0"
+        android:textAllCaps="false"
+        app:layout_constraintDimensionRatio="5.5:1"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintVertical_bias="0.97"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

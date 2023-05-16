@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
     protected void addToUsers()
     {
         users.clear();
-        users.add(new User("John", "Hello, how are you?", "12:06", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
+        users.add(new User("John", "Hello, how are you? I don't like being here. Please get me out of here!!", "12:06", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
         users.add(new User("Serena", "Hello, how are you?", "10:12", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
         users.add(new User("Person1", "Hello, how are you?", "21:01", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
     }

@@ -71,7 +71,7 @@ public class SplashActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Thread.dumpStack();
+
         if (connected.get())
         {
             Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
