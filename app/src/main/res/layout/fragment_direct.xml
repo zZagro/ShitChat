@@ -7,79 +7,86 @@
     tools:context=".ui.direct.DirectFragment"
     android:background="@color/background_color">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/toolbar"
+    <ImageView
+        android:id="@+id/icon_toolbar"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_gravity="start"
+        android:clickable="true"
+        android:src="@drawable/ic_app_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintVertical_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="1">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/icon_toolbar"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="start"
-            android:clickable="true"
-            android:src="@drawable/ic_app_default"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.55"
-            app:layout_constraintHorizontal_bias="0.07"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/splash_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizePresetSizes="@array/max20"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:text="@string/app_title"
+        android:textColor="@color/neutrals_8"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/icon_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.055"
+        app:layout_constraintStart_toEndOf="@id/icon_toolbar"
+        app:layout_constraintTop_toTopOf="@+id/icon_toolbar"
+        app:layout_constraintWidth_percent="0.33"
+        app:layout_constraintHorizontal_bias="0.05"/>
 
-        <TextView
-            android:id="@+id/splash_title"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:autoSizePresetSizes="@array/max24"
-            android:autoSizeTextType="uniform"
-            android:fontFamily="@font/dm_sans"
-            android:gravity="center"
-            android:letterSpacing="0.02"
-            android:text="@string/app_title"
-            android:textColor="@color/neutrals_8"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintStart_toEndOf="@id/icon_toolbar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.33" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/primary_indigo"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        app:icon="@drawable/ic_plus_white"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="15dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/splash_title"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/direct_search"
+        app:layout_constraintHeight_percent="0.055"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/splash_title"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle" />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:backgroundTint="@color/primary_indigo"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            android:padding="0dp"
-            app:icon="@drawable/ic_plus_white"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:iconSize="15dp"
-            app:iconTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.55"
-            app:layout_constraintHorizontal_bias="0.93"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/direct_search"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/search"
+        app:layout_constraintBottom_toBottomOf="@+id/materialButton"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/materialButton" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/splash_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.875"
+        app:layout_constraintVertical_bias="0.7">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,85 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                layout="@layout/recent_message"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 layout="@layout/user_display_last_sent"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_sent"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_sent"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_sent"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_sent"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_sent"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_received"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_received"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_received"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_received"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_received"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_received"/>
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_received"/>
 
             <include
                 android:layout_width="match_parent"
