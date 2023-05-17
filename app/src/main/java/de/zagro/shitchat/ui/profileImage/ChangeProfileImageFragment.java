@@ -30,8 +30,10 @@ import androidx.navigation.fragment.FragmentNavigator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
 import de.zagro.shitchat.SplashActivity;
+import de.zagro.shitchat.UserImageActivity;
 import de.zagro.shitchat.databinding.FragmentChangeProfileImageBinding;
 import de.zagro.shitchat.ui.settings.SettingsFragment;
 
@@ -45,17 +47,6 @@ public class ChangeProfileImageFragment extends Fragment {
     private MaterialButton camButton, galleryButton;
 
     FragmentChangeProfileImageBinding binding;
-
-    OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
-        @Override
-        public void handleOnBackPressed() {
-            View view = getView();
-            if (view != null)
-            {
-                Navigation.findNavController(view).navigateUp();
-            }
-        }
-    };
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setSharedElementEnterTransition(new ChangeBounds().setDuration(200));
@@ -75,9 +66,6 @@ public class ChangeProfileImageFragment extends Fragment {
         galleryButton = binding.galleryButton;
         userIconCircle = binding.userIconCircle;
 
-        requireActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
-
-        playBottomNavAnimations(view);
         playAnimations();
         setUserIcon();
         onClick();
@@ -94,48 +82,23 @@ public class ChangeProfileImageFragment extends Fragment {
         galleryButton.startAnimation(slideFromRight);
     }
 
-    private void playBottomNavAnimations(View view)
-    {
-        Animation slideOutBottom = AnimationUtils.loadAnimation(requireActivity(), R.anim.slideout_bottom);
-        slideOutBottom.setDuration(200);
-
-        slideOutBottom.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                view.getRootView().findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        view.getRootView().findViewById(R.id.bottom_nav_line).startAnimation(slideOutBottom);
-        view.getRootView().findViewById(R.id.nav_view).startAnimation(slideOutBottom);
-    }
-
     private void onClick()
     {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigateUp();
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
             }
         });
 
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
+                Navigation.findNavController(view).navigate(R.id.profileImagePickerFragment);
             }
         });
     }

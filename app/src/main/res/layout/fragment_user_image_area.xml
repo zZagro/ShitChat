@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_user_image_area"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.profileImage.ProfileImagePickerFragment"
+    android:background="@color/background_color">
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/confirm_button"
+        app:layout_constraintEnd_toEndOf="@+id/confirm_button"
+        app:layout_constraintWidth_percent="0.85"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/confirm_button"
+        app:layout_constraintTop_toTopOf="parent"
+        android:adjustViewBounds="true"
+        android:clickable="true"/>
+
+    <ImageView
+        android:id="@+id/rectangle_outline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/rectangle_outline"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="@id/user_image"
+        app:layout_constraintBottom_toBottomOf="@id/user_image"
+        app:layout_constraintStart_toStartOf="@id/user_image"
+        app:layout_constraintEnd_toEndOf="@id/user_image" />
+
+    <ImageView
+        android:id="@+id/circle_outline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/circle_outline"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="@id/rectangle_outline"
+        app:layout_constraintBottom_toBottomOf="@id/rectangle_outline"
+        app:layout_constraintStart_toStartOf="@id/rectangle_outline"
+        app:layout_constraintEnd_toEndOf="@id/rectangle_outline" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/confirm_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Confirm"
+        android:textColor="@color/white"
+        android:backgroundTint="#00bc24"
+        android:autoSizePresetSizes="@array/max16"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans_medium"
+        android:letterSpacing="0"
+        android:textAllCaps="false"
+        app:iconPadding="0dp"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/camera"
+        app:iconTint="@color/white"
+        app:layout_constraintDimensionRatio="5.2:1"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:backgroundTint="#b20000"
+        android:autoSizePresetSizes="@array/max16"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans_medium"
+        android:letterSpacing="0"
+        android:textAllCaps="false"
+        app:iconPadding="0dp"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/photo"
+        app:iconTint="@color/white"
+        app:layout_constraintDimensionRatio="5.2:1"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintVertical_bias="0.96"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,18 +27,5 @@
         android:id="@+id/navigation_settings"
         android:name="de.zagro.shitchat.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" >
-        <action
-            android:id="@+id/action_navigation_settings_to_changeProfileImageFragment"
-            app:destination="@id/changeProfileImageFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/changeProfileImageFragment"
-        android:name="de.zagro.shitchat.ui.profileImage.ChangeProfileImageFragment"
-        android:label="fragment_change_profile_image"
-        tools:layout="@layout/fragment_change_profile_image" >
-        <action
-            android:id="@+id/action_changeProfileImageFragment_to_navigation_settings"
-            app:destination="@id/navigation_settings" />
-    </fragment>
+        tools:layout="@layout/fragment_settings" />
 </navigation>
