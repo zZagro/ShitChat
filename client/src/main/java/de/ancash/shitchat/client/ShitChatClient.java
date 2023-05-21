@@ -17,6 +17,8 @@ import de.ancash.shitchat.packet.auth.AuthResultPacket;
 import de.ancash.shitchat.packet.auth.AuthSuccessPacket;
 import de.ancash.shitchat.packet.auth.LoginPacket;
 import de.ancash.shitchat.packet.auth.SignUpPacket;
+import de.ancash.shitchat.packet.profile.UsernameChangePacket;
+import de.ancash.shitchat.packet.profile.UsernameChangeResultPacket;
 import de.ancash.shitchat.user.User;
 import de.ancash.shitchat.util.AuthenticationUtil;
 import de.ancash.sockets.async.impl.packet.client.AsyncPacketClient;
@@ -29,13 +31,17 @@ import de.ancash.sockets.packet.PacketFuture;
 
 public class ShitChatClient implements Listener {
 
+	@SuppressWarnings("nls")
 	public static void main(String[] args) throws InterruptedException {
-		ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565);
+		ShitChatClient client = new ShitChatClient("localhost", 12345);
 		if (client.connect()) {
 			System.out.println("connected");
 			System.out.println(client.login("joe@gmail.com",
 					AuthenticationUtil.hashPassword("joe@gmail.com", "password".toCharArray())));
-			Thread.sleep(5000);
+			System.out.println(client.updateUserName(UUID.randomUUID().toString()));
+
+			System.out.println("user: " + client.getUser().getUsername());
+			Thread.sleep(2000);
 			client.disconnect();
 		} else {
 			System.err.println("not connected");
@@ -63,39 +69,27 @@ public class ShitChatClient implements Listener {
 	}
 
 	public UUID getSessionId() {
-		checkConnected();
+		if (state != State.CONNECTED)
+			return null;
 		return sid;
 	}
 
+	@SuppressWarnings("nls")
 	public void disconnect() {
-		client.onDisconnect(new IllegalStateException());
+		client.onDisconnect(new IllegalStateException("client disconnect"));
 	}
 
 	public User getUser() {
-		checkConnected();
+		if (state != State.CONNECTED)
+			return null;
 		return user;
 	}
 
-	public PacketFuture sendShitChatPacket(ShitChatPacket packet) {
-		checkConnected();
-		return sendShitChatPacket0(packet);
-	}
-
-	@SuppressWarnings("nls")
-	protected void checkConnected() {
-		if (state != State.CONNECTED)
-			throw new IllegalStateException("not connected");
-	}
-
-	protected PacketFuture sendShitChatPacket0(ShitChatPacket packet) {
+	protected PacketFuture sendShitChatPacket0(ShitChatPacket packet, boolean awaitResp) {
 		Packet p = packet.toPacket();
-		new Thread(() -> client.write(p)).start();
+		p.setAwaitResponse(awaitResp);
+		client.write(p);
 		return new PacketFuture(p, null);
-	}
-
-	protected PacketFuture sendPacket0(Packet packet) {
-		client.write(packet);
-		return new PacketFuture(packet, null);
 	}
 
 	public boolean isConnected() {
@@ -104,16 +98,38 @@ public class ShitChatClient implements Listener {
 
 	public Optional<String> login(String email, byte[] pass) {
 		if (state != State.CONNECTING || !isConnected())
-			return Optional.of(ShitChatPlaceholder.CANNOT_AUTH);
+			return Optional.of(ShitChatPlaceholder.NOT_CONNECTED);
 		state = State.AUTHENTICATING;
-		return authenticate(sendShitChatPacket0(new LoginPacket(email, pass)));
+		return authenticate(sendShitChatPacket0(new LoginPacket(email, pass), true));
 	}
 
 	public Optional<String> signUp(String email, byte[] pass, String user) {
 		if (state != State.CONNECTING || !isConnected())
-			return Optional.of(ShitChatPlaceholder.CANNOT_AUTH);
+			return Optional.of(ShitChatPlaceholder.NOT_CONNECTED);
 		state = State.AUTHENTICATING;
-		return authenticate(sendShitChatPacket0(new SignUpPacket(email, pass, user)));
+		return authenticate(sendShitChatPacket0(new SignUpPacket(email, pass, user), true));
+	}
+
+	public boolean isAuthenticated() {
+		return state == State.CONNECTED;
+	}
+
+	public Optional<String> updateUserName(String nun) {
+		if (!isAuthenticated())
+			return Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED);
+		return updateUserName(sendShitChatPacket0(new UsernameChangePacket(sid, nun), true));
+	}
+
+	private Optional<String> updateUserName(PacketFuture future) {
+		Optional<UsernameChangeResultPacket> result = future.get(30, TimeUnit.SECONDS);
+		if (!result.isPresent())
+			return Optional.of(ShitChatPlaceholder.INTERNAL_ERROR);
+		UsernameChangeResultPacket r = result.get();
+		if (r.wasSuccessful()) {
+			user = r.getNewUser();
+			return Optional.empty();
+		}
+		return Optional.of(r.getReason());
 	}
 
 	@SuppressWarnings("nls")
@@ -186,7 +202,6 @@ public class ShitChatClient implements Listener {
 	public void onClientConnect(ClientConnectEvent event) {
 		if (event.getClient() == null || client == null || event.getClient().equals(client)) {
 			state = State.CONNECTING;
-			Logger.getGlobal().info("on connect" + client + " " + event.getClient());
 		}
 	}
 

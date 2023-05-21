@@ -2,7 +2,6 @@ package de.ancash.shitchat.packet.auth;
 
 import de.ancash.shitchat.packet.ShitChatPacket;
 import de.ancash.shitchat.util.AuthenticationUtil;
-import de.ancash.sockets.packet.Packet;
 
 public abstract class AuthenticationPacket extends ShitChatPacket {
 
@@ -17,13 +16,6 @@ public abstract class AuthenticationPacket extends ShitChatPacket {
 			throw new IllegalArgumentException(String.format("invalid email '%s'", email));
 		this.email = email;
 		this.pass = pass;
-	}
-
-	@Override
-	public Packet toPacket() {
-		Packet p = super.toPacket();
-		p.setAwaitResponse(true);
-		return p;
 	}
 
 	public String getEmail() {

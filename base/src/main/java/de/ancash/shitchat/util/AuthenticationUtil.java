@@ -14,6 +14,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 public final class AuthenticationUtil {
 
 	private static SecretKeyFactory f;
+	public static int MAX_USERNAME_LENGTH = 32;
 
 	static {
 		try {
@@ -30,6 +31,13 @@ public final class AuthenticationUtil {
 		} catch (InvalidKeySpecException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	public static boolean isUsernameValid(String n) {
+		for (char c : n.toCharArray())
+			if (c < 32 || c > 126)
+				return false;
+		return n.length() > 0 && n.length() <= MAX_USERNAME_LENGTH;
 	}
 
 	public static boolean isEmailValid(String e) {

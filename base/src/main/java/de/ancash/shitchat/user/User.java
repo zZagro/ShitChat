@@ -23,7 +23,7 @@ public class User implements Serializable {
 		return img;
 	}
 
-	public String getName() {
+	public String getUsername() {
 		return name;
 	}
 

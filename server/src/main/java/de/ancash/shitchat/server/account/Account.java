@@ -1,10 +1,6 @@
 package de.ancash.shitchat.server.account;
 
-import static de.ancash.shitchat.ShitChatKeys.PROFILE_PIC_FILE;
-import static de.ancash.shitchat.ShitChatKeys.UID;
-import static de.ancash.shitchat.ShitChatKeys.USER_EMAIL;
-import static de.ancash.shitchat.ShitChatKeys.USER_NAME;
-import static de.ancash.shitchat.ShitChatKeys.USER_PASSWORD;
+import static de.ancash.shitchat.ShitChatKeys.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import de.ancash.libs.org.simpleyaml.configuration.file.YamlFile;
-import de.ancash.libs.org.simpleyaml.exceptions.InvalidConfigurationException;
+import org.simpleyaml.configuration.file.YamlFile;
+import org.simpleyaml.exceptions.InvalidConfigurationException;
+
 import de.ancash.shitchat.ShitChatImage;
 import de.ancash.shitchat.user.User;
 
@@ -59,7 +56,7 @@ public class Account {
 		return sessions.remove(sid);
 	}
 
-	public User toUser() throws IOException {
+	public User toUser() {
 		return new User(uid, username, getProfilePic());
 	}
 
@@ -75,8 +72,14 @@ public class Account {
 		return sessions.size();
 	}
 
-	public ShitChatImage getProfilePic() throws IOException {
-		return new ShitChatImage(profilePicFile.exists() ? Files.readAllBytes(profilePicFile.toPath()) : null);
+	public ShitChatImage getProfilePic() {
+		try {
+			return new ShitChatImage(profilePicFile.exists() ? Files.readAllBytes(profilePicFile.toPath()) : null);
+		} catch (IOException e) {
+			System.err.println("could not get image at " + profilePicFile);
+			e.printStackTrace();
+			return new ShitChatImage(null);
+		}
 	}
 
 	public long getLastAccess() {
@@ -103,7 +106,7 @@ public class Account {
 		return email;
 	}
 
-	public String getUserName() {
+	public String getUsername() {
 		return username;
 	}
 
@@ -123,7 +126,7 @@ public class Account {
 		loadFromFile();
 	}
 
-	public void setUserName(String name) throws InvalidConfigurationException, IOException {
+	public void setUsername(String name) throws InvalidConfigurationException, IOException {
 		yml.load();
 		yml.set(USER_NAME, name);
 		yml.save();
