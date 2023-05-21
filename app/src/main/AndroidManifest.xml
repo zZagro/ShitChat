@@ -15,6 +15,15 @@
         android:theme="@style/Theme.ShitChat"
         tools:targetApi="31">
         <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangeEmailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangeUsernameActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserImageActivity"
             android:exported="false" />
         <activity
@@ -30,7 +39,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

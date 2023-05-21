@@ -149,6 +149,7 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <ImageView
+        android:id="@+id/groups_arrow"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/baseline_arrow_right_alt_24"

@@ -38,7 +38,7 @@
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/dm_sans"
         android:gravity="center_vertical"
-        android:letterSpacing="0.02"
+        android:letterSpacing="0.04"
         android:text="Edit Profile Image"
         android:textColor="@color/neutrals_8"
         android:textStyle="bold"

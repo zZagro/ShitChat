@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,12 +59,22 @@ public class HomeFragment extends Fragment {
         View.OnClickListener directMessageListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(requireActivity(), "Go to Direct", Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(view).navigate(R.id.navigation_direct);
+            }
+        };
+
+        View.OnClickListener groupsMessageListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.navigation_groups);
             }
         };
 
         binding.homeRecentDirectText.setOnClickListener(directMessageListener);
         binding.directArrow.setOnClickListener(directMessageListener);
+
+        binding.homeRecentGroupsText.setOnClickListener(groupsMessageListener);
+        binding.groupsArrow.setOnClickListener(groupsMessageListener);
     }
 
     protected void addToUsers()

@@ -46,7 +46,7 @@
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:id="@+id/reset_password_button"
+        android:id="@+id/change_password_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizePresetSizes="@array/max14"

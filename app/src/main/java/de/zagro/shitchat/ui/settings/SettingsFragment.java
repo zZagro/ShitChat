@@ -1,46 +1,35 @@
 package de.zagro.shitchat.ui.settings;
 
-import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.transition.ChangeBounds;
-import android.transition.ChangeClipBounds;
-import android.transition.ChangeTransform;
-import android.transition.TransitionManager;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.navigation.Navigator;
-import androidx.navigation.fragment.FragmentNavigator;
 
 import com.google.android.material.button.MaterialButton;
 
-import de.zagro.shitchat.R;
+import de.zagro.shitchat.ChangeEmailActivity;
+import de.zagro.shitchat.ChangePasswordActivity;
+import de.zagro.shitchat.ChangeUsernameActivity;
 import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.UserImageActivity;
 import de.zagro.shitchat.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
 
-    private ImageView userIcon, userIconCircle;
-    private MaterialButton editUserIconBtn;
+    private ImageView userIcon, userIconCircle, usernameArrow, emailArrow;
+    private TextView usernameLabel, usernameText, emailLabel, emailText;
+    private MaterialButton editUserIconBtn, changePasswordBtn;
 
     private FragmentSettingsBinding binding;
 
@@ -60,13 +49,67 @@ public class SettingsFragment extends Fragment {
         editUserIconBtn = binding.userIconEditButton;
         userIconCircle = binding.userIconCircle;
 
+        usernameArrow = binding.usernameArrow;
+        usernameLabel = binding.usernameLabel;
+        usernameText = binding.usernameText;
+
+        emailArrow = binding.emailArrow;
+        emailLabel = binding.emailLabel;
+        emailText = binding.emailText;
+
+        changePasswordBtn = binding.changePasswordButton;
+
         setUserIcon();
         editUserIcon();
+        changeUsername();
+        changeEmail();
+        changePassword();
     }
 
     private void setUserIcon()
     {
         userIcon.setImageDrawable(Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name"));
+    }
+
+    private void changeUsername()
+    {
+        View.OnClickListener usernameClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireActivity(), ChangeUsernameActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        usernameArrow.setOnClickListener(usernameClick);
+        usernameText.setOnClickListener(usernameClick);
+        usernameLabel.setOnClickListener(usernameClick);
+    }
+
+    private void changeEmail()
+    {
+        View.OnClickListener usernameClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireActivity(), ChangeEmailActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        emailArrow.setOnClickListener(usernameClick);
+        emailLabel.setOnClickListener(usernameClick);
+        emailText.setOnClickListener(usernameClick);
+    }
+
+    private void changePassword()
+    {
+        changePasswordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireActivity(), ChangePasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void editUserIcon()
