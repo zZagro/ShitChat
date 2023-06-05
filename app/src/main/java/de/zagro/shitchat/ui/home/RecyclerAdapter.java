@@ -3,6 +3,7 @@ package de.zagro.shitchat.ui.home;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +36,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.templateMessage.setText(users.get(position).getMessage());
         holder.templateIcon.setImageDrawable(users.get(position).getDrawable());
         holder.templateTime.setText(users.get(position).getTime());
+        holder.backgroundView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+                buttonClick.setDuration(500);
+                holder.backgroundView.startAnimation(buttonClick);
+            }
+        });
     }
 
     @Override
@@ -47,6 +56,7 @@ class ViewHolder extends RecyclerView.ViewHolder {
 
     ImageView templateIcon;
     TextView templateName, templateMessage, templateTime;
+    View backgroundView;
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -54,6 +64,7 @@ class ViewHolder extends RecyclerView.ViewHolder {
         templateName = itemView.findViewById(R.id.received_username);
         templateMessage = itemView.findViewById(R.id.received_message);
         templateTime = itemView.findViewById(R.id.received_time);
+        backgroundView = itemView.findViewById(R.id.received_background);
     }
 }
 

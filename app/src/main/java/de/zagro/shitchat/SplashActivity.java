@@ -80,10 +80,6 @@ public class SplashActivity extends AppCompatActivity {
         {
             Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show();
         }
-//        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor edit = userDetails.edit();
-//        edit.clear();
-//        edit.apply();
         logIn();
     }
 
@@ -122,9 +118,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-
-            Log.i("Password", password);
-            Log.i("email", email);
         }
     }
 

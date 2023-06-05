@@ -1,5 +1,6 @@
 package de.zagro.shitchat.ui.username;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.ChangeTransform;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -68,6 +70,15 @@ public class ChangeUsernameFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newUsernameText.clearFocus();
+                InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(newUsernameText.getWindowToken(), 0);
             }
         });
     }

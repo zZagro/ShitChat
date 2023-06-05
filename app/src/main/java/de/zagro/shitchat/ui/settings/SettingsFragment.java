@@ -1,10 +1,13 @@
 package de.zagro.shitchat.ui.settings;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.google.android.material.button.MaterialButton;
 import de.zagro.shitchat.ChangeEmailActivity;
 import de.zagro.shitchat.ChangePasswordActivity;
 import de.zagro.shitchat.ChangeUsernameActivity;
+import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.UserImageActivity;
 import de.zagro.shitchat.databinding.FragmentSettingsBinding;
@@ -29,7 +33,7 @@ public class SettingsFragment extends Fragment {
 
     private ImageView userIcon, userIconCircle, usernameArrow, emailArrow;
     private TextView usernameLabel, usernameText, emailLabel, emailText;
-    private MaterialButton editUserIconBtn, changePasswordBtn;
+    private MaterialButton editUserIconBtn, changePasswordBtn, logoutBtn;
 
     private FragmentSettingsBinding binding;
 
@@ -59,16 +63,39 @@ public class SettingsFragment extends Fragment {
 
         changePasswordBtn = binding.changePasswordButton;
 
+        logoutBtn = binding.logoutButton;
+
         setUserIcon();
         editUserIcon();
         changeUsername();
         changeEmail();
         changePassword();
+        logout();
     }
 
     private void setUserIcon()
     {
         userIcon.setImageDrawable(Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name"));
+    }
+
+    private void logout()
+    {
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Logout", "Logout btn clicked!");
+                SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = userDetails.edit();
+                edit.clear();
+                edit.apply();
+
+                Intent intent = new Intent(requireActivity(), SplashActivity.class);
+                startActivity(intent);
+                requireActivity().finish();
+
+                SplashActivity.client.disconnect();
+            }
+        });
     }
 
     private void changeUsername()

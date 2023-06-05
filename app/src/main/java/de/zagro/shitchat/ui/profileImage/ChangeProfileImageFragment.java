@@ -2,8 +2,13 @@ package de.zagro.shitchat.ui.profileImage;
 
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.ChangeTransform;
@@ -16,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -29,6 +35,11 @@ import androidx.navigation.fragment.FragmentNavigator;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.yalantis.ucrop.UCrop;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
@@ -45,6 +56,8 @@ public class ChangeProfileImageFragment extends Fragment {
     private ShapeableImageView userIcon;
     private ImageView userIconCircle;
     private MaterialButton camButton, galleryButton;
+
+    private Uri selectedImgUri;
 
     FragmentChangeProfileImageBinding binding;
 
@@ -94,11 +107,10 @@ public class ChangeProfileImageFragment extends Fragment {
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
-                Navigation.findNavController(view).navigate(R.id.profileImagePickerFragment);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
             }
         });
     }
@@ -106,9 +118,66 @@ public class ChangeProfileImageFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == PICK_IMAGE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == UCrop.REQUEST_CROP)
+        {
+            try {
+                Uri imageUriResultCrop = UCrop.getOutput(data);
+                final InputStream imageStream = requireActivity().getContentResolver().openInputStream(imageUriResultCrop);
+                final Bitmap userImage = BitmapFactory.decodeStream(imageStream);
+
+                Drawable d = new BitmapDrawable(getResources(), userImage);
+
+                Intent intent = new Intent(requireContext(), MainActivity.class);
+                intent.putExtra("status", "Signup");
+                startActivity(intent);
+                requireActivity().finish();
+
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
+            Log.i("ERROR", cropError.getMessage());
+        }
+        else if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE) {
+            try {
+                selectedImgUri = data.getData();
+                final InputStream imageStream = requireActivity().getContentResolver().openInputStream(selectedImgUri);
+                final Bitmap userImage = BitmapFactory.decodeStream(imageStream);
+
+                startCrop();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(requireActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
+            }
 
         }
+    }
+
+    private void startCrop()
+    {
+        UCrop uCrop = UCrop.of(selectedImgUri, Uri.fromFile(new File(requireActivity().getCacheDir(), "CroppedImage.png")));
+
+        uCrop.withAspectRatio(1, 1);
+        uCrop.withMaxResultSize(450, 450);
+        uCrop.withOptions(getCropOptions());
+        uCrop.start(requireActivity(), this, UCrop.REQUEST_CROP);
+    }
+
+    private UCrop.Options getCropOptions()
+    {
+        UCrop.Options options = new UCrop.Options();
+
+        options.setCompressionQuality(100);
+
+        options.setHideBottomControls(false);
+        options.setFreeStyleCropEnabled(false);
+
+        options.setStatusBarColor(getResources().getColor(R.color.background_color));
+        options.setToolbarColor(getResources().getColor(R.color.primary_indigo));
+
+        return options;
     }
 
     private void setUserIcon()

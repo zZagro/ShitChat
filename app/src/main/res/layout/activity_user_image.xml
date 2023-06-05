@@ -17,6 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/user_image_navigation" />
+        class="de.zagro.shitchat.ui.profileImage.ChangeProfileImageFragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
