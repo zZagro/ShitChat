@@ -4,19 +4,25 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 
+import org.simpleyaml.configuration.file.YamlFile;
+import org.simpleyaml.exceptions.InvalidConfigurationException;
+
 import de.ancash.cli.CLI;
 import de.ancash.ithread.IThreadPoolExecutor;
 import de.ancash.libs.org.apache.commons.io.FileUtils;
+import de.ancash.libs.org.bukkit.event.EventHandler;
 import de.ancash.libs.org.bukkit.event.EventManager;
-import de.ancash.libs.org.simpleyaml.configuration.file.YamlFile;
-import de.ancash.libs.org.simpleyaml.exceptions.InvalidConfigurationException;
+import de.ancash.libs.org.bukkit.event.Listener;
 import de.ancash.misc.io.IFormatter;
 import de.ancash.misc.io.LoggerUtils;
 import de.ancash.shitchat.server.account.AccountRegistry;
+import de.ancash.shitchat.server.client.Client;
+import de.ancash.shitchat.server.client.ClientFactory;
 import de.ancash.shitchat.server.listener.ShitChatPacketListener;
 import de.ancash.sockets.async.impl.packet.server.AsyncPacketServer;
+import de.ancash.sockets.events.ClientDisconnectEvent;
 
-public class ShitChatServer {
+public class ShitChatServer implements Listener {
 
 	@SuppressWarnings("unused")
 	private static volatile ShitChatServer singleton;
@@ -57,8 +63,9 @@ public class ShitChatServer {
 
 	@SuppressWarnings("nls")
 	private void start() throws IOException {
+		EventManager.registerEvents(this, this);
 		server = new AsyncPacketServer(address, port, worker);
-		server.setAsyncClientFactory(new ShitChatServerClientFactory());
+		server.setAsyncClientFactory(new ClientFactory());
 		running = true;
 		System.out.println("Binding to " + address + ":" + port);
 		server.start();
@@ -67,6 +74,14 @@ public class ShitChatServer {
 		EventManager.registerEvents(listener, this);
 		cli.onInput(this::onInput);
 		cli.run();
+	}
+
+	@EventHandler
+	public void onDisconnect(ClientDisconnectEvent event) {
+		if (event.getClient() == null || !(event.getClient() instanceof Client))
+			return;
+		Client client = (Client) event.getClient();
+		accRegistry.onDisconnect(client);
 	}
 
 	@SuppressWarnings("nls")

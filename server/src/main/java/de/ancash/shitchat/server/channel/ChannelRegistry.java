@@ -12,8 +12,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import de.ancash.libs.org.simpleyaml.configuration.file.YamlFile;
-import de.ancash.libs.org.simpleyaml.exceptions.InvalidConfigurationException;
+import org.simpleyaml.configuration.file.YamlFile;
+import org.simpleyaml.exceptions.InvalidConfigurationException;
+
 import de.ancash.misc.CustomReentrantReadWriteLock;
 import de.ancash.shitchat.channel.AbstractChat;
 import de.ancash.shitchat.channel.AbstractChat.Type;

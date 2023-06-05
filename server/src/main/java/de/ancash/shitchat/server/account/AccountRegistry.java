@@ -7,17 +7,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import de.ancash.libs.org.simpleyaml.configuration.file.YamlFile;
-import de.ancash.libs.org.simpleyaml.exceptions.InvalidConfigurationException;
+import org.simpleyaml.configuration.file.YamlFile;
+import org.simpleyaml.exceptions.InvalidConfigurationException;
+
 import de.ancash.misc.CustomReentrantReadWriteLock;
 import de.ancash.shitchat.ShitChatKeys;
 import de.ancash.shitchat.server.ShitChatServer;
+import de.ancash.shitchat.server.client.Client;
 
 @SuppressWarnings("nls")
 public class AccountRegistry extends Thread {
@@ -26,6 +28,8 @@ public class AccountRegistry extends Thread {
 	private final ShitChatServer server;
 	private final CustomReentrantReadWriteLock lock = new CustomReentrantReadWriteLock();
 	private final YamlFile accountLink = new YamlFile(new File("data/accounts.yml"));
+	private final YamlFile usernames = new YamlFile(new File("data/usernames.yml"));
+	private final ConcurrentHashMap<String, UUID> uidByUsername = new ConcurrentHashMap<>();
 	private final ConcurrentHashMap<String, UUID> uidByEmail = new ConcurrentHashMap<>();
 	private final ConcurrentHashMap<UUID, Account> accByUId = new ConcurrentHashMap<UUID, Account>();
 	private final ConcurrentHashMap<UUID, Session> sesByUId = new ConcurrentHashMap<UUID, Session>();
@@ -34,6 +38,8 @@ public class AccountRegistry extends Thread {
 		this.server = server;
 		if (!accountsDir.exists())
 			accountsDir.mkdirs();
+		usernames.createNewFile(false);
+		loadUsernames();
 		accountLink.createNewFile(false);
 		loadAccounts();
 	}
@@ -45,6 +51,27 @@ public class AccountRegistry extends Thread {
 		System.out.println(uidByEmail.size() + " accounts found");
 	}
 
+	private void loadUsernames() throws InvalidConfigurationException, IOException {
+		System.out.println("Loading usernames...");
+		usernames.load();
+		usernames.getKeys(false).forEach(k -> {
+			if (uidByUsername.containsKey(usernames.get(k)))
+				System.err.println("Duplicate username: " + usernames.getString(k) + " (" + UUID.fromString(k) + ", "
+						+ uidByUsername.get(usernames.getString(k)));
+			uidByUsername.put(usernames.getString(k), UUID.fromString(k));
+		});
+		System.out.println(uidByUsername.size() + " usernames found!");
+	}
+
+	private void saveUsernames() throws InvalidConfigurationException, IOException {
+		System.out.println("Saving usernames");
+		usernames.createNewFile();
+		usernames.load();
+		uidByUsername.entrySet().forEach(e -> usernames.set(e.getValue().toString(), e.getKey()));
+		usernames.save();
+		System.out.println(uidByEmail.size() + " usernames saved");
+	}
+
 	private void saveAccounts() throws InvalidConfigurationException, IOException {
 		System.out.println("Saving accounts");
 		accountLink.createNewFile();
@@ -54,13 +81,53 @@ public class AccountRegistry extends Thread {
 		System.out.println(uidByEmail.size() + " accounts saved");
 	}
 
+	public Account updateUsername(UUID sessionId, String newUserName) {
+		return lock.writeLock(() -> {
+			if (isUsernameUsed(newUserName) || !isSessionValid(sessionId))
+				return null;
+			Account acc = sesByUId.get(sessionId).getAccount();
+			System.out.println(
+					uidByUsername.get(acc.getUsername()) + ": " + acc.getUsername() + ": " + uidByUsername.keySet());
+			if (acc == null || !uidByUsername.get(acc.getUsername()).equals(acc.getId())) {
+				System.err.println("very strange error");
+				return null;
+			}
+			String old = acc.getUsername();
+			try {
+				acc.setUsername(newUserName);
+			} catch (IOException e) {
+				System.err.println("Could not update username for " + acc.getId() + ": " + newUserName);
+				e.printStackTrace();
+				return null;
+			}
+			uidByUsername.remove(old);
+			uidByUsername.put(newUserName, acc.getId());
+			System.out.println("username change: " + old + " -> " + newUserName);
+			return acc;
+		});
+	}
+
 	public UUID getUIdByEmail(String email) {
 		return uidByEmail.get(email);
 	}
 
-	public boolean exists(String email) {
-		return uidByEmail.containsKey(email)
-				&& new File(String.join("//", getDir(getUIdByEmail(email)).getPath(), "data.yml")).exists();
+	public boolean isEmailUsed(String email) {
+		return uidByEmail.containsKey(email);
+	}
+
+	public boolean isUsernameUsed(String un) {
+		return uidByUsername.containsKey(un);
+	}
+
+	public boolean isSessionValid(UUID session) {
+		return lock.writeLock(() -> {
+			if (sesByUId.containsKey(session)) {
+				sesByUId.get(session).getAccount().updateLastAccess();
+				return true;
+			}
+			System.out.println("invalid session: " + session + ", " + sesByUId.keySet());
+			return false;
+		});
 	}
 
 	@Override
@@ -79,6 +146,7 @@ public class AccountRegistry extends Thread {
 		lock.writeLock(() -> {
 			try {
 				saveAccounts();
+				saveUsernames();
 			} catch (IOException e) {
 				System.err.println("could not save accounts");
 				e.printStackTrace();
@@ -92,10 +160,10 @@ public class AccountRegistry extends Thread {
 		while (keys.hasNext()) {
 			UUID cur = keys.next();
 			Account acc = accByUId.get(cur);
-			if (acc.getLastAccess() + now < System.currentTimeMillis()) {
-				System.out.println("cache life time of " + acc.getEmail() + ":" + acc.getUserName() + " expired");
-				Set<Session> sss = acc.getAllSessions();
-				sss.forEach(Session::exit);
+			System.out.println(acc.getId() + " " + (acc.getLastAccess() + TimeUnit.MINUTES.toMillis(10) - now));
+			if (acc.getLastAccess() + TimeUnit.SECONDS.toMillis(10) < now && !acc.hasSessions()) {
+				System.out.println("cache life time of " + acc.getEmail() + ":" + acc.getUsername() + " expired");
+				keys.remove();
 			}
 		}
 	}
@@ -105,7 +173,7 @@ public class AccountRegistry extends Thread {
 			sesByUId.remove(ses.getSessionId());
 			acc.removeSession(ses.getSessionId());
 		});
-		sesByUId.put(acc.getId(), s);
+		sesByUId.put(s.getSessionId(), s);
 		return s;
 	}
 
@@ -125,7 +193,7 @@ public class AccountRegistry extends Thread {
 
 	public Account createAccount(String email, String name, byte[] pass) {
 		return lock.writeLock(() -> {
-			if (exists(email))
+			if (isEmailUsed(email) || isUsernameUsed(name))
 				return null;
 			UUID id = UUID.randomUUID();
 			File dir = getDir(id);
@@ -150,6 +218,7 @@ public class AccountRegistry extends Thread {
 				yf.set(ShitChatKeys.GROUP_CHANNELS, new ArrayList<>());
 				yf.save();
 				uidByEmail.put(email, id);
+				uidByUsername.put(name, id);
 			} catch (IOException e) {
 				System.err.println("could not create/load new data file");
 				e.printStackTrace();
@@ -177,5 +246,17 @@ public class AccountRegistry extends Thread {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public void onDisconnect(Client client) {
+		if (client == null || client.getSID() == null)
+			return;
+		lock.writeLock(() -> {
+			Session s = sesByUId.get(client.getSID());
+			if (s == null)
+				return;
+			s.exit();
+		});
+
 	}
 }
