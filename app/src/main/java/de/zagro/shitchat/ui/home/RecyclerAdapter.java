@@ -1,5 +1,7 @@
 package de.zagro.shitchat.ui.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import de.zagro.shitchat.ChatActivity;
+import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
+import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.User;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -42,6 +47,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
                 buttonClick.setDuration(500);
                 holder.backgroundView.startAnimation(buttonClick);
+
+                Context context = holder.backgroundView.getContext();
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("user", users.get(position).getName());
+                context.startActivity(intent);
             }
         });
     }
