@@ -17,6 +17,7 @@ import org.simpleyaml.configuration.file.YamlFile;
 import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 import de.ancash.misc.CustomReentrantReadWriteLock;
+import de.ancash.shitchat.ShitChatImage;
 import de.ancash.shitchat.ShitChatKeys;
 import de.ancash.shitchat.server.ShitChatServer;
 import de.ancash.shitchat.server.client.Client;
@@ -86,10 +87,8 @@ public class AccountRegistry extends Thread {
 			if (isUsernameUsed(newUserName) || !isSessionValid(sessionId))
 				return null;
 			Account acc = sesByUId.get(sessionId).getAccount();
-			System.out.println(
-					uidByUsername.get(acc.getUsername()) + ": " + acc.getUsername() + ": " + uidByUsername.keySet());
-			if (acc == null || !uidByUsername.get(acc.getUsername()).equals(acc.getId())) {
-				System.err.println("very strange error");
+			if (!uidByUsername.get(acc.getUsername()).equals(acc.getId())) {
+				System.err.println("very strange sync error");
 				return null;
 			}
 			String old = acc.getUsername();
@@ -103,6 +102,23 @@ public class AccountRegistry extends Thread {
 			uidByUsername.remove(old);
 			uidByUsername.put(newUserName, acc.getId());
 			System.out.println("username change: " + old + " -> " + newUserName);
+			return acc;
+		});
+	}
+
+	public Account updateProfilePic(UUID sessionId, byte[] newPp) {
+		return lock.writeLock(() -> {
+			if (!isSessionValid(sessionId))
+				return null;
+			Account acc = sesByUId.get(sessionId).getAccount();
+			try {
+				acc.setProfilePic(new ShitChatImage(newPp));
+			} catch (IOException e) {
+				System.err.println("Could not update pp for " + acc.getId() + ": " + e);
+				e.printStackTrace();
+				return null;
+			}
+			System.out.println("pp change: " + acc.getId());
 			return acc;
 		});
 	}

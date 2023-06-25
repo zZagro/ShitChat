@@ -11,9 +11,9 @@ public class Client extends AsyncPacketServerClient {
 
 	protected UUID sid;
 
-	public Client(AbstractAsyncServer asyncIOServer, AsynchronousSocketChannel asyncSocket, int queueSize,
-			int readBufSize, int writeBufSize) throws IOException {
-		super(asyncIOServer, asyncSocket, queueSize, readBufSize, writeBufSize);
+	public Client(AbstractAsyncServer asyncIOServer, AsynchronousSocketChannel asyncSocket, int readBufSize,
+			int writeBufSize) throws IOException {
+		super(asyncIOServer, asyncSocket, readBufSize, writeBufSize);
 		setMaxPacketSize(1024 * 1024 * 16);
 	}
 

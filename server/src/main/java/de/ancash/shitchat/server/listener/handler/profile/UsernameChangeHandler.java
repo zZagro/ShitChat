@@ -1,11 +1,12 @@
 package de.ancash.shitchat.server.listener.handler.profile;
 
 import de.ancash.shitchat.ShitChatPlaceholder;
+import de.ancash.shitchat.packet.profile.ProfileChangeResultPacket;
 import de.ancash.shitchat.packet.profile.UsernameChangePacket;
-import de.ancash.shitchat.packet.profile.UsernameChangeResultPacket;
 import de.ancash.shitchat.server.account.Account;
 import de.ancash.shitchat.server.account.AccountRegistry;
 import de.ancash.shitchat.server.client.Client;
+import de.ancash.shitchat.server.listener.handler.HandlerUtil;
 import de.ancash.sockets.packet.Packet;
 
 public class UsernameChangeHandler {
@@ -16,25 +17,23 @@ public class UsernameChangeHandler {
 		this.registry = registry;
 	}
 
+	@SuppressWarnings("nls")
 	public void changeUsername(Client client, UsernameChangePacket ucp, Packet packet) {
-		System.out.println("user name change packet!");
-		if (!client.getSID().equals(ucp.getSessionId()) || !registry.isSessionValid(ucp.getSessionId()))
-			packet.setSerializable(
-					new UsernameChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.INVALID_SESSION));
+		System.out.println("user name change packet: " + client.getRemoteAddress());
+		if (!HandlerUtil.validateSID(registry, client, ucp, packet))
+			return;
 		else if (registry.isUsernameUsed(ucp.getNewUserName()))
-			packet.setSerializable(new UsernameChangeResultPacket(ucp.getSessionId(), null,
+			packet.setSerializable(new ProfileChangeResultPacket(ucp.getSessionId(), null,
 					ShitChatPlaceholder.USERNAME_ALREADY_EXISTS));
 		else {
 			Account acc = registry.updateUsername(ucp.getSessionId(), ucp.getNewUserName());
 			if (acc == null) {
 				packet.setSerializable(
-						new UsernameChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.INTERNAL_ERROR));
+						new ProfileChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.INTERNAL_ERROR));
 			} else {
-				packet.setSerializable(new UsernameChangeResultPacket(ucp.getSessionId(), acc.toUser(), null));
+				packet.setSerializable(new ProfileChangeResultPacket(ucp.getSessionId(), acc.toUser(), null));
 			}
 		}
 		client.putWrite(packet.toBytes());
-		System.out.println(packet.getTimeStamp());
-		return;
 	}
 }

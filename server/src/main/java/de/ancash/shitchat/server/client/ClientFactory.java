@@ -10,13 +10,13 @@ import de.ancash.sockets.async.server.AbstractAsyncServer;
 public class ClientFactory extends AbstractAsyncClientFactory<AsyncPacketServerClient> {
 
 	@Override
-	public Client newInstance(AbstractAsyncServer asyncServer, AsynchronousSocketChannel socket, int queueSize,
-			int readBufSize, int writeBufSize) throws IOException {
-		return new Client(asyncServer, socket, queueSize, readBufSize, writeBufSize);
+	public Client newInstance(AbstractAsyncServer asyncServer, AsynchronousSocketChannel socket, int readBufSize,
+			int writeBufSize) throws IOException {
+		return new Client(asyncServer, socket, readBufSize, writeBufSize);
 	}
 
 	@Override
-	public Client newInstance(String address, int port, int queueSize, int readBufSize, int writeBufSize, int threads)
+	public Client newInstance(String address, int port, int readBufSize, int writeBufSize, int threads)
 			throws IOException {
 		throw new UnsupportedOperationException();
 	}

@@ -88,13 +88,14 @@ public class ShitChatServer implements Listener {
 	private void onInput(String s) {
 		if ("stop".equals(s.toLowerCase())) {
 			running = false;
+			pool.shutdownNow();
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(2000);
 				server.stop();
 			} catch (InterruptedException | IOException e) {
 				e.printStackTrace();
 			}
-			Runtime.getRuntime().exit(0);
+			Thread.currentThread().interrupt();
 		}
 	}
 
