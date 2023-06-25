@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/message_received_bg_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-8dp"
+        android:background="@drawable/message_received_bg"
+        app:layout_constraintBottom_toBottomOf="@id/message_received_text_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/message_received_text_content"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <TextView
+        android:id="@+id/message_received_text_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/dm_sans"
+        android:text="Sample Text"
+        android:textColor="@color/white"
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/message_received_bg_view"
+        app:layout_constraintStart_toStartOf="@id/message_received_bg_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/message_received_text_time"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/dm_sans_medium"
+        android:text="12:02"
+        android:textAlignment="center"
+        android:textColor="#A9A9A9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintEnd_toEndOf="@+id/message_received_text_content"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="@id/message_received_bg_view"
+        app:layout_constraintTop_toBottomOf="@id/message_received_text_content"
+        app:layout_constraintWidth_percent="0.12" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

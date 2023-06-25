@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <array name="max1">
+        <item>1sp</item>
+    </array>
+
     <array name="max8">
         <item>3sp</item>
         <item>4sp</item>
