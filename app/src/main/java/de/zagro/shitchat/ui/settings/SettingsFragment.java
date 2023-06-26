@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,7 +66,7 @@ public class SettingsFragment extends Fragment {
 
         logoutBtn = binding.logoutButton;
 
-        setUserIcon();
+        setUserData();
         editUserIcon();
         changeUsername();
         changeEmail();
@@ -73,9 +74,11 @@ public class SettingsFragment extends Fragment {
         logout();
     }
 
-    private void setUserIcon()
+    private void setUserData()
     {
         userIcon.setImageDrawable(Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name"));
+        usernameText.setText(SplashActivity.client.getUser().getUsername());
+        emailText.setText(SplashActivity.client.getEmail());
     }
 
     private void logout()
@@ -115,17 +118,18 @@ public class SettingsFragment extends Fragment {
 
     private void changeEmail()
     {
-        View.OnClickListener usernameClick = new View.OnClickListener() {
+        View.OnClickListener emailClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(requireActivity(), ChangeEmailActivity.class);
-                startActivity(intent);
+                Toast.makeText(requireActivity(), "Not yet implemented! I suggest creating a new account.", Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(requireActivity(), ChangeEmailActivity.class);
+//                startActivity(intent);
             }
         };
 
-        emailArrow.setOnClickListener(usernameClick);
-        emailLabel.setOnClickListener(usernameClick);
-        emailText.setOnClickListener(usernameClick);
+        emailArrow.setOnClickListener(emailClick);
+        emailLabel.setOnClickListener(emailClick);
+        emailText.setOnClickListener(emailClick);
     }
 
     private void changePassword()

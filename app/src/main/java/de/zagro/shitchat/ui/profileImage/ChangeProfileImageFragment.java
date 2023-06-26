@@ -37,6 +37,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -125,7 +126,14 @@ public class ChangeProfileImageFragment extends Fragment {
                 final InputStream imageStream = requireActivity().getContentResolver().openInputStream(imageUriResultCrop);
                 final Bitmap userImage = BitmapFactory.decodeStream(imageStream);
 
-                Drawable d = new BitmapDrawable(getResources(), userImage);
+//                Drawable d = new BitmapDrawable(getResources(), userImage);
+//                userIcon.setImageDrawable(d);
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                userImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] bitmapdata = stream.toByteArray();
+
+                SplashActivity.client.changePP(bitmapdata);
 
                 Intent intent = new Intent(requireContext(), MainActivity.class);
                 intent.putExtra("status", "Signup");
@@ -139,6 +147,7 @@ public class ChangeProfileImageFragment extends Fragment {
         else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
             Log.i("ERROR", cropError.getMessage());
+            Toast.makeText(requireActivity(), cropError.getMessage(), Toast.LENGTH_SHORT).show();
         }
         else if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE) {
             try {

@@ -83,7 +83,7 @@ public class ChangeEmailFragment extends Fragment {
 
     private void setCurrentUsername()
     {
-        currentEmailText.setText(SplashActivity.client.getUser().getName());
+        currentEmailText.setText(SplashActivity.client.getEmail());
     }
 
     private void playAnimations()

@@ -35,6 +35,7 @@ import java.util.stream.Stream;
 
 import de.ancash.shitchat.ShitChatPlaceholder;
 import de.ancash.shitchat.client.ShitChatClient;
+import de.ancash.shitchat.user.User;
 import de.ancash.shitchat.util.AuthenticationUtil;
 import de.zagro.shitchat.databinding.ActivitySplashBinding;
 import de.zagro.shitchat.ui.login.LoginFragment;
@@ -50,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
     boolean onRegister = false;
 
     ActivitySplashBinding binding;
-    public static final ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565);
+    public static final ShitChatManager client = new ShitChatManager("denzo.algoholics.eu", 25565);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

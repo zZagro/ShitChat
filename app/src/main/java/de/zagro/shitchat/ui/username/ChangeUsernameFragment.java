@@ -2,8 +2,10 @@ package de.zagro.shitchat.ui.username;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.transition.ChangeBounds;
 import android.transition.ChangeTransform;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,13 +66,14 @@ public class ChangeUsernameFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                requireActivity().finish();
             }
         });
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                changeUsername();
             }
         });
 
@@ -83,9 +87,32 @@ public class ChangeUsernameFragment extends Fragment {
         });
     }
 
+    private void changeUsername()
+    {
+        String currentUsername = SplashActivity.client.getUser().getUsername();
+        String input = newUsernameText.getText().toString();
+        String trimedInput = input.trim();
+
+        if (input.matches(currentUsername))
+        {
+            Toast.makeText(requireActivity(), "You can't change your Username to your current one!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (TextUtils.isEmpty(trimedInput))
+        {
+            Toast.makeText(requireActivity(), "Nah, that's not gonna work my friend.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        currentUsernameText.setText("");
+        SplashActivity.client.changeUserName(input);
+        Toast.makeText(requireActivity(), "Changed Username to " + input, Toast.LENGTH_SHORT).show();
+        requireActivity().getOnBackPressedDispatcher().onBackPressed();
+    }
+
     private void setCurrentUsername()
     {
-        currentUsernameText.setText(SplashActivity.client.getUser().getName());
+        currentUsernameText.setText(SplashActivity.client.getUser().getUsername());
     }
 
     private void playAnimations()

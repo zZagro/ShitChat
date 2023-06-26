@@ -3,6 +3,7 @@ package de.zagro.shitchat.ui.password;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 
 import de.zagro.shitchat.R;
+import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.databinding.FragmentChangePasswordBinding;
 
 public class ChangePasswordFragment extends Fragment {
@@ -58,6 +61,8 @@ public class ChangePasswordFragment extends Fragment {
         viewCurrent = binding.passwordCurrentView;
         viewNew = binding.passwordNewView;
         viewConfirm = binding.passwordConfirmView;
+
+        playAnimations();
     }
 
     private void onClick()
@@ -151,6 +156,35 @@ public class ChangePasswordFragment extends Fragment {
                 imm.hideSoftInputFromWindow(confirmPasswordText.getWindowToken(), 0);
             }
         });
+    }
+
+    private void changePassword()
+    {
+        if (!doPasswordsMatch())
+        {
+            Toast.makeText(requireActivity(), "Passwords do not match!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String input = confirmPasswordText.getText().toString();
+        String trimedInput = input.trim();
+
+        if (TextUtils.isEmpty(trimedInput))
+        {
+            Toast.makeText(requireActivity(), "Nah, that's not gonna work my friend.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        newPasswordText.setText("");
+        confirmPasswordText.setText("");
+
+        Toast.makeText(requireActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
+        requireActivity().getOnBackPressedDispatcher().onBackPressed();
+    }
+
+    private boolean doPasswordsMatch()
+    {
+        return newPasswordText.getText().equals(confirmPasswordText.getText());
     }
 
     private void playAnimations()
