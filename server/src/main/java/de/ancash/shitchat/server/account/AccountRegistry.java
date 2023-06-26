@@ -1,12 +1,9 @@
-
 package de.ancash.shitchat.server.account;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -28,58 +25,37 @@ public class AccountRegistry extends Thread {
 	private final File accountsDir = new File("data/accounts");
 	private final ShitChatServer server;
 	private final CustomReentrantReadWriteLock lock = new CustomReentrantReadWriteLock();
-	private final YamlFile accountLink = new YamlFile(new File("data/accounts.yml"));
-	private final YamlFile usernames = new YamlFile(new File("data/usernames.yml"));
 	private final ConcurrentHashMap<String, UUID> uidByUsername = new ConcurrentHashMap<>();
 	private final ConcurrentHashMap<String, UUID> uidByEmail = new ConcurrentHashMap<>();
 	private final ConcurrentHashMap<UUID, Account> accByUId = new ConcurrentHashMap<UUID, Account>();
 	private final ConcurrentHashMap<UUID, Session> sesByUId = new ConcurrentHashMap<UUID, Session>();
+	private final String dataFile = "data.yml";
 
 	public AccountRegistry(ShitChatServer server) throws InvalidConfigurationException, IOException {
 		this.server = server;
 		if (!accountsDir.exists())
 			accountsDir.mkdirs();
-		usernames.createNewFile(false);
-		loadUsernames();
-		accountLink.createNewFile(false);
 		loadAccounts();
 	}
 
 	private void loadAccounts() throws InvalidConfigurationException, IOException {
-		System.out.println("Loading accounts");
-		accountLink.load();
-		accountLink.getKeys(false).forEach(k -> uidByEmail.put(accountLink.getString(k), UUID.fromString(k)));
-		System.out.println(uidByEmail.size() + " accounts found");
-	}
-
-	private void loadUsernames() throws InvalidConfigurationException, IOException {
 		System.out.println("Loading usernames...");
-		usernames.load();
-		usernames.getKeys(false).forEach(k -> {
-			if (uidByUsername.containsKey(usernames.get(k)))
-				System.err.println("Duplicate username: " + usernames.getString(k) + " (" + UUID.fromString(k) + ", "
-						+ uidByUsername.get(usernames.getString(k)));
-			uidByUsername.put(usernames.getString(k), UUID.fromString(k));
-		});
-		System.out.println(uidByUsername.size() + " usernames found!");
-	}
-
-	private void saveUsernames() throws InvalidConfigurationException, IOException {
-		System.out.println("Saving usernames");
-		usernames.createNewFile();
-		usernames.load();
-		uidByUsername.entrySet().forEach(e -> usernames.set(e.getValue().toString(), e.getKey()));
-		usernames.save();
-		System.out.println(uidByEmail.size() + " usernames saved");
-	}
-
-	private void saveAccounts() throws InvalidConfigurationException, IOException {
-		System.out.println("Saving accounts");
-		accountLink.createNewFile();
-		accountLink.load();
-		uidByEmail.entrySet().forEach(e -> accountLink.set(e.getValue().toString(), e.getKey()));
-		accountLink.save();
-		System.out.println(uidByEmail.size() + " accounts saved");
+		File[] accs = accountsDir.listFiles();
+		if (accs != null && accs.length > 0) {
+			for (File acc : accs) {
+				File data = new File(acc.getPath() + "/" + dataFile);
+				if (!data.exists()) {
+					System.err.println("not udata file found in " + acc.getPath());
+					continue;
+				}
+				YamlFile yml = new YamlFile(data);
+				yml.load();
+				uidByUsername.put(yml.getString(ShitChatKeys.USER_NAME),
+						UUID.fromString(yml.getString(ShitChatKeys.UID)));
+				uidByEmail.put(yml.getString(ShitChatKeys.USER_EMAIL),
+						UUID.fromString(yml.getString(ShitChatKeys.UID)));
+			}
+		}
 	}
 
 	public Account updateUsername(UUID sessionId, String newUserName) {
@@ -146,6 +122,10 @@ public class AccountRegistry extends Thread {
 		});
 	}
 
+	public Session getSession(UUID sid) {
+		return lock.readLock(() -> sesByUId.get(sid).updateLastAccess());
+	}
+
 	@Override
 	public void run() {
 		while (server.isRunning()) {
@@ -159,15 +139,6 @@ public class AccountRegistry extends Thread {
 				return;
 			}
 		}
-		lock.writeLock(() -> {
-			try {
-				saveAccounts();
-				saveUsernames();
-			} catch (IOException e) {
-				System.err.println("could not save accounts");
-				e.printStackTrace();
-			}
-		});
 	}
 
 	private void checkCacheTimeout() {
@@ -176,7 +147,6 @@ public class AccountRegistry extends Thread {
 		while (keys.hasNext()) {
 			UUID cur = keys.next();
 			Account acc = accByUId.get(cur);
-			System.out.println(acc.getId() + " " + (acc.getLastAccess() + TimeUnit.MINUTES.toMillis(10) - now));
 			if (acc.getLastAccess() + TimeUnit.SECONDS.toMillis(10) < now && !acc.hasSessions()) {
 				System.out.println("cache life time of " + acc.getEmail() + ":" + acc.getUsername() + " expired");
 				keys.remove();
@@ -201,10 +171,7 @@ public class AccountRegistry extends Thread {
 	}
 
 	public File getDir(UUID id) {
-		String[] split = id.toString().split("-");
-		List<String> path = new ArrayList<>(Arrays.asList(split));
-		path.add(0, accountsDir.getPath());
-		return new File(String.join("//", path));
+		return new File(accountsDir.getPath() + "/" + id.toString());
 	}
 
 	public Account createAccount(String email, String name, byte[] pass) {
@@ -219,7 +186,7 @@ public class AccountRegistry extends Thread {
 				dir = getDir(id);
 			}
 			dir.mkdirs();
-			File data = new File(String.join("//", dir.getPath(), "data.yml"));
+			File data = new File(String.join("//", dir.getPath(), dataFile));
 			try {
 				data.createNewFile();
 				YamlFile yf = new YamlFile(data);
@@ -254,7 +221,7 @@ public class AccountRegistry extends Thread {
 			return null;
 		}
 		try {
-			Account acc = new Account(new File(String.join("//", dir.getPath(), "data.yml")));
+			Account acc = new Account(new File(String.join("//", dir.getPath(), dataFile)));
 			accByUId.put(id, acc);
 			return acc;
 		} catch (IOException e) {

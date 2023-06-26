@@ -34,6 +34,11 @@ public class Session {
 		return acc.updateLastAccess();
 	}
 
+	public Session updateLastAccess() {
+		acc.updateLastAccess();
+		return this;
+	}
+
 	public long getStart() {
 		return start;
 	}

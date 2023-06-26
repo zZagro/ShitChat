@@ -134,14 +134,17 @@ public class Account {
 	}
 
 	public void setProfilePic(ShitChatImage img) throws IOException {
-		profilePicFile.delete();
-		profilePicFile.createNewFile();
-		Files.write(profilePicFile.toPath(), img.asBytes(), StandardOpenOption.APPEND);
+		File to = new File(file.getParentFile().getPath() + "/" + uid + "-pp");
+		to.delete();
+		to.createNewFile();
+		System.out.println(to + " writing " + img.asBytes().length);
+		Files.write(to.toPath(), img.asBytes(), StandardOpenOption.APPEND);
 		YamlFile yml = new YamlFile(file);
 		yml.load();
-		yml.set(PROFILE_PIC_FILE, profilePicFile.getPath());
+		yml.set(PROFILE_PIC_FILE, to.getPath());
 		yml.save();
 		loadFromFile();
+		System.out.println("done!");
 	}
 
 	private void loadFromFile() throws InvalidConfigurationException, IOException {

@@ -9,11 +9,15 @@ import de.ancash.shitchat.packet.ShitChatPacket;
 import de.ancash.shitchat.packet.auth.AuthenticationPacket;
 import de.ancash.shitchat.packet.auth.LoginPacket;
 import de.ancash.shitchat.packet.auth.SignUpPacket;
+import de.ancash.shitchat.packet.profile.PasswordChangePacket;
+import de.ancash.shitchat.packet.profile.ProfilePicChangePacket;
 import de.ancash.shitchat.packet.profile.UsernameChangePacket;
 import de.ancash.shitchat.server.ShitChatServer;
 import de.ancash.shitchat.server.client.Client;
 import de.ancash.shitchat.server.listener.handler.auth.LoginHandler;
 import de.ancash.shitchat.server.listener.handler.auth.SignUpHandler;
+import de.ancash.shitchat.server.listener.handler.profile.PasswordChangeHandler;
+import de.ancash.shitchat.server.listener.handler.profile.ProfilePicChangeHandler;
 import de.ancash.shitchat.server.listener.handler.profile.UsernameChangeHandler;
 import de.ancash.sockets.events.ServerPacketReceiveEvent;
 import de.ancash.sockets.packet.Packet;
@@ -25,12 +29,16 @@ public class ShitChatPacketListener implements Listener {
 	private final LoginHandler loginHandler;
 	private final SignUpHandler signUpHandler;
 	private final UsernameChangeHandler usernameChange;
+	private final ProfilePicChangeHandler ppChange;
+	private final PasswordChangeHandler pwdChange;
 
 	public ShitChatPacketListener(ShitChatServer server) {
 		this.server = server;
 		loginHandler = new LoginHandler(server.getAccountRegistry());
 		this.signUpHandler = new SignUpHandler(server.getAccountRegistry());
 		usernameChange = new UsernameChangeHandler(server.getAccountRegistry());
+		ppChange = new ProfilePicChangeHandler(server.getAccountRegistry());
+		pwdChange = new PasswordChangeHandler(server.getAccountRegistry());
 	}
 
 	@SuppressWarnings("nls")
@@ -45,7 +53,7 @@ public class ShitChatPacketListener implements Listener {
 		if (scp instanceof AuthenticationPacket) {
 			handleAuthPacket(client, (AuthenticationPacket) scp, p);
 		} else if (scp instanceof SessionedPacket) {
-			handleSessionesPacket(client, (SessionedPacket) scp, p);
+			handleSessionedPacket(client, (SessionedPacket) scp, p);
 		} else
 			throw new IllegalStateException("unhandled packet of type " + scp.getClass());
 
@@ -58,8 +66,12 @@ public class ShitChatPacketListener implements Listener {
 			signUpHandler.signUp(client, (SignUpPacket) scp, packet);
 	}
 
-	private void handleSessionesPacket(Client client, SessionedPacket scp, Packet packet) {
+	private void handleSessionedPacket(Client client, SessionedPacket scp, Packet packet) {
 		if (scp instanceof UsernameChangePacket)
 			usernameChange.changeUsername(client, (UsernameChangePacket) scp, packet);
+		else if (scp instanceof ProfilePicChangePacket)
+			ppChange.changeProfilePic(client, (ProfilePicChangePacket) scp, packet);
+		else if (scp instanceof PasswordChangePacket)
+			pwdChange.changeUsername(client, (PasswordChangePacket) scp, packet);
 	}
 }

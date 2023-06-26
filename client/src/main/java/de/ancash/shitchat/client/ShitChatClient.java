@@ -18,6 +18,7 @@ import de.ancash.shitchat.packet.auth.AuthResultPacket;
 import de.ancash.shitchat.packet.auth.AuthSuccessPacket;
 import de.ancash.shitchat.packet.auth.LoginPacket;
 import de.ancash.shitchat.packet.auth.SignUpPacket;
+import de.ancash.shitchat.packet.profile.PasswordChangePacket;
 import de.ancash.shitchat.packet.profile.ProfileChangeResultPacket;
 import de.ancash.shitchat.packet.profile.ProfilePicChangePacket;
 import de.ancash.shitchat.packet.profile.UsernameChangePacket;
@@ -35,7 +36,8 @@ public abstract class ShitChatClient implements Listener {
 
 	@SuppressWarnings("nls")
 	public static void main(String[] args) throws InterruptedException {
-		ShitChatClient client = new ShitChatClient("localhost", 12345) {
+		ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565) {
+//			ShitChatClient client = new ShitChatClient("localhost", 12345) {
 
 			@Override
 			@EventHandler
@@ -100,14 +102,26 @@ public abstract class ShitChatClient implements Listener {
 				System.out.println("on pp change");
 			}
 
+			@Override
+			public void onChangePasswordFailed(String reason) {
+				System.out.println("pwd change fail: " + reason);
+			}
+
+			@Override
+			public void onChangePassword() {
+				System.out.println("pwd change");
+			}
+
 		};
 		if (client.connect()) {
 			System.out.println("connected");
 			System.out.println(client.login("joe@gmail.com",
-					AuthenticationUtil.hashPassword("joe@gmail.com", "password".toCharArray())));
+					AuthenticationUtil.hashPassword("joe@gmail.com", "pwd".toCharArray())));
 			System.out.println(client.changeUserName(UUID.randomUUID().toString()));
 
 			System.out.println("user: " + client.getUser().getUsername());
+//			client.changePassword(AuthenticationUtil.hashPassword("joe@gmail.com", "password".toCharArray()),
+//					AuthenticationUtil.hashPassword("joe@gmail.com", "pwd".toCharArray()));
 			Thread.sleep(2000);
 			client.disconnect();
 		} else {
@@ -198,6 +212,36 @@ public abstract class ShitChatClient implements Listener {
 	public boolean isAuthenticated() {
 		return state == State.CONNECTED;
 	}
+
+	public Optional<String> changePassword(byte[] oldPass, byte[] newPass) {
+		if (!isAuthenticated()) {
+			onChangePasswordFailed(ShitChatPlaceholder.NOT_AUTHENTICATED);
+			return Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED);
+		}
+		logger.info("change pwd");
+		return changePassword(sendShitChatPacket0(new PasswordChangePacket(sid, oldPass, newPass), true));
+	}
+
+	private Optional<String> changePassword(PacketFuture future) {
+		Optional<ProfileChangeResultPacket> result = future.get(30, TimeUnit.SECONDS);
+		if (!result.isPresent()) {
+			onChangePasswordFailed(ShitChatPlaceholder.INTERNAL_ERROR);
+			return Optional.of(ShitChatPlaceholder.INTERNAL_ERROR);
+		}
+		ProfileChangeResultPacket r = result.get();
+		if (r.wasSuccessful()) {
+			user = r.getNewUser();
+			onChangePassword();
+			;
+			return Optional.empty();
+		}
+		onChangePasswordFailed(r.getReason());
+		return Optional.of(r.getReason());
+	}
+
+	public abstract void onChangePasswordFailed(String reason);
+
+	public abstract void onChangePassword();
 
 	public Optional<String> changePP(byte[] bb) {
 		if (!isAuthenticated()) {
