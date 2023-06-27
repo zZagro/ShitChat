@@ -51,7 +51,8 @@ public class SplashActivity extends AppCompatActivity {
     boolean onRegister = false;
 
     ActivitySplashBinding binding;
-    public static final ShitChatManager client = new ShitChatManager("denzo.algoholics.eu", 25565);
+
+    public static Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,8 @@ public class SplashActivity extends AppCompatActivity {
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.splash_container);
         NavController navController = navHostFragment.getNavController();
+
+        client = new Client("denzo.algoholics.eu", 25565);
 
         AtomicReference<Boolean> connected = new AtomicReference<Boolean>(false);
         Thread t = new Thread(() -> connected.set(client.connect()));
@@ -167,5 +170,68 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public class Client extends ShitChatClient
+    {
+
+        public Client(String address, int port) {
+            super(address, port);
+        }
+
+        @Override
+        public void onChangePasswordFailed(String s) {
+            if (s.equals(ShitChatPlaceholder.WRONG_PASSWORD)) Toast.makeText(SplashActivity.this, "Your current password is incorrect!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onChangePassword() {
+
+        }
+
+        @Override
+        public void onPPChangeFailed(String s) {
+
+        }
+
+        @Override
+        public void onPPChange(User user) {
+
+        }
+
+        @Override
+        public void onUserNameChange(User user) {
+
+        }
+
+        @Override
+        public void onUserNameChangeFailed(String s) {
+
+        }
+
+        @Override
+        public void onAuthenticationFailed(String s) {
+
+        }
+
+        @Override
+        public void onAuthSuccess() {
+
+        }
+
+        @Override
+        public void onConnectFailed() {
+
+        }
+
+        @Override
+        public void onDisconnect() {
+
+        }
+
+        @Override
+        public void onConnect() {
+
+        }
     }
 }

@@ -1,6 +1,8 @@
 package de.zagro.shitchat.ui.password;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -22,6 +24,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import de.ancash.shitchat.util.AuthenticationUtil;
+import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
 import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.databinding.FragmentChangePasswordBinding;
@@ -63,6 +71,7 @@ public class ChangePasswordFragment extends Fragment {
         viewConfirm = binding.passwordConfirmView;
 
         playAnimations();
+        onClick();
     }
 
     private void onClick()
@@ -77,7 +86,7 @@ public class ChangePasswordFragment extends Fragment {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                changePassword();
             }
         });
 
@@ -166,6 +175,7 @@ public class ChangePasswordFragment extends Fragment {
             return;
         }
 
+        String currentPassword = currentPasswordText.getText().toString();
         String input = confirmPasswordText.getText().toString();
         String trimedInput = input.trim();
 
@@ -175,16 +185,42 @@ public class ChangePasswordFragment extends Fragment {
             return;
         }
 
+        currentPasswordText.setText("");
         newPasswordText.setText("");
         confirmPasswordText.setText("");
 
+        byte[] hashedPassword = AuthenticationUtil.hashPassword(SplashActivity.client.getEmail(), input.toCharArray());
+
+        SplashActivity.client.changePassword(stringToPass(currentPassword), hashedPassword);
+
+        SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = userDetails.edit();
+        edit.putString("hashedPassword",  passToString(hashedPassword));
+        edit.apply();
+
         Toast.makeText(requireActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
-        requireActivity().getOnBackPressedDispatcher().onBackPressed();
+
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        intent.putExtra("status", "Signup");
+        startActivity(intent);
+        requireActivity().finish();
+    }
+
+    private static byte[] stringToPass(String s) {
+        byte[] b2 = new byte[s.split(" ").length];
+        int i = 0;
+        for(byte by : Stream.of(s.split(" ")).map(Byte::valueOf).collect(Collectors.toList()))
+            b2[i++] = by;
+        return b2;
+    }
+
+    private static String passToString(byte[] b) {
+        return String.join(" ", IntStream.range(0, b.length).map(i -> b[i]).boxed().map(String::valueOf).collect(Collectors.toList()));
     }
 
     private boolean doPasswordsMatch()
     {
-        return newPasswordText.getText().equals(confirmPasswordText.getText());
+        return newPasswordText.getText().toString().trim().matches(confirmPasswordText.getText().toString().trim());
     }
 
     private void playAnimations()

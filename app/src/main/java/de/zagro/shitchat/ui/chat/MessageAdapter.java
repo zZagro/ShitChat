@@ -39,33 +39,39 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         String currentMessageContent = messages.get(position).getMessage();
         String currentMessageTime = messages.get(position).getTime();
 
-        if (position > 0)
-        {
-            if (messages.get(position - 1).isSent() != sent)
-            {
-                ConstraintLayout.LayoutParams receivedParams = (ConstraintLayout.LayoutParams) holder.messagesReceivedLayout.getRoot().getLayoutParams();
-                receivedParams.topMargin = 80;
-                holder.messagesReceivedLayout.getRoot().setLayoutParams(receivedParams);
-
-                ConstraintLayout.LayoutParams sentParams = (ConstraintLayout.LayoutParams) holder.messagesSentLayout.getRoot().getLayoutParams();
-                sentParams.topMargin = 80;
-                holder.messagesSentLayout.getRoot().setLayoutParams(sentParams);
-            }
-        }
+//        if (position > 0)
+//        {
+//            if (messages.get(position - 1).isSent() != sent)
+//            {
+//                ConstraintLayout.LayoutParams receivedParams = (ConstraintLayout.LayoutParams) holder.messagesReceivedLayout.getRoot().getLayoutParams();
+//                receivedParams.topMargin = 80;
+//                holder.messagesReceivedLayout.getRoot().setLayoutParams(receivedParams);
+//
+//                ConstraintLayout.LayoutParams sentParams = (ConstraintLayout.LayoutParams) holder.messagesSentLayout.getRoot().getLayoutParams();
+//                sentParams.topMargin = 80;
+//                holder.messagesSentLayout.getRoot().setLayoutParams(sentParams);
+//            }
+//        }
 
         if (sent)
         {
             holder.messagesReceivedLayout.getRoot().setVisibility(View.INVISIBLE);
+            holder.messagesSentLayout.getRoot().setVisibility(View.VISIBLE);
 
             holder.messagesSentLayout.messageSentTextContent.setText(currentMessageContent);
             holder.messagesSentLayout.messageSentTextTime.setText(currentMessageTime);
+
+            Log.d("SENT", String.valueOf(holder.messagesSentLayout.getRoot().getVisibility()));
         }
         else
         {
             holder.messagesSentLayout.getRoot().setVisibility(View.INVISIBLE);
+            holder.messagesReceivedLayout.getRoot().setVisibility(View.VISIBLE);
 
             holder.messagesReceivedLayout.messageReceivedTextContent.setText(currentMessageContent);
             holder.messagesReceivedLayout.messageReceivedTextTime.setText(currentMessageTime);
+
+            Log.d("RECEIVED", String.valueOf(holder.messagesReceivedLayout.getRoot().getVisibility()));
         }
     }
 

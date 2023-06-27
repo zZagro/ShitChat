@@ -72,6 +72,19 @@ public class Chat extends Fragment {
         messageList.add(new Message("What are you doing?", "12:03", false));
         messageList.add(new Message("Nothing", "12:04", true));
         messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", false));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", false));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", false));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
 
         loadMessages();
     }
