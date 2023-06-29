@@ -9,6 +9,7 @@ import de.ancash.sockets.packet.Packet;
 
 public class HandlerUtil {
 
+	@SuppressWarnings("nls")
 	public static boolean validateSID(AccountRegistry registry, Client client, SessionedPacket sp, Packet packet) {
 		if (!client.getSID().equals(sp.getSessionId()) || !registry.isSessionValid(sp.getSessionId())) {
 			packet.setSerializable(

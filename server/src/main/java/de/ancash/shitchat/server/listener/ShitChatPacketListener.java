@@ -12,6 +12,7 @@ import de.ancash.shitchat.packet.auth.SignUpPacket;
 import de.ancash.shitchat.packet.profile.PasswordChangePacket;
 import de.ancash.shitchat.packet.profile.ProfilePicChangePacket;
 import de.ancash.shitchat.packet.profile.UsernameChangePacket;
+import de.ancash.shitchat.packet.user.SearchUserPacket;
 import de.ancash.shitchat.server.ShitChatServer;
 import de.ancash.shitchat.server.client.Client;
 import de.ancash.shitchat.server.listener.handler.auth.LoginHandler;
@@ -19,6 +20,7 @@ import de.ancash.shitchat.server.listener.handler.auth.SignUpHandler;
 import de.ancash.shitchat.server.listener.handler.profile.PasswordChangeHandler;
 import de.ancash.shitchat.server.listener.handler.profile.ProfilePicChangeHandler;
 import de.ancash.shitchat.server.listener.handler.profile.UsernameChangeHandler;
+import de.ancash.shitchat.server.listener.handler.user.SearchUserHandler;
 import de.ancash.sockets.events.ServerPacketReceiveEvent;
 import de.ancash.sockets.packet.Packet;
 
@@ -31,6 +33,7 @@ public class ShitChatPacketListener implements Listener {
 	private final UsernameChangeHandler usernameChange;
 	private final ProfilePicChangeHandler ppChange;
 	private final PasswordChangeHandler pwdChange;
+	private final SearchUserHandler searchUser;
 
 	public ShitChatPacketListener(ShitChatServer server) {
 		this.server = server;
@@ -39,6 +42,7 @@ public class ShitChatPacketListener implements Listener {
 		usernameChange = new UsernameChangeHandler(server.getAccountRegistry());
 		ppChange = new ProfilePicChangeHandler(server.getAccountRegistry());
 		pwdChange = new PasswordChangeHandler(server.getAccountRegistry());
+		searchUser = new SearchUserHandler(server.getAccountRegistry());
 	}
 
 	@SuppressWarnings("nls")
@@ -72,6 +76,8 @@ public class ShitChatPacketListener implements Listener {
 		else if (scp instanceof ProfilePicChangePacket)
 			ppChange.changeProfilePic(client, (ProfilePicChangePacket) scp, packet);
 		else if (scp instanceof PasswordChangePacket)
-			pwdChange.changeUsername(client, (PasswordChangePacket) scp, packet);
+			pwdChange.changePassword(client, (PasswordChangePacket) scp, packet);
+		else if (scp instanceof SearchUserPacket)
+			searchUser.searchUser(client, (SearchUserPacket) scp, packet);
 	}
 }

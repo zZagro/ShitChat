@@ -10,6 +10,8 @@ public final class ShitChatKeys {
 	public static final String UID = "uid";
 	public static final String DIRECT_CHANNELS = "directChannels";
 	public static final String GROUP_CHANNELS = "groupChannels";
+	public static final String PENDING_FRIEND_REQUESTS = "pendingFriendRequests";
+	public static final String FRIEND_LIST = "friends";
 
 	private ShitChatKeys() {
 	}

@@ -4,21 +4,21 @@ import java.util.UUID;
 
 import de.ancash.shitchat.ShitChatImage;
 import de.ancash.shitchat.packet.IImagePacket;
-import de.ancash.shitchat.user.User;
+import de.ancash.shitchat.user.FullUser;
 
 public class AuthSuccessPacket extends AuthResultPacket implements IImagePacket {
 
 	private static final long serialVersionUID = 3272540097556748864L;
 
 	private final UUID sId;
-	private final User user;
+	private final FullUser user;
 
-	public AuthSuccessPacket(UUID sId, User user) {
+	public AuthSuccessPacket(UUID sId, FullUser user) {
 		this.sId = sId;
 		this.user = user;
 	}
 
-	public User getUser() {
+	public FullUser getUser() {
 		return user;
 	}
 

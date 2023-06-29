@@ -3,7 +3,9 @@ package de.ancash.shitchat.server.account;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +38,14 @@ public class AccountRegistry extends Thread {
 		if (!accountsDir.exists())
 			accountsDir.mkdirs();
 		loadAccounts();
+	}
+
+	public Set<String> getAllUsernames() {
+		return lock.readLock(() -> new HashSet<>(uidByUsername.keySet()));
+	}
+
+	public UUID getUIDByUsername(String un) {
+		return uidByUsername.get(un);
 	}
 
 	private void loadAccounts() throws InvalidConfigurationException, IOException {
@@ -199,6 +209,8 @@ public class AccountRegistry extends Thread {
 				yf.set(ShitChatKeys.UID, id.toString());
 				yf.set(ShitChatKeys.DIRECT_CHANNELS, new ArrayList<>());
 				yf.set(ShitChatKeys.GROUP_CHANNELS, new ArrayList<>());
+				yf.set(ShitChatKeys.FRIEND_LIST, new ArrayList<>());
+				yf.set(ShitChatKeys.PENDING_FRIEND_REQUESTS, new ArrayList<>());
 				yf.save();
 				uidByEmail.put(email, id);
 				uidByUsername.put(name, id);

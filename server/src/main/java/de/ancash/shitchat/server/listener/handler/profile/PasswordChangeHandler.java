@@ -21,23 +21,31 @@ public class PasswordChangeHandler {
 	}
 
 	@SuppressWarnings("nls")
-	public void changeUsername(Client client, PasswordChangePacket ucp, Packet packet) {
-		System.out.println("password change packet: " + client.getRemoteAddress());
-		if (!HandlerUtil.validateSID(registry, client, ucp, packet))
+	public void changePassword(Client cl, PasswordChangePacket ucp, Packet packet) {
+		if (!HandlerUtil.validateSID(registry, cl, ucp, packet)) {
+			System.out.println(cl.getRemoteAddress() + " change pwd invalid sid");
+			packet.setSerializable(
+					new ProfileChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.INVALID_SESSION));
+			cl.putWrite(packet.toBytes());
 			return;
+		}
 		Account acc = registry.getSession(ucp.getSessionId()).getAccount();
 		if (acc == null) {
+			System.out.println(cl.getRemoteAddress() + " change pwd internal error");
 			packet.setSerializable(
 					new ProfileChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.INTERNAL_ERROR));
 		} else {
 			byte[] realOld = acc.getPassword();
 			if (!Arrays.equals(realOld, ucp.getOldPass()) || ucp.getNewPass().length != 32) {
+				System.out.println(cl.getRemoteAddress() + " change pwd wrong password");
 				packet.setSerializable(
 						new ProfileChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.WRONG_PASSWORD));
 			} else {
 				try {
 					acc.setPassword(ucp.getNewPass());
-					packet.setSerializable(new ProfileChangeResultPacket(ucp.getSessionId(), acc.toUser(), null));
+					packet.setSerializable(
+							new ProfileChangeResultPacket(ucp.getSessionId(), acc.toFullUser(registry), null));
+					System.out.println(cl.getRemoteAddress() + " change pwd successful");
 				} catch (IOException e) {
 					packet.setSerializable(new ProfileChangeResultPacket(ucp.getSessionId(), null,
 							ShitChatPlaceholder.INTERNAL_ERROR));
@@ -46,7 +54,6 @@ public class PasswordChangeHandler {
 				}
 			}
 		}
-
-		client.putWrite(packet.toBytes());
+		cl.putWrite(packet.toBytes());
 	}
 }

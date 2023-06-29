@@ -17,17 +17,24 @@ public class ProfilePicChangeHandler {
 		this.registry = registry;
 	}
 
-	public void changeProfilePic(Client client, ProfilePicChangePacket ppcp, Packet packet) {
-		System.out.println("pp change packet: " + client.getRemoteAddress());
-		if (!HandlerUtil.validateSID(registry, client, ppcp, packet))
+	@SuppressWarnings("nls")
+	public void changeProfilePic(Client cl, ProfilePicChangePacket ppcp, Packet packet) {
+		if (!HandlerUtil.validateSID(registry, cl, ppcp, packet)) {
+			System.out.println(cl.getRemoteAddress() + " change pp invalid sid");
+			packet.setSerializable(
+					new ProfileChangeResultPacket(ppcp.getSessionId(), null, ShitChatPlaceholder.INVALID_SESSION));
+			cl.putWrite(packet.toBytes());
 			return;
+		}
 		Account acc = registry.updateProfilePic(ppcp.getSessionId(), ppcp.getImage().asBytes());
 		if (acc == null) {
+			System.out.println(cl.getRemoteAddress() + " change pp internal error");
 			packet.setSerializable(
 					new ProfileChangeResultPacket(ppcp.getSessionId(), null, ShitChatPlaceholder.INTERNAL_ERROR));
 		} else {
-			packet.setSerializable(new ProfileChangeResultPacket(ppcp.getSessionId(), acc.toUser(), null));
+			System.out.println(cl.getRemoteAddress() + " change pp successful");
+			packet.setSerializable(new ProfileChangeResultPacket(ppcp.getSessionId(), acc.toFullUser(registry), null));
 		}
-		client.putWrite(packet.toBytes());
+		cl.putWrite(packet.toBytes());
 	}
 }

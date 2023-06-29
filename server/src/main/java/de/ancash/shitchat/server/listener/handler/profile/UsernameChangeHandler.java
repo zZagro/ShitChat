@@ -18,22 +18,29 @@ public class UsernameChangeHandler {
 	}
 
 	@SuppressWarnings("nls")
-	public void changeUsername(Client client, UsernameChangePacket ucp, Packet packet) {
-		System.out.println("user name change packet: " + client.getRemoteAddress());
-		if (!HandlerUtil.validateSID(registry, client, ucp, packet))
+	public void changeUsername(Client cl, UsernameChangePacket ucp, Packet packet) {
+		if (!HandlerUtil.validateSID(registry, cl, ucp, packet)) {
+			System.out.println(cl.getRemoteAddress() + " change username invalid sid");
+			packet.setSerializable(
+					new ProfileChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.INVALID_SESSION));
+			cl.putWrite(packet.toBytes());
 			return;
-		else if (registry.isUsernameUsed(ucp.getNewUserName()))
+		} else if (registry.isUsernameUsed(ucp.getNewUserName())) {
+			System.out.println(cl.getRemoteAddress() + " change username username already used");
 			packet.setSerializable(new ProfileChangeResultPacket(ucp.getSessionId(), null,
 					ShitChatPlaceholder.USERNAME_ALREADY_EXISTS));
-		else {
+		} else {
 			Account acc = registry.updateUsername(ucp.getSessionId(), ucp.getNewUserName());
 			if (acc == null) {
+				System.out.println(cl.getRemoteAddress() + " change username internal error");
 				packet.setSerializable(
 						new ProfileChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.INTERNAL_ERROR));
 			} else {
-				packet.setSerializable(new ProfileChangeResultPacket(ucp.getSessionId(), acc.toUser(), null));
+				System.out.println(cl.getRemoteAddress() + " change username successful");
+				packet.setSerializable(
+						new ProfileChangeResultPacket(ucp.getSessionId(), acc.toFullUser(registry), null));
 			}
 		}
-		client.putWrite(packet.toBytes());
+		cl.putWrite(packet.toBytes());
 	}
 }

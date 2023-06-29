@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +20,8 @@ import org.simpleyaml.configuration.file.YamlFile;
 import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 import de.ancash.shitchat.ShitChatImage;
+import de.ancash.shitchat.user.FriendList;
+import de.ancash.shitchat.user.FullUser;
 import de.ancash.shitchat.user.User;
 
 public class Account {
@@ -27,12 +31,12 @@ public class Account {
 	private String email;
 	private UUID uid;
 	private File profilePicFile;
+	private List<UUID> friends;
+	private List<UUID> pendingFriends;
 	private byte[] pass;
 	private final YamlFile yml;
 	private long lastAccess = System.currentTimeMillis();
 	private final ConcurrentHashMap<UUID, Session> sessions = new ConcurrentHashMap<>();
-	private final Set<UUID> directChannels = new HashSet<>();
-	private final Set<UUID> groupChannels = new HashSet<>();
 
 	@SuppressWarnings("nls")
 	Account(File file) throws InvalidConfigurationException, IOException {
@@ -60,6 +64,12 @@ public class Account {
 		return new User(uid, username, getProfilePic());
 	}
 
+	public FullUser toFullUser(AccountRegistry registry) {
+		return new FullUser(uid, username, getProfilePic(), new FriendList(
+				friends.stream().map(registry::getAccount).map(Account::toUser).collect(Collectors.toList()),
+				pendingFriends.stream().map(registry::getAccount).map(Account::toUser).collect(Collectors.toList())));
+	}
+
 	public Session getSession(UUID id) {
 		return sessions.get(id);
 	}
@@ -72,6 +82,7 @@ public class Account {
 		return sessions.size();
 	}
 
+	@SuppressWarnings("nls")
 	public ShitChatImage getProfilePic() {
 		try {
 			return new ShitChatImage(profilePicFile.exists() ? Files.readAllBytes(profilePicFile.toPath()) : null);
@@ -133,18 +144,18 @@ public class Account {
 		loadFromFile();
 	}
 
+	@SuppressWarnings("nls")
 	public void setProfilePic(ShitChatImage img) throws IOException {
 		File to = new File(file.getParentFile().getPath() + "/" + uid + "-pp");
 		to.delete();
 		to.createNewFile();
-		System.out.println(to + " writing " + img.asBytes().length);
 		Files.write(to.toPath(), img.asBytes(), StandardOpenOption.APPEND);
 		YamlFile yml = new YamlFile(file);
 		yml.load();
 		yml.set(PROFILE_PIC_FILE, to.getPath());
 		yml.save();
 		loadFromFile();
-		System.out.println("done!");
+		System.out.println("wrote " + img.asBytes().length + " to " + to);
 	}
 
 	private void loadFromFile() throws InvalidConfigurationException, IOException {
@@ -152,6 +163,10 @@ public class Account {
 		username = yml.getString(USER_NAME);
 		uid = UUID.fromString(yml.getString(UID));
 		email = yml.getString(USER_EMAIL);
+		pendingFriends = Optional.ofNullable(yml.getStringList(PENDING_FRIEND_REQUESTS)).orElse(new ArrayList<>())
+				.stream().map(UUID::fromString).collect(Collectors.toList());
+		friends = Optional.ofNullable(yml.getStringList(FRIEND_LIST)).orElse(new ArrayList<>()).stream()
+				.map(UUID::fromString).collect(Collectors.toList());
 		List<Byte> temp = yml.getByteList(USER_PASSWORD);
 		pass = new byte[temp.size()];
 		profilePicFile = new File(yml.getString(PROFILE_PIC_FILE));
