@@ -108,6 +108,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(requireActivity(), ChangeUsernameActivity.class);
                 startActivity(intent);
+                requireActivity().finish();
             }
         };
 
@@ -139,6 +140,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(requireActivity(), ChangePasswordActivity.class);
                 startActivity(intent);
+                requireActivity().finish();
             }
         });
     }

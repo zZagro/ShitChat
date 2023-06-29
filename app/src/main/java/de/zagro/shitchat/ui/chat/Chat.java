@@ -59,10 +59,23 @@ public class Chat extends Fragment {
 
         messageList = new ArrayList<>();
         addMessages();
+        onClick();
 
 //        ImageView imageView = new ImageView(requireActivity());
 //        imageView.setImageResource(R.drawable.circle_green);
 //        ((ConstraintLayout) view).addView(imageView);
+    }
+
+    private void onClick()
+    {
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.inputBottomChat.clearFocus();
+                InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.inputBottomChat.getWindowToken(), 0);
+            }
+        });
     }
 
     private void addMessages()
@@ -70,6 +83,7 @@ public class Chat extends Fragment {
         messageList.add(new Message("Hello, how are you?", "12:02", true));
         messageList.add(new Message("I'm fine?", "12:03", false));
         messageList.add(new Message("What are you doing?", "12:03", false));
+        messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf?", "12:03", false));
         messageList.add(new Message("Nothing", "12:04", true));
         messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
         messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
@@ -85,7 +99,6 @@ public class Chat extends Fragment {
         messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
         messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
         messageList.add(new Message("dfslkfjsdlkfjs dsljkfns,dkfj sdflksjfddlsk dsfkjfflkdsjfsdfj sdflksjdfldskjf", "12:05", true));
-
         loadMessages();
     }
 

@@ -125,12 +125,8 @@ public class LoginFragment extends Fragment {
         if (optional.isPresent())
         {
             String errorMessage = optional.get();
-            if (errorMessage.equals(ShitChatPlaceholder.WRONG_PASSWORD))
-                Toast.makeText(requireActivity(), "Wrong Password!", Toast.LENGTH_SHORT).show();
-            if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_NONEXISTENT))
-                Toast.makeText(requireActivity(), "The Account does not exist!", Toast.LENGTH_SHORT).show();
-            if (errorMessage.equals(ShitChatPlaceholder.INTERNAL_ERROR))
-                Toast.makeText(requireActivity(), "Something went wrong! Try again later!", Toast.LENGTH_SHORT).show();
+
+            SplashActivity.client.sendErrorMessages(errorMessage, requireActivity());
         }
         else
         {

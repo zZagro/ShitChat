@@ -181,7 +181,7 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         public void onChangePasswordFailed(String s) {
-            if (s.equals(ShitChatPlaceholder.WRONG_PASSWORD)) Toast.makeText(SplashActivity.this, "Your current password is incorrect!", Toast.LENGTH_SHORT).show();
+
         }
 
         @Override
@@ -232,6 +232,36 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void onConnect() {
 
+        }
+
+        public void sendErrorMessages(String errorMessage, Context context)
+        {
+            if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_ALREADY_EXISTS))
+                Toast.makeText(context, "The Account already exists!", Toast.LENGTH_SHORT).show();
+
+            if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_NONEXISTENT))
+                Toast.makeText(context, "The Account does not exist!", Toast.LENGTH_SHORT).show();
+
+            if (errorMessage.equals(ShitChatPlaceholder.INTERNAL_ERROR))
+                Toast.makeText(context, "Something went wrong! Try again later!", Toast.LENGTH_SHORT).show();
+
+            if (errorMessage.equals(ShitChatPlaceholder.INVALID_SESSION))
+                Toast.makeText(context, "Your Session is invalid!", Toast.LENGTH_SHORT).show();
+
+            if (errorMessage.equals(ShitChatPlaceholder.INVALID_USERNAME))
+                Toast.makeText(context, "The Username is not correct!", Toast.LENGTH_SHORT).show();
+
+            if (errorMessage.equals(ShitChatPlaceholder.NOT_AUTHENTICATED))
+                Toast.makeText(context, "You are not signed in!", Toast.LENGTH_SHORT).show();
+
+            if (errorMessage.equals(ShitChatPlaceholder.NOT_CONNECTED))
+                Toast.makeText(context, "You are not connected! Restart the app.", Toast.LENGTH_SHORT).show();
+
+            if (errorMessage.equals(ShitChatPlaceholder.USERNAME_ALREADY_EXISTS))
+                Toast.makeText(context, "The username you are trying to use already exists!", Toast.LENGTH_SHORT).show();
+
+            if (errorMessage.equals(ShitChatPlaceholder.WRONG_PASSWORD))
+                Toast.makeText(context, "Wrong Password!", Toast.LENGTH_SHORT).show();
         }
     }
 }

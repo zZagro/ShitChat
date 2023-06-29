@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +20,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import de.ancash.shitchat.ShitChatPlaceholder;
 import de.ancash.shitchat.util.AuthenticationUtil;
 import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
@@ -43,6 +50,16 @@ public class ChangePasswordFragment extends Fragment {
     private MaterialButton confirmButton;
 
     private FragmentChangePasswordBinding binding;
+
+    OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            Intent intent = new Intent(requireContext(), MainActivity.class);
+            intent.putExtra("status", "Signup");
+            startActivity(intent);
+            requireActivity().finish();
+        }
+    };
 
     @Nullable
     @Override
@@ -69,6 +86,8 @@ public class ChangePasswordFragment extends Fragment {
         viewCurrent = binding.passwordCurrentView;
         viewNew = binding.passwordNewView;
         viewConfirm = binding.passwordConfirmView;
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
 
         playAnimations();
         onClick();
@@ -176,34 +195,72 @@ public class ChangePasswordFragment extends Fragment {
         }
 
         String currentPassword = currentPasswordText.getText().toString();
-        String input = confirmPasswordText.getText().toString();
-        String trimedInput = input.trim();
 
-        if (TextUtils.isEmpty(trimedInput))
+        String inputNew = newPasswordText.getText().toString();
+        String trimmedInputNew = inputNew.trim();
+
+        String inputConfirm = confirmPasswordText.getText().toString();
+        String trimmedInputConfirm = inputConfirm.trim();
+
+        if (TextUtils.isEmpty(trimmedInputConfirm) || trimmedInputNew.length() < 8)
         {
-            Toast.makeText(requireActivity(), "Nah, that's not gonna work my friend.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Password has to be at least 8 Character Long!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        currentPasswordText.setText("");
-        newPasswordText.setText("");
-        confirmPasswordText.setText("");
+        if (!trimmedInputConfirm.matches(inputConfirm) || !trimmedInputNew.matches(inputNew))
+        {
+            Toast.makeText(requireActivity(), "No Spaces allowed!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        byte[] hashedPassword = AuthenticationUtil.hashPassword(SplashActivity.client.getEmail(), input.toCharArray());
+        Log.d("EMAIL", SplashActivity.client.getEmail());
+        Log.d("CURRENT PASSWORD", currentPassword);
 
-        SplashActivity.client.changePassword(stringToPass(currentPassword), hashedPassword);
+        Log.d("CONFIRM PASSWORD", inputNew);
+        Log.d("CONFIRM PASSWORD TRIMMED", trimmedInputNew);
 
-        SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = userDetails.edit();
-        edit.putString("hashedPassword",  passToString(hashedPassword));
-        edit.apply();
+        Log.d("CONFIRM PASSWORD", inputConfirm);
+        Log.d("CONFIRM PASSWORD TRIMMED", trimmedInputConfirm);
 
-        Toast.makeText(requireActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler();
 
-        Intent intent = new Intent(requireContext(), MainActivity.class);
-        intent.putExtra("status", "Signup");
-        startActivity(intent);
-        requireActivity().finish();
+        final Runnable r = new Runnable() {
+            public void run() {
+                byte[] hashedPasswordNew = AuthenticationUtil.hashPassword(SplashActivity.client.getEmail(), inputConfirm.toCharArray());
+                Log.d("HASHED PW WITH RUNNABLE", Arrays.toString(hashedPasswordNew));
+
+                byte[] hashedPasswordOld = AuthenticationUtil.hashPassword(SplashActivity.client.getEmail(), currentPassword.toCharArray());
+
+                Optional<String> optional = SplashActivity.client.changePassword(hashedPasswordOld, hashedPasswordNew);
+
+                if (optional.isPresent())
+                {
+                    String errorMessage = optional.get();
+
+                    SplashActivity.client.sendErrorMessages(errorMessage, requireActivity());
+                }
+                else
+                {
+                    currentPasswordText.setText("");
+                    newPasswordText.setText("");
+                    confirmPasswordText.setText("");
+
+                    SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = userDetails.edit();
+                    edit.putString("hashedPassword",  passToString(hashedPasswordNew));
+                    edit.apply();
+
+                    Toast.makeText(requireActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(requireContext(), MainActivity.class);
+                    intent.putExtra("status", "Signup");
+                    startActivity(intent);
+                    requireActivity().finish();
+                }
+            }
+        };
+        handler.postDelayed(r, 100);
     }
 
     private static byte[] stringToPass(String s) {

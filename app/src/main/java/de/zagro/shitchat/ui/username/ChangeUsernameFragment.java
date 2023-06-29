@@ -1,6 +1,7 @@
 package de.zagro.shitchat.ui.username;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.transition.ChangeBounds;
@@ -17,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,6 +26,7 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.button.MaterialButton;
 
+import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
 import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.databinding.FragmentChangeUsernameBinding;
@@ -36,6 +39,16 @@ public class ChangeUsernameFragment extends Fragment {
     private MaterialButton confirmButton;
 
     private FragmentChangeUsernameBinding binding;
+
+    OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            Intent intent = new Intent(requireContext(), MainActivity.class);
+            intent.putExtra("status", "Signup");
+            startActivity(intent);
+            requireActivity().finish();
+        }
+    };
 
     @Nullable
     @Override
@@ -54,6 +67,8 @@ public class ChangeUsernameFragment extends Fragment {
         newUsernameText = binding.usernameNewText;
         confirmButton = binding.usernameBtnConfirm;
         backButton = binding.usernameBackButton;
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
 
         setCurrentUsername();
         playAnimations();
