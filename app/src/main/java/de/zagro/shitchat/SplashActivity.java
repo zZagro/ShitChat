@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -216,6 +217,16 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         public void onAuthSuccess() {
+
+        }
+
+        @Override
+        public void onSearchUser(String s, List<User> list) {
+
+        }
+
+        @Override
+        public void onSearchUserFailed(String s) {
 
         }
 

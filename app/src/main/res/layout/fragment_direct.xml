@@ -5,7 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.direct.DirectFragment"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    android:animateLayoutChanges="true">
+
+    <View
+        android:id="@+id/view_direct_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background_color"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintDimensionRatio="5.2:1"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/icon_toolbar"
@@ -14,14 +28,14 @@
         android:layout_gravity="start"
         android:clickable="true"
         android:src="@drawable/ic_app_default"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/view_direct_top"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintWidth_percent="0.13"
         app:layout_constraintHorizontal_bias="0.07"
-        app:layout_constraintVertical_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
 
     <TextView
         android:id="@+id/splash_title"
@@ -35,9 +49,9 @@
         android:text="@string/app_title"
         android:textColor="@color/neutrals_8"
         android:textStyle="bold"
+        app:layout_constraintDimensionRatio="3:1"
         app:layout_constraintBottom_toBottomOf="@+id/icon_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.055"
         app:layout_constraintStart_toEndOf="@id/icon_toolbar"
         app:layout_constraintTop_toTopOf="@+id/icon_toolbar"
         app:layout_constraintWidth_percent="0.33"
@@ -61,7 +75,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/splash_title"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/direct_search"
-        app:layout_constraintHeight_percent="0.055"
+        app:layout_constraintWidth_percent="0.12"
         app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/splash_title"
@@ -75,42 +89,76 @@
         app:layout_constraintBottom_toBottomOf="@+id/materialButton"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintWidth_percent="0.065"
         app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/materialButton" />
 
+    <View
+        android:id="@+id/view_direct_search_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#181A20"
+        android:layout_marginTop="12dp"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintDimensionRatio="8:1"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintBottom_toBottomOf="@+id/view_direct_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:translationZ="-2dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/direct_search_edittext"
+        android:inputType="text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:autoSizePresetSizes="@array/max14"
+        android:backgroundTint="@color/neutrals_8"
+        android:textColor="@color/white"
+        android:fontFamily="@font/dm_sans_medium"
+        app:layout_constraintBottom_toBottomOf="@id/view_direct_search_bg"
+        app:layout_constraintEnd_toEndOf="@id/view_direct_search_bg"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/view_direct_search_bg"
+        app:layout_constraintTop_toTopOf="@id/view_direct_search_bg"
+        app:layout_constraintVertical_bias="0.5"
+        android:translationZ="-1dp"
+        app:layout_constraintWidth_percent="0.8" />
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/splash_title"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.875"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintTop_toBottomOf="@id/view_direct_search_bg"
         app:layout_constraintVertical_bias="0.7">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical">
 
             <include
+                layout="@layout/recent_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/recent_message"/>
+                android:layout_marginTop="10dp" />
 
             <include
+                layout="@layout/user_display_last_sent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_sent"/>
+                android:layout_marginTop="10dp" />
 
             <include
+                layout="@layout/user_display_last_received"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/user_display_last_received"/>
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
 
