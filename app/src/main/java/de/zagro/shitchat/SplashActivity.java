@@ -221,7 +221,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onSearchUser(String s, List<User> list) {
+        public void onSearchUser(List<User> list) {
 
         }
 

@@ -1,5 +1,6 @@
 package de.zagro.shitchat.ui.direct;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -15,7 +16,9 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import de.zagro.shitchat.MainActivity;
 import de.zagro.shitchat.R;
+import de.zagro.shitchat.RequestActivity;
 import de.zagro.shitchat.databinding.FragmentDirectBinding;
 
 public class DirectFragment extends Fragment {
@@ -38,6 +41,20 @@ public class DirectFragment extends Fragment {
         binding.directSearchEdittext.setFocusable(false);
 
         toggleSearchBar();
+        userRequests();
+    }
+
+    private void userRequests()
+    {
+        binding.materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireActivity(), RequestActivity.class);
+                intent.putExtra("request", "Direct");
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
     }
 
     private void toggleSearchBar()

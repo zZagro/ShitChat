@@ -1,5 +1,6 @@
 package de.zagro.shitchat.ui.home;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import de.ancash.shitchat.ShitChatImage;
 import de.ancash.shitchat.client.ShitChatClient;
 import de.zagro.shitchat.R;
+import de.zagro.shitchat.RequestActivity;
 import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.User;
 import de.zagro.shitchat.databinding.FragmentHomeBinding;
@@ -52,6 +54,7 @@ public class HomeFragment extends Fragment {
         addToUsers();
         showRecentMessages(view);
         onClick();
+        userRequests();
     }
 
     private void onClick()
@@ -75,6 +78,19 @@ public class HomeFragment extends Fragment {
 
         binding.homeRecentGroupsText.setOnClickListener(groupsMessageListener);
         binding.groupsArrow.setOnClickListener(groupsMessageListener);
+    }
+
+    private void userRequests()
+    {
+        binding.materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireActivity(), RequestActivity.class);
+                intent.putExtra("request", "Home");
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
     }
 
     protected void addToUsers()
