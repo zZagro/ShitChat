@@ -1,45 +1,42 @@
 package de.zagro.shitchat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Debug;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import de.ancash.shitchat.ShitChatPlaceholder;
 import de.ancash.shitchat.client.ShitChatClient;
 import de.ancash.shitchat.user.User;
-import de.ancash.shitchat.util.AuthenticationUtil;
 import de.zagro.shitchat.databinding.ActivitySplashBinding;
-import de.zagro.shitchat.ui.login.LoginFragment;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -57,6 +54,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        checkVersion();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
@@ -171,6 +169,58 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkVersion()
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("App").document("general-information");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists())
+                    {
+                        double firestoreVersion = document.getDouble("version");
+                        double installedVersion = getVersion();
+
+                        if (installedVersion < firestoreVersion)
+                        {
+                            Toast.makeText(SplashActivity.this, "Update to the latest version!", Toast.LENGTH_SHORT).show();
+                            finish();
+                            System.exit(0);
+                        }
+                    }
+                    else
+                    {
+                        Log.d("FIRESTORE", "No such document");
+                        Toast.makeText(SplashActivity.this, "Internal error: Database Document missing!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        System.exit(0);
+                    }
+                }
+                else
+                {
+                    Log.d("FIRESTORE", "get failed with ", task.getException());
+                    Toast.makeText(SplashActivity.this, "Internal error: Database error!", Toast.LENGTH_SHORT).show();
+                    finish();
+                    System.exit(0);
+                }
+            }
+        });
+    }
+
+    public double getVersion()
+    {
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String versionName = packageInfo.versionName;
+            return Double.parseDouble(versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public class Client extends ShitChatClient
