@@ -59,23 +59,26 @@ public class Chat extends Fragment {
 
         messageList = new ArrayList<>();
         addMessages();
-        onClick();
+        clearFocus();
 
 //        ImageView imageView = new ImageView(requireActivity());
 //        imageView.setImageResource(R.drawable.circle_green);
 //        ((ConstraintLayout) view).addView(imageView);
     }
 
-    private void onClick()
+    private void clearFocus()
     {
-        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener clearFocusListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.inputBottomChat.clearFocus();
+                inputText.clearFocus();
                 InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(binding.inputBottomChat.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0);
             }
-        });
+        };
+
+        binding.getRoot().setOnClickListener(clearFocusListener);
+        binding.recyclerView.setOnClickListener(clearFocusListener);
     }
 
     private void addMessages()
