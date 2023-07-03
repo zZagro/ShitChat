@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +21,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import de.zagro.shitchat.R;
 import de.zagro.shitchat.databinding.FragmentChatBinding;
@@ -60,10 +68,7 @@ public class Chat extends Fragment {
         messageList = new ArrayList<>();
         addMessages();
         clearFocus();
-
-//        ImageView imageView = new ImageView(requireActivity());
-//        imageView.setImageResource(R.drawable.circle_green);
-//        ((ConstraintLayout) view).addView(imageView);
+        sendMessage();
     }
 
     private void clearFocus()
@@ -141,8 +146,44 @@ public class Chat extends Fragment {
                 if (getMessage().matches("")) return;
                 String message = getMessage();
                 inputText.setText("");
+                messageList.add(new Message(message, getCurrentUTC(), true));
+                loadMessages();
+                Toast.makeText(requireActivity(), getCurrentUTC(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public String getCurrentUTC(){
+        Date time = Calendar.getInstance().getTime();
+//        SimpleDateFormat outputFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputFmt = new SimpleDateFormat("HH:mm");
+        outputFmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return outputFmt.format(time);
+    }
+
+    private void saveMessage()
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> city = new HashMap<>();
+        city.put("name", "Los Angeles");
+        city.put("state", "CA");
+        city.put("country", "USA");
+
+        db.collection("cities").document("LA")
+                .set(city)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("TAG", "Error writing document", e);
+                    }
+                });
     }
 
     private String getMessage()

@@ -41,16 +41,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         String currentMessageContent = messages.get(position).getMessage();
         String currentMessageTime = messages.get(position).getTime();
 
-        if (position > 0)
-        {
-            if (messages.get(position - 1).isSent() != sent)
-            {
-                RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.messagesReceivedLayout.getRoot().getRootView().getLayoutParams();
-                layoutParams.topMargin = 80;
-                holder.messagesReceivedLayout.getRoot().getRootView().setLayoutParams(layoutParams);
-            }
-        }
-
         if (sent)
         {
             holder.messagesReceivedLayout.getRoot().setVisibility(View.GONE);
@@ -66,6 +56,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
             holder.messagesReceivedLayout.messageReceivedTextContent.setText(currentMessageContent);
             holder.messagesReceivedLayout.messageReceivedTextTime.setText(currentMessageTime);
+        }
+
+        if (position > 0)
+        {
+            if (messages.get(position - 1).isSent() != sent)
+            {
+                RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.messagesReceivedLayout.getRoot().getRootView().getLayoutParams();
+                layoutParams.topMargin = 80;
+                holder.messagesReceivedLayout.getRoot().getRootView().setLayoutParams(layoutParams);
+            }
         }
     }
 
