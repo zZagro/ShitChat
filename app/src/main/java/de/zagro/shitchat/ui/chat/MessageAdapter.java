@@ -63,10 +63,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             if (messages.get(position - 1).isSent() != sent)
             {
                 RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.messagesReceivedLayout.getRoot().getRootView().getLayoutParams();
-                layoutParams.topMargin = 80;
+                layoutParams.topMargin = 32;
                 holder.messagesReceivedLayout.getRoot().getRootView().setLayoutParams(layoutParams);
+                return;
             }
         }
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.messagesReceivedLayout.getRoot().getRootView().getLayoutParams();
+        layoutParams.topMargin = 0;
+        holder.messagesReceivedLayout.getRoot().getRootView().setLayoutParams(layoutParams);
     }
 
     @Override
