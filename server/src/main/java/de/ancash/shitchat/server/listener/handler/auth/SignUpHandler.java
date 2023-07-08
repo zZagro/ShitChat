@@ -42,7 +42,7 @@ public class SignUpHandler {
 				return;
 			}
 			FullUser user = acc.toFullUser(registry);
-			Session s = registry.newSession(acc);
+			Session s = registry.newSession(acc, cl);
 			packet.setSerializable(new AuthSuccessPacket(s.getSessionId(), user));
 			cl.setSID(s.getSessionId());
 			System.out.println(

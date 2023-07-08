@@ -4,18 +4,24 @@ import java.util.UUID;
 
 import de.ancash.shitchat.packet.SessionedPacket;
 
-public class FriendRequestPacket extends SessionedPacket {
+public class RequestPacket extends SessionedPacket {
 
 	private static final long serialVersionUID = 540743936934659391L;
 
 	private final UUID target;
+	private final RequestType type;
 
-	public FriendRequestPacket(UUID sessionId, UUID target) {
+	public RequestPacket(UUID sessionId, UUID target, RequestType type) {
 		super(sessionId);
 		this.target = target;
+		this.type = type;
 	}
 
 	public UUID getTarget() {
 		return target;
+	}
+
+	public RequestType getType() {
+		return type;
 	}
 }

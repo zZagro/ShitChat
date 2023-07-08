@@ -24,7 +24,7 @@ public class SearchUserHandler {
 	@SuppressWarnings("nls")
 	public void searchUser(Client cl, SearchUserPacket ucp, Packet packet) {
 		if (!HandlerUtil.validateSID(registry, cl, ucp, packet)) {
-			System.out.println(cl.getRemoteAddress() + " change username invalid sid");
+			System.out.println(cl.getRemoteAddress() + " search user invalid sid");
 			packet.setSerializable(
 					new ProfileChangeResultPacket(ucp.getSessionId(), null, ShitChatPlaceholder.INVALID_SESSION));
 			cl.putWrite(packet.toBytes());

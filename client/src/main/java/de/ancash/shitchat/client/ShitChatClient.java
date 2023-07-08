@@ -1,9 +1,12 @@
 package de.ancash.shitchat.client;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 import de.ancash.datastructures.tuples.Duplet;
@@ -11,7 +14,13 @@ import de.ancash.ithread.IThreadPoolExecutor;
 import de.ancash.libs.org.bukkit.event.EventHandler;
 import de.ancash.libs.org.bukkit.event.EventManager;
 import de.ancash.libs.org.bukkit.event.Listener;
+import de.ancash.misc.ReflectionUtils;
+import de.ancash.shitchat.packet.SessionedPacket;
 import de.ancash.shitchat.packet.ShitChatPacket;
+import de.ancash.shitchat.packet.profile.ProfileChangeResultPacket;
+import de.ancash.shitchat.packet.user.RequestReceivedPacket;
+import de.ancash.shitchat.packet.user.RequestType;
+import de.ancash.shitchat.user.FullUser;
 import de.ancash.shitchat.user.User;
 import de.ancash.shitchat.util.AuthenticationUtil;
 import de.ancash.sockets.async.impl.packet.client.AsyncPacketClient;
@@ -25,9 +34,9 @@ import de.ancash.sockets.packet.PacketFuture;
 public abstract class ShitChatClient implements Listener {
 
 	@SuppressWarnings("nls")
-	public static void main(String[] args) throws InterruptedException {
-		ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565) {
-//			ShitChatClient client = new ShitChatClient("localhost", 12345) {
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+//		ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565) {
+		ShitChatClient client = new ShitChatClient("localhost", 12345) {
 
 			@Override
 			@EventHandler
@@ -112,17 +121,46 @@ public abstract class ShitChatClient implements Listener {
 				System.out.println("search user failed: " + reason);
 			}
 
+			@Override
+			public void onRequestSuccessful(UUID target, RequestType type) {
+				System.out.println("on req suc: " + target + ": " + type);
+			}
+
+			@Override
+			public void onRequestFailed(String reason, UUID target, RequestType type) {
+				System.out.println("on req failed: " + reason);
+			}
+
+			@Override
+			public void onUserUpdated() {
+				System.out.println("user updated");
+				System.out.println("fa: " + user.getFriendList().getAccepted());
+				System.out.println("fi: " + user.getFriendList().getIncoming());
+				System.out.println("fo: " + user.getFriendList().getOutgoing());
+				System.out.println("ma: " + user.getMessageRequestList().getAccepted());
+				System.out.println("mi: " + user.getMessageRequestList().getIncoming());
+				System.out.println("mo: " + user.getMessageRequestList().getOutgoing());
+			}
+
+			@Override
+			public void onRequestReceived(User who, RequestType type) {
+				System.out.println(who.getUsername() + " sent " + type);
+			}
+
 		};
 		if (client.connect()) {
 			System.out.println("connected");
-			System.out.println(client.login("joe@gmail.com",
-					AuthenticationUtil.hashPassword("joe@gmail.com", "pwd".toCharArray())));
+			System.out.println(
+					client.login("joe@gmail.com", AuthenticationUtil.hashPassword("joe@gmail.com", "pwd".toCharArray()))
+							.get());
 //			System.out.println(client.changeUserName("joe mama"));
-			List<User> searched = client.searchUser("").getFirst().get();
+			List<User> searched = client.searchUser("").get().getFirst().get();
 			for (User u : searched)
 				System.out.println(u.getUserId() + ": " + u.getUsername());
 //			client.changePassword(AuthenticationUtil.hashPassword("joe@gmail.com", "password".toCharArray()),
 //					AuthenticationUtil.hashPassword("joe@gmail.com", "pwd".toCharArray()));
+			System.out.println(client
+					.sendRequest(UUID.fromString("532c1705-ead5-4abc-8064-3a925c1f705c"), RequestType.FRIEND).get());
 			Thread.sleep(2000);
 			client.disconnect();
 		} else {
@@ -131,17 +169,18 @@ public abstract class ShitChatClient implements Listener {
 	}
 
 	private static final AsyncPacketClientFactory factory = new AsyncPacketClientFactory();
-	private IThreadPoolExecutor pool;
+	IThreadPoolExecutor pool;
 
 	volatile AsyncPacketClient client;
 	private final String address;
 	private final int port;
 	volatile State state = State.DISCONNECTED;
 	volatile UUID sid;
-	volatile User user;
+	volatile FullUser user;
 	final AuthHandler authHandler = new AuthHandler(this);
 	final ProfileEditHandler profileEditHandler = new ProfileEditHandler(this);
 	final UserSearchHandler searchUser = new UserSearchHandler(this);
+	final RequestHandler reqHandler = new RequestHandler(this);
 	String email;
 	final Logger logger = Logger.getGlobal();
 
@@ -189,11 +228,11 @@ public abstract class ShitChatClient implements Listener {
 		return client != null && client.isConnected() && client.isConnectionValid();
 	}
 
-	public Optional<String> login(String email, byte[] pass) {
+	public Future<Optional<String>> login(String email, byte[] pass) {
 		return authHandler.login(email, pass);
 	}
 
-	public Optional<String> signUp(String email, byte[] pass, String user) {
+	public Future<Optional<String>> signUp(String email, byte[] pass, String user) {
 		return authHandler.signUp(email, pass, user);
 	}
 
@@ -201,7 +240,7 @@ public abstract class ShitChatClient implements Listener {
 		return state == State.CONNECTED;
 	}
 
-	public Optional<String> changePassword(byte[] oldPass, byte[] newPass) {
+	public Future<Optional<String>> changePassword(byte[] oldPass, byte[] newPass) {
 		return profileEditHandler.changePassword(oldPass, newPass);
 	}
 
@@ -209,7 +248,7 @@ public abstract class ShitChatClient implements Listener {
 
 	public abstract void onChangePassword();
 
-	public Optional<String> changePP(byte[] bb) {
+	public Future<Optional<String>> changePP(byte[] bb) {
 		return profileEditHandler.changePP(bb);
 	}
 
@@ -217,7 +256,7 @@ public abstract class ShitChatClient implements Listener {
 
 	public abstract void onPPChange(User user);
 
-	public Optional<String> changeUserName(String nun) {
+	public Future<Optional<String>> changeUserName(String nun) {
 		return profileEditHandler.changeUserName(nun);
 	}
 
@@ -229,13 +268,23 @@ public abstract class ShitChatClient implements Listener {
 
 	public abstract void onAuthSuccess();
 
-	public Duplet<Optional<List<User>>, Optional<String>> searchUser(String name) {
+	public Future<Duplet<Optional<List<User>>, Optional<String>>> searchUser(String name) {
 		return searchUser.searchUser(name);
 	}
 
 	public abstract void onSearchUser(List<User> found);
 
 	public abstract void onSearchUserFailed(String reason);
+
+	public Future<Optional<String>> sendRequest(UUID target, RequestType type) {
+		return reqHandler.sendRequest(target, type);
+	}
+
+	public abstract void onRequestSuccessful(UUID target, RequestType type);
+
+	public abstract void onRequestFailed(String reason, UUID target, RequestType type);
+
+	public abstract void onRequestReceived(User who, RequestType type);
 
 	@SuppressWarnings("nls")
 	protected void logUser() {
@@ -248,11 +297,11 @@ public abstract class ShitChatClient implements Listener {
 	public synchronized boolean connect() {
 		if (client != null)
 			return false;
-		pool = IThreadPoolExecutor.newFixedThreadPool(2);
+		pool = IThreadPoolExecutor.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 2);
 		logger.info("connecting");
 		state = State.CONNECTING;
 		try {
-			client = factory.newInstance(address, port, 4 * 1024, 4 * 1024, 1);
+			client = factory.newInstance(address, port, 4 * 1024, 4 * 1024, Runtime.getRuntime().availableProcessors());
 		} catch (IOException e) {
 			state = State.DISCONNECTED;
 			logger.warning("could not connect");
@@ -273,6 +322,8 @@ public abstract class ShitChatClient implements Listener {
 
 	public abstract void onConnectFailed();
 
+	public abstract void onUserUpdated();
+
 	private void logThrowable(Throwable th) {
 		for (StackTraceElement e : th.getStackTrace())
 			logger.warning(e.toString());
@@ -281,7 +332,34 @@ public abstract class ShitChatClient implements Listener {
 	@EventHandler
 	public void onPacket(ClientPacketReceiveEvent event) {
 		if (event.getReceiver() == null || client == null || event.getReceiver().equals(client)) {
+			Packet packet = event.getPacket();
+			Serializable s = packet.getSerializable();
+			if (!(s instanceof ShitChatPacket))
+				return;
+			ShitChatPacket scp = (ShitChatPacket) s;
+			if (scp instanceof SessionedPacket) {
+				SessionedPacket sp = (SessionedPacket) scp;
+				if (!sp.getSessionId().equals(sid)) {
 
+					System.err.println("packet with invalid sid");
+					ReflectionUtils.toStringRec(sp, true);
+					return;
+				}
+				if (sp instanceof ProfileChangeResultPacket) {
+					ProfileChangeResultPacket pcrp = (ProfileChangeResultPacket) sp;
+					if (pcrp.getNewUser() != null && pcrp.getNewUser().getUserId().equals(user.getUserId())) {
+						user = pcrp.getNewUser();
+						onUserUpdated();
+					}
+				} else if (sp instanceof RequestReceivedPacket) {
+					RequestReceivedPacket rrp = (RequestReceivedPacket) sp;
+					if (rrp.getNewFullTarget() != null && rrp.getNewFullTarget().getUserId().equals(user.getUserId())) {
+						user = rrp.getNewFullTarget();
+						onUserUpdated();
+						onRequestReceived(rrp.getSender(), rrp.getType());
+					}
+				}
+			}
 		}
 	}
 

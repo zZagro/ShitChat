@@ -2,6 +2,7 @@ package de.ancash.shitchat.client;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import de.ancash.datastructures.tuples.Duplet;
@@ -20,12 +21,14 @@ public class UserSearchHandler {
 		this.client = client;
 	}
 
-	public Duplet<Optional<List<User>>, Optional<String>> searchUser(String name) {
+	public Future<Duplet<Optional<List<User>>, Optional<String>>> searchUser(String name) {
 		if (!client.isAuthenticated()) {
 			client.onSearchUserFailed(ShitChatPlaceholder.NOT_AUTHENTICATED);
-			return Tuple.of(Optional.empty(), Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED));
+			return client.pool
+					.submit(() -> Tuple.of(Optional.empty(), Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED)));
 		}
-		return searchUser(client.sendShitChatPacket0(new SearchUserPacket(client.sid, name), true));
+		return client.pool
+				.submit(() -> searchUser(client.sendShitChatPacket0(new SearchUserPacket(client.sid, name), true)));
 	}
 
 	private Duplet<Optional<List<User>>, Optional<String>> searchUser(PacketFuture future) {
@@ -34,6 +37,7 @@ public class UserSearchHandler {
 			client.onSearchUserFailed(ShitChatPlaceholder.INTERNAL_ERROR);
 			return Tuple.of(Optional.empty(), Optional.of(ShitChatPlaceholder.INTERNAL_ERROR));
 		}
+		System.out.println((System.nanoTime() - future.getTimestamp()) / 1000D + " micros");
 		SearchUserResultPacket surp = result.get();
 		if (surp.wasSuccessful()) {
 			client.onSearchUser(surp.getFoundUser());

@@ -38,7 +38,7 @@ public class LoginHandler {
 				packet.setSerializable(new AuthFailedPacket(ShitChatPlaceholder.WRONG_PASSWORD));
 			} else {
 				FullUser user = acc.toFullUser(registry);
-				Session s = registry.newSession(acc);
+				Session s = registry.newSession(acc, cl);
 				packet.setSerializable(new AuthSuccessPacket(s.getSessionId(), user));
 				cl.setSID(s.getSessionId());
 				System.out.println(cl.getRemoteAddress() + " login successful");

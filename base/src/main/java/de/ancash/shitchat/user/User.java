@@ -30,4 +30,10 @@ public class User implements Serializable {
 	public UUID getUserId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return "User{id=" + id + ",uname=" + name + "}";
+	}
+
 }

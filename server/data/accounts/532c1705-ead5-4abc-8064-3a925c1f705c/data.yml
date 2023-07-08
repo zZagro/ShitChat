@@ -37,3 +37,8 @@ profilPicLoc: data/accounts/532c1705-ead5-4abc-8064-3a925c1f705c/532c1705-ead5-4
 uid: 532c1705-ead5-4abc-8064-3a925c1f705c
 directChannels: []
 groupChannels: []
+incomingRequests-FRIEND:
+  - 932aff6a-567f-4ce5-a4f9-49b2025777f5
+outgoingRequests-FRIEND: []
+acceptedRequests-FRIEND:
+  - 532c1705-ead5-4abc-8064-3a925c1f705c

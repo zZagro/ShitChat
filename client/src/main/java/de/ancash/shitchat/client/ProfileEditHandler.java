@@ -1,6 +1,7 @@
 package de.ancash.shitchat.client;
 
 import java.util.Optional;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import de.ancash.shitchat.ShitChatImage;
@@ -19,13 +20,13 @@ public class ProfileEditHandler {
 		this.client = client;
 	}
 
-	public Optional<String> changePP(byte[] bb) {
+	public Future<Optional<String>> changePP(byte[] bb) {
 		if (!client.isAuthenticated()) {
 			client.onPPChangeFailed(ShitChatPlaceholder.NOT_AUTHENTICATED);
-			return Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED);
+			return client.pool.submit(() -> Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED));
 		}
-		return changePP(
-				client.sendShitChatPacket0(new ProfilePicChangePacket(client.sid, new ShitChatImage(bb)), true));
+		return client.pool.submit(() -> changePP(
+				client.sendShitChatPacket0(new ProfilePicChangePacket(client.sid, new ShitChatImage(bb)), true)));
 	}
 
 	private Optional<String> changePP(PacketFuture future) {
@@ -34,6 +35,7 @@ public class ProfileEditHandler {
 			client.onPPChangeFailed(ShitChatPlaceholder.INTERNAL_ERROR);
 			return Optional.of(ShitChatPlaceholder.INTERNAL_ERROR);
 		}
+		System.out.println((System.nanoTime() - future.getTimestamp()) / 1000D + " micros");
 		ProfileChangeResultPacket r = result.get();
 		if (r.wasSuccessful()) {
 			client.user = r.getNewUser();
@@ -44,12 +46,13 @@ public class ProfileEditHandler {
 		return Optional.of(r.getReason());
 	}
 
-	public Optional<String> changePassword(byte[] oldPass, byte[] newPass) {
+	public Future<Optional<String>> changePassword(byte[] oldPass, byte[] newPass) {
 		if (!client.isAuthenticated()) {
 			client.onChangePasswordFailed(ShitChatPlaceholder.NOT_AUTHENTICATED);
-			return Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED);
+			return client.pool.submit(() -> Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED));
 		}
-		return changePassword(client.sendShitChatPacket0(new PasswordChangePacket(client.sid, oldPass, newPass), true));
+		return client.pool.submit(() -> changePassword(
+				client.sendShitChatPacket0(new PasswordChangePacket(client.sid, oldPass, newPass), true)));
 	}
 
 	private Optional<String> changePassword(PacketFuture future) {
@@ -58,6 +61,7 @@ public class ProfileEditHandler {
 			client.onChangePasswordFailed(ShitChatPlaceholder.INTERNAL_ERROR);
 			return Optional.of(ShitChatPlaceholder.INTERNAL_ERROR);
 		}
+		System.out.println((System.nanoTime() - future.getTimestamp()) / 1000D + " micros");
 		ProfileChangeResultPacket r = result.get();
 		if (r.wasSuccessful()) {
 			client.user = r.getNewUser();
@@ -68,12 +72,13 @@ public class ProfileEditHandler {
 		return Optional.of(r.getReason());
 	}
 
-	public Optional<String> changeUserName(String nun) {
+	public Future<Optional<String>> changeUserName(String nun) {
 		if (!client.isAuthenticated()) {
 			client.onUserNameChangeFailed(ShitChatPlaceholder.NOT_AUTHENTICATED);
-			return Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED);
+			return client.pool.submit(() -> Optional.of(ShitChatPlaceholder.NOT_AUTHENTICATED));
 		}
-		return changeUserName(client.sendShitChatPacket0(new UsernameChangePacket(client.sid, nun), true));
+		return client.pool.submit(
+				() -> changeUserName(client.sendShitChatPacket0(new UsernameChangePacket(client.sid, nun), true)));
 	}
 
 	private Optional<String> changeUserName(PacketFuture future) {
@@ -82,6 +87,7 @@ public class ProfileEditHandler {
 			client.onUserNameChangeFailed(ShitChatPlaceholder.INTERNAL_ERROR);
 			return Optional.of(ShitChatPlaceholder.INTERNAL_ERROR);
 		}
+		System.out.println((System.nanoTime() - future.getTimestamp()) / 1000D + " micros");
 		ProfileChangeResultPacket r = result.get();
 		if (r.wasSuccessful()) {
 			client.user = r.getNewUser();

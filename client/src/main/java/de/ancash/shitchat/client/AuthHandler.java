@@ -1,6 +1,7 @@
 package de.ancash.shitchat.client;
 
 import java.util.Optional;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import de.ancash.shitchat.ShitChatPlaceholder;
@@ -21,27 +22,28 @@ public class AuthHandler {
 	}
 
 	@SuppressWarnings("nls")
-	public Optional<String> login(String email, byte[] pass) {
+	public Future<Optional<String>> login(String email, byte[] pass) {
 		if (client.state != State.CONNECTING || !client.isConnected()) {
 			client.onAuthenticationFailed(ShitChatPlaceholder.NOT_CONNECTED);
-			return Optional.of(ShitChatPlaceholder.NOT_CONNECTED);
+			return client.pool.submit(() -> Optional.of(ShitChatPlaceholder.NOT_CONNECTED));
 		}
 		client.state = State.AUTHENTICATING;
 		client.email = email;
 		client.logger.info("login");
-		return authenticate(client.sendShitChatPacket0(new LoginPacket(email, pass), true));
+		return client.pool.submit(() -> authenticate(client.sendShitChatPacket0(new LoginPacket(email, pass), true)));
 	}
 
 	@SuppressWarnings("nls")
-	public Optional<String> signUp(String email, byte[] pass, String user) {
+	public Future<Optional<String>> signUp(String email, byte[] pass, String user) {
 		if (client.state != State.CONNECTING || !client.isConnected()) {
 			client.onAuthenticationFailed(ShitChatPlaceholder.NOT_CONNECTED);
-			return Optional.of(ShitChatPlaceholder.NOT_CONNECTED);
+			return client.pool.submit(() -> Optional.of(ShitChatPlaceholder.NOT_CONNECTED));
 		}
 		client.state = State.AUTHENTICATING;
 		client.email = email;
 		client.logger.info("sign up");
-		return authenticate(client.sendShitChatPacket0(new SignUpPacket(email, pass, user), true));
+		return client.pool
+				.submit(() -> authenticate(client.sendShitChatPacket0(new SignUpPacket(email, pass, user), true)));
 	}
 
 	@SuppressWarnings("nls")
@@ -54,9 +56,11 @@ public class AuthHandler {
 			client.onAuthenticationFailed(ShitChatPlaceholder.INTERNAL_ERROR);
 			return Optional.of(ShitChatPlaceholder.INTERNAL_ERROR);
 		}
+		System.out.println((System.nanoTime() - future.getTimestamp()) / 1000D + " micros");
 		AuthResultPacket result = (AuthResultPacket) opt.get();
 		if (result instanceof AuthSuccessPacket) {
 			onAuthSuccess((AuthSuccessPacket) result);
+			client.onUserUpdated();
 			return Optional.empty();
 		} else {
 			client.email = null;

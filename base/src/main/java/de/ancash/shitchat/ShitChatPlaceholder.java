@@ -14,4 +14,6 @@ public class ShitChatPlaceholder {
 	public static final String INTERNAL_ERROR = "internal-error";
 	public static final String NOT_CONNECTED = "con.not";
 
+	public static final String REQUEST_ALREADY_EXISTS = "user.msg-req-alr-exists";
+	public static final String REQUEST_ALREADY_ACCEPTED = "user.msg-req-alr-accepted";
 }

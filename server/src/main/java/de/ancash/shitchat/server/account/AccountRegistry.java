@@ -121,6 +121,10 @@ public class AccountRegistry extends Thread {
 		return uidByUsername.containsKey(un);
 	}
 
+	public boolean isUIDValid(UUID id) {
+		return getDir(id).exists();
+	}
+
 	public boolean isSessionValid(UUID session) {
 		return lock.writeLock(() -> {
 			if (sesByUId.containsKey(session)) {
@@ -164,8 +168,8 @@ public class AccountRegistry extends Thread {
 		}
 	}
 
-	public Session newSession(Account acc) {
-		Session s = acc.newSession().setOnExit(ses -> {
+	public Session newSession(Account acc, Client client) {
+		Session s = acc.newSession(client).setOnExit(ses -> {
 			sesByUId.remove(ses.getSessionId());
 			acc.removeSession(ses.getSessionId());
 		});
@@ -209,8 +213,6 @@ public class AccountRegistry extends Thread {
 				yf.set(ShitChatKeys.UID, id.toString());
 				yf.set(ShitChatKeys.DIRECT_CHANNELS, new ArrayList<>());
 				yf.set(ShitChatKeys.GROUP_CHANNELS, new ArrayList<>());
-				yf.set(ShitChatKeys.FRIEND_LIST, new ArrayList<>());
-				yf.set(ShitChatKeys.PENDING_FRIEND_REQUESTS, new ArrayList<>());
 				yf.save();
 				uidByEmail.put(email, id);
 				uidByUsername.put(name, id);
