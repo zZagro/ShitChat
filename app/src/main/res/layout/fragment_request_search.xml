@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.requests.search.RequestsSearch"
     android:id="@+id/fragment_requests_search"
     android:background="@color/background_color">
 
