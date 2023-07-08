@@ -131,9 +131,25 @@ public class MainActivity extends AppCompatActivity {
     private void getArgs()
     {
         if (getIntent() == null) return;
-        if (getIntent().getStringExtra("status").equals("Signup"))
+
+        if (getIntent().getStringExtra("status") != null)
         {
-            navController.navigate(R.id.action_navigation_home_to_navigation_settings);
+            if (getIntent().getStringExtra("status").equals("Signup"))
+            {
+                navController.navigate(R.id.action_navigation_home_to_navigation_settings);
+            }
+        }
+
+        if (getIntent().getStringExtra("request") != null)
+        {
+            if (getIntent().getStringExtra("request").equals("Direct"))
+            {
+                navController.navigate(R.id.action_navigation_home_to_navigation_direct);
+            }
+            else if (getIntent().getStringExtra("request").equals("Groups"))
+            {
+                navController.navigate(R.id.action_navigation_home_to_navigation_groups);
+            }
         }
     }
 }

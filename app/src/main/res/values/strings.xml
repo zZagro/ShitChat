@@ -9,4 +9,7 @@
     <string name="don_t_have_an_account_yet_sign_up">Don\'t have an account yet? Sign up!</string>
     <string name="app_title">ShitChat.</string>
     <string name="goToLoginText">Already have an account? Log in!</string>
+    <string name="search">Search</string>
+    <string name="incoming">Incoming</string>
+    <string name="outgoing">Outgoing</string>
 </resources>

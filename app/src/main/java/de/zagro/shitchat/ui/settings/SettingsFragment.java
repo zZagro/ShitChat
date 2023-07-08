@@ -112,9 +112,10 @@ public class SettingsFragment extends Fragment {
             }
         };
 
-        usernameArrow.setOnClickListener(usernameClick);
-        usernameText.setOnClickListener(usernameClick);
-        usernameLabel.setOnClickListener(usernameClick);
+//        usernameArrow.setOnClickListener(usernameClick);
+//        usernameText.setOnClickListener(usernameClick);
+//        usernameLabel.setOnClickListener(usernameClick);
+        binding.settingsUsernameBg.setOnClickListener(usernameClick);
     }
 
     private void changeEmail()
@@ -128,9 +129,10 @@ public class SettingsFragment extends Fragment {
             }
         };
 
-        emailArrow.setOnClickListener(emailClick);
-        emailLabel.setOnClickListener(emailClick);
-        emailText.setOnClickListener(emailClick);
+//        emailArrow.setOnClickListener(emailClick);
+//        emailLabel.setOnClickListener(emailClick);
+//        emailText.setOnClickListener(emailClick);
+        binding.settingsEmailBg.setOnClickListener(emailClick);
     }
 
     private void changePassword()

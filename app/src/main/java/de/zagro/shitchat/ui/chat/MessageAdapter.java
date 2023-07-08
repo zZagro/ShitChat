@@ -1,9 +1,11 @@
 package de.zagro.shitchat.ui.chat;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,40 +41,34 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         String currentMessageContent = messages.get(position).getMessage();
         String currentMessageTime = messages.get(position).getTime();
 
-//        if (position > 0)
-//        {
-//            if (messages.get(position - 1).isSent() != sent)
-//            {
-//                ConstraintLayout.LayoutParams receivedParams = (ConstraintLayout.LayoutParams) holder.messagesReceivedLayout.getRoot().getLayoutParams();
-//                receivedParams.topMargin = 80;
-//                holder.messagesReceivedLayout.getRoot().setLayoutParams(receivedParams);
-//
-//                ConstraintLayout.LayoutParams sentParams = (ConstraintLayout.LayoutParams) holder.messagesSentLayout.getRoot().getLayoutParams();
-//                sentParams.topMargin = 80;
-//                holder.messagesSentLayout.getRoot().setLayoutParams(sentParams);
-//            }
-//        }
-
         if (sent)
         {
-            holder.messagesReceivedLayout.getRoot().setVisibility(View.INVISIBLE);
+            holder.messagesReceivedLayout.getRoot().setVisibility(View.GONE);
             holder.messagesSentLayout.getRoot().setVisibility(View.VISIBLE);
 
             holder.messagesSentLayout.messageSentTextContent.setText(currentMessageContent);
             holder.messagesSentLayout.messageSentTextTime.setText(currentMessageTime);
-
-            Log.d("SENT", String.valueOf(holder.messagesSentLayout.getRoot().getVisibility()));
         }
         else
         {
-            holder.messagesSentLayout.getRoot().setVisibility(View.INVISIBLE);
+            holder.messagesSentLayout.getRoot().setVisibility(View.GONE);
             holder.messagesReceivedLayout.getRoot().setVisibility(View.VISIBLE);
 
             holder.messagesReceivedLayout.messageReceivedTextContent.setText(currentMessageContent);
             holder.messagesReceivedLayout.messageReceivedTextTime.setText(currentMessageTime);
-
-            Log.d("RECEIVED", String.valueOf(holder.messagesReceivedLayout.getRoot().getVisibility()));
         }
+
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.messagesReceivedLayout.getRoot().getRootView().getLayoutParams();
+        layoutParams.topMargin = 0;
+
+        if (position > 0)
+        {
+            if (messages.get(position - 1).isSent() != sent)
+            {
+                layoutParams.topMargin = 32;
+            }
+        }
+        holder.messagesReceivedLayout.getRoot().getRootView().setLayoutParams(layoutParams);
     }
 
     @Override
@@ -82,7 +78,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView messageSentContent, messageReceivedContent, messageSentTime, messageReceivedTime;
         MessageSentBinding messagesSentLayout;
         MessageReceivedBinding messagesReceivedLayout;
         public MyViewHolder(@NonNull MessagesBinding itemView) {

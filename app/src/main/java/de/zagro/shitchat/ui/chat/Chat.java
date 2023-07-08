@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +21,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import de.zagro.shitchat.R;
 import de.zagro.shitchat.databinding.FragmentChatBinding;
@@ -59,23 +70,23 @@ public class Chat extends Fragment {
 
         messageList = new ArrayList<>();
         addMessages();
-        onClick();
-
-//        ImageView imageView = new ImageView(requireActivity());
-//        imageView.setImageResource(R.drawable.circle_green);
-//        ((ConstraintLayout) view).addView(imageView);
+        clearFocus();
+        sendMessage();
     }
 
-    private void onClick()
+    private void clearFocus()
     {
-        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener clearFocusListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.inputBottomChat.clearFocus();
+                inputText.clearFocus();
                 InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(binding.inputBottomChat.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0);
             }
-        });
+        };
+
+        binding.getRoot().setOnClickListener(clearFocusListener);
+        binding.recyclerView.setOnClickListener(clearFocusListener);
     }
 
     private void addMessages()
@@ -138,8 +149,19 @@ public class Chat extends Fragment {
                 if (getMessage().matches("")) return;
                 String message = getMessage();
                 inputText.setText("");
+                messageList.add(new Message(message, getCurrentUTC(), true));
+                loadMessages();
+                Toast.makeText(requireActivity(), getCurrentUTC(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public String getCurrentUTC(){
+        Date time = Calendar.getInstance().getTime();
+//        SimpleDateFormat outputFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputFmt = new SimpleDateFormat("HH:mm");
+        outputFmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return outputFmt.format(time);
     }
 
     private String getMessage()

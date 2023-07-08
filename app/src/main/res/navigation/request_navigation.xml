@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/request_navigation"
+    app:startDestination="@id/requestsSearch">
+
+    <fragment
+        android:id="@+id/requestsSearch"
+        android:name="de.zagro.shitchat.ui.requests.search.RequestsSearch"
+        android:label="RequestsSearch"
+        tools:layout="@layout/fragment_request_search">
+        <action
+            android:id="@+id/action_requestsSearch_to_requestsIncoming"
+            app:destination="@id/requestsIncoming"
+            app:popUpTo="@id/requestsSearch"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_requestsSearch_to_requestsOutgoing"
+            app:destination="@id/requestsOutgoing"
+            app:popUpTo="@id/requestsSearch"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestsIncoming"
+        android:name="de.zagro.shitchat.ui.requests.incoming.RequestsIncoming"
+        android:label="RequestsIncoming"
+        tools:layout="@layout/fragment_requests_incoming">
+        <action
+            android:id="@+id/action_requestsIncoming_to_requestsSearch"
+            app:destination="@id/requestsSearch"
+            app:popUpTo="@id/requestsIncoming"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_requestsIncoming_to_requestsOutgoing"
+            app:destination="@id/requestsOutgoing"
+            app:popUpTo="@id/requestsIncoming"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestsOutgoing"
+        android:name="de.zagro.shitchat.ui.requests.outgoing.RequestsOutgoing"
+        android:label="RequestsOutgoing"
+        tools:layout="@layout/fragment_requests_outgoing">
+        <action
+            android:id="@+id/action_requestsOutgoing_to_requestsSearch"
+            app:destination="@id/requestsSearch"
+            app:popUpTo="@id/requestsOutgoing"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_requestsOutgoing_to_requestsIncoming"
+            app:destination="@id/requestsIncoming"
+            app:popUpTo="@id/requestsOutgoing"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

@@ -4,6 +4,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RequestActivity">
+    tools:context=".RequestActivity"
+    android:background="@color/background_color">
+
+    <ImageButton
+        android:id="@+id/request_back_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/arrow_left"
+        app:layout_constraintBottom_toTopOf="@id/request_line_top"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.07"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle" />
+
+    <TextView
+        android:id="@+id/request_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizePresetSizes="@array/max20"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/dm_sans"
+        android:gravity="center"
+        android:letterSpacing="0.04"
+        android:text="Requests"
+        android:textColor="@color/neutrals_8"
+        android:textStyle="bold"
+        android:padding="0dp"
+        android:includeFontPadding="false"
+        app:layout_constraintDimensionRatio="6.5:1"
+        app:layout_constraintBottom_toTopOf="@id/request_line_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <View
+        android:id="@+id/request_line_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#232323"
+        app:layout_constraintBottom_toBottomOf="@+id/request_bg_top"
+        app:layout_constraintEnd_toEndOf="@+id/request_bg_top"
+        app:layout_constraintHeight_percent="0.003"
+        app:layout_constraintStart_toStartOf="@+id/request_bg_top"
+        app:layout_constraintWidth_percent="1" />
+
+    <View
+        android:id="@+id/request_bg_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintDimensionRatio="5.5:1"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment
+        android:id="@+id/nav_host_fragment_activity_request"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/request_bg_top"
+        app:navGraph="@navigation/request_navigation" />
+
+    <View
+        android:id="@+id/bottom_nav_line"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#232323"
+        app:layout_constraintBottom_toTopOf="@id/nav_requests"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.003"
+        app:layout_constraintWidth_percent="1" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_requests"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:itemPaddingBottom="15dp"
+        app:itemPaddingTop="15dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintDimensionRatio="5.5:1"
+        app:layout_constraintWidth_percent="1"
+        app:itemIconTint="@drawable/bottom_nav_item_color"
+        app:itemTextColor="@drawable/bottom_nav_item_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_requests"
+        app:elevation="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

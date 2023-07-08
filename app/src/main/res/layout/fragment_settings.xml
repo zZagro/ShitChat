@@ -8,6 +8,19 @@
     tools:context=".ui.settings.SettingsFragment"
     android:background="@color/background_color">
 
+    <View
+        android:id="@+id/view_settings_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background_color"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintDimensionRatio="5.2:1"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/icon_toolbar"
         android:layout_width="0dp"
@@ -15,14 +28,14 @@
         android:layout_gravity="start"
         android:clickable="true"
         android:src="@drawable/ic_app_default"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/view_settings_top"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintWidth_percent="0.13"
         app:layout_constraintHorizontal_bias="0.07"
-        app:layout_constraintVertical_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
 
     <TextView
         android:id="@+id/splash_title"
@@ -38,7 +51,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/icon_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.055"
+        app:layout_constraintDimensionRatio="3:1"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toEndOf="@+id/icon_toolbar"
         app:layout_constraintTop_toTopOf="@+id/icon_toolbar"
@@ -51,7 +64,7 @@
         android:layout_height="0dp"
         android:autoSizePresetSizes="@array/max14"
         android:autoSizeTextType="uniform"
-        android:backgroundTint="@android:color/transparent"
+        android:backgroundTint="@color/background_color"
         android:fontFamily="@font/dm_sans"
         android:letterSpacing="0.02"
         android:text="Change Password"
@@ -68,7 +81,8 @@
         app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_percent="0.4"
         app:strokeColor="@color/primary_indigo"
-        app:strokeWidth="2dp" />
+        app:strokeWidth="2dp"
+        app:rippleColor="@color/gray"/>
 
     <ImageView
         android:id="@+id/user_icon_circle"
@@ -103,7 +117,7 @@
         android:insetRight="0dp"
         android:insetBottom="0dp"
         android:padding="0dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle"/>
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/user_icon_edit_button"
@@ -127,6 +141,20 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShitChat.Button.Circle"
         app:strokeColor="#3D3D3D"
         app:strokeWidth="1dp" />
+
+    <View
+        android:id="@+id/settings_username_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background_color"
+        app:layout_constraintDimensionRatio="4:1"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintVertical_bias="0.38"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/username_line"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"/>
 
     <ImageView
         android:id="@+id/username_icon"
@@ -209,6 +237,19 @@
         app:layout_constraintHeight_percent="0.002"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/username_arrow"
+        app:layout_constraintWidth_percent="0.85" />
+
+    <View
+        android:id="@+id/settings_email_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background_color"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintBottom_toTopOf="@+id/email_line"
+        app:layout_constraintDimensionRatio="4:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.85" />
 
     <ImageView
