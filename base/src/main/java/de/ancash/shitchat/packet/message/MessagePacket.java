@@ -1,5 +1,6 @@
 package de.ancash.shitchat.packet.message;
 
+import java.util.Map;
 import java.util.UUID;
 
 import de.ancash.shitchat.message.AbstractMessage;
@@ -11,12 +12,12 @@ public class MessagePacket extends SessionedPacket {
 
 	private static final long serialVersionUID = -7217684742933905281L;
 
-	private final String message;
+	private final Map<String, Object> message;
 	private final String type;
 
 	public MessagePacket(UUID sessionId, AbstractMessage message, Type type) {
 		super(sessionId);
-		this.message = message.toString();
+		this.message = message.serialize();
 		this.type = type.name();
 	}
 
@@ -31,6 +32,5 @@ public class MessagePacket extends SessionedPacket {
 		default:
 			return null;
 		}
-
 	}
 }

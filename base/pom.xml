@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>de.ancash</groupId>
 			<artifactId>sockets</artifactId>
-			<version>0.0.4</version>
+			<version>0.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-validator</groupId>

@@ -1,7 +1,10 @@
 package de.ancash.shitchat.server;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 
 import org.simpleyaml.configuration.file.YamlFile;
@@ -14,6 +17,7 @@ import de.ancash.libs.org.bukkit.event.EventHandler;
 import de.ancash.libs.org.bukkit.event.EventManager;
 import de.ancash.libs.org.bukkit.event.Listener;
 import de.ancash.misc.io.IFormatter;
+import de.ancash.misc.io.ILoggerListener;
 import de.ancash.misc.io.LoggerUtils;
 import de.ancash.shitchat.server.account.AccountRegistry;
 import de.ancash.shitchat.server.client.Client;
@@ -44,6 +48,8 @@ public class ShitChatServer implements Listener {
 	private final AccountRegistry accRegistry;
 	private final ShitChatPacketListener listener;
 	private final CLI cli = new CLI();
+	private final File log;
+	private final FileOutputStream fos;
 
 	@SuppressWarnings("nls")
 	public ShitChatServer() throws InvalidConfigurationException, IOException {
@@ -54,6 +60,24 @@ public class ShitChatServer implements Listener {
 		LoggerUtils.setErr(Level.SEVERE, formatter);
 		LoggerUtils.setOut(Level.INFO, formatter);
 		LoggerUtils.setGlobalLogger(formatter);
+		log = new File("logs/" + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(Calendar.getInstance().getTime())
+				+ ".log");
+		log.mkdirs();
+		log.delete();
+		log.createNewFile();
+		fos = new FileOutputStream(log);
+		formatter.addListener(new ILoggerListener() {
+
+			@Override
+			public void onLog(String arg0) {
+				try {
+					fos.write(("\n" + arg0.replace("\t", "   ").replaceAll("\u001B\\[[;\\d]*m", "")
+							.replaceAll("\\P{Print}", "")).getBytes());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		System.out.println("Logger set");
 		accRegistry = new AccountRegistry(this);
 		listener = new ShitChatPacketListener(this);
@@ -92,6 +116,7 @@ public class ShitChatServer implements Listener {
 			try {
 				Thread.sleep(2000);
 				server.stop();
+				fos.close();
 			} catch (InterruptedException | IOException e) {
 				e.printStackTrace();
 			}

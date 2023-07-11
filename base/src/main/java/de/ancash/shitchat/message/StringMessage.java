@@ -1,21 +1,18 @@
 package de.ancash.shitchat.message;
 
-import java.io.StringReader;
+import java.util.Map;
 import java.util.UUID;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
 import de.ancash.libs.org.apache.commons.lang3.Validate;
-import de.ancash.shitchat.channel.AbstractChat;
+import de.ancash.shitchat.channel.AbstractChannel;
 import de.ancash.shitchat.user.User;
 
 @SuppressWarnings("nls")
 public class StringMessage extends AbstractMessage {
 
+	private static final long serialVersionUID = -2469343375731176578L;
 	public static final int MAX_STRING_MESSAGE_LENGTH = 1000;
-	public static final String MESSAGE_REGEX = "[a-zA-Z0-9]*";
+	public static final String MESSAGE_REGEX = "[\\x20-\\x7F]";
 
 	protected static final String MESSAGE_KEY = "msg";
 
@@ -28,7 +25,7 @@ public class StringMessage extends AbstractMessage {
 
 	private final String message;
 
-	public StringMessage(AbstractChat channel, User sender, long millis, String message) {
+	public StringMessage(AbstractChannel channel, User sender, long millis, String message) {
 		this(channel.getChannelId(), sender.getUserId(), millis, message);
 	}
 
@@ -48,16 +45,15 @@ public class StringMessage extends AbstractMessage {
 	}
 
 	@Override
-	public String serialize() {
-		JsonObjectBuilder builder = serializeBase();
-		builder.add(MESSAGE_KEY, message);
-		return builder.build().toString();
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = super.serialize();
+		map.put(MESSAGE_KEY, message);
+		return map;
 	}
 
-	public static StringMessage deserialize(String json) {
-		JsonObject object = Json.createReader(new StringReader(json)).readObject();
-		return new StringMessage(UUID.fromString(object.getString(CHANNEL_ID_KEY)),
-				UUID.fromString(object.getString(SENDER_ID_KEY)), object.getJsonNumber(TIMESTAMP_KEY).longValue(),
-				object.getString(MESSAGE_KEY));
+	public static StringMessage deserialize(Map<String, Object> map) {
+		return new StringMessage(UUID.fromString((String) map.get(CHANNEL_ID_KEY)),
+				UUID.fromString((String) map.get(SENDER_ID_KEY)), (long) map.get(TIMESTAMP_KEY),
+				(String) map.get(MESSAGE_KEY));
 	}
 }

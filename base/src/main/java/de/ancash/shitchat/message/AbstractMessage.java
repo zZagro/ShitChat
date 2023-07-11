@@ -1,18 +1,19 @@
 package de.ancash.shitchat.message;
 
-import java.io.StringReader;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
 
-import de.ancash.shitchat.channel.AbstractChat;
+import de.ancash.shitchat.channel.AbstractChannel;
 import de.ancash.shitchat.user.User;
 
 @SuppressWarnings("nls")
-public abstract class AbstractMessage {
+public abstract class AbstractMessage implements Serializable, ConfigurationSerializable {
 
+	private static final long serialVersionUID = 5816473586212316568L;
 	protected static final String TYPE_KEY = "type";
 	protected static final String CHANNEL_ID_KEY = "channel";
 	protected static final String SENDER_ID_KEY = "sender";
@@ -23,7 +24,7 @@ public abstract class AbstractMessage {
 	protected final long millis;
 	protected final Type type;
 
-	public AbstractMessage(AbstractChat channel, User sender, long millis, Type type) {
+	public AbstractMessage(AbstractChannel channel, User sender, long millis, Type type) {
 		this(channel.getChannelId(), sender.getUserId(), millis, type);
 	}
 
@@ -46,24 +47,22 @@ public abstract class AbstractMessage {
 		return millis;
 	}
 
-	protected JsonObjectBuilder serializeBase() {
-		JsonObjectBuilder builder = Json.createObjectBuilder();
-		builder.add(TYPE_KEY, type.name());
-		builder.add(CHANNEL_ID_KEY, channel.toString());
-		builder.add(SENDER_ID_KEY, sender.toString());
-		builder.add(TIMESTAMP_KEY, millis);
-		return builder;
+	@Override
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = new HashMap<>();
+		map.put(CHANNEL_ID_KEY, channel.toString());
+		map.put(SENDER_ID_KEY, sender.toString());
+		map.put(TIMESTAMP_KEY, String.valueOf(millis));
+		map.put(TYPE_KEY, type.name());
+		return map;
 	}
 
-	public abstract String serialize();
-
-	public static AbstractMessage deserialize(String json) {
-		JsonObject object = Json.createReader(new StringReader(json)).readObject();
-		switch (Type.valueOf(object.getString(TYPE_KEY))) {
+	public static AbstractMessage deserialize(Map<String, Object> map) {
+		switch (Type.valueOf(String.valueOf(map.get(TYPE_KEY)))) {
 		case STRING:
-			return StringMessage.deserialize(json);
+			return StringMessage.deserialize(map);
 		default:
-			throw new IllegalArgumentException(Type.valueOf(object.getString(TYPE_KEY)).name());
+			throw new IllegalArgumentException(map.toString());
 		}
 	}
 
