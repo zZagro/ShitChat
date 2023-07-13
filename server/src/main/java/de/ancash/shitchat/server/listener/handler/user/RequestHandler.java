@@ -37,15 +37,15 @@ public class RequestHandler {
 			if (acc.isIncomingReq(rp.getTarget(), rp.getType())) {
 				acc.removeIncomingReq(rp.getTarget(), rp.getType());
 				acc.addAcceptedReq(rp.getTarget(), rp.getType());
-				target.removeOutgoingReq(acc.getId(), rp.getType());
-				target.addAcceptedReq(acc.getId(), rp.getType());
+				target.removeOutgoingReq(acc.getUserId(), rp.getType());
+				target.addAcceptedReq(acc.getUserId(), rp.getType());
 				target.getAllSessions().forEach(s -> s.sendPacket(new RequestReceivedPacket(s.getSessionId(),
 						acc.toUser(), target.toFullUser(registry), rp.getType())));
 				acc.getAllSessions().stream().filter(s -> !s.getSessionId().equals(rp.getSessionId())).forEach(s -> s
 						.sendPacket(new ProfileChangeResultPacket(s.getSessionId(), acc.toFullUser(registry), null)));
 				packet.setSerializable(
 						new RequestResultPacket(rp.getSessionId(), null, rp.getType(), acc.toFullUser(registry)));
-				System.out.println(rp.getType() + " req match " + acc.getId() + " <=> " + rp.getTarget());
+				System.out.println(rp.getType() + " req match " + acc.getUserId() + " <=> " + rp.getTarget());
 
 			} else if (acc.isOutgoingReq(rp.getTarget(), rp.getType()))
 				packet.setSerializable(new RequestResultPacket(rp.getSessionId(),
@@ -57,12 +57,12 @@ public class RequestHandler {
 
 			else {
 				if (!acc.addOutgoingReq(rp.getTarget(), rp.getType())
-						|| !target.addIncomingReq(acc.getId(), rp.getType())) {
+						|| !target.addIncomingReq(acc.getUserId(), rp.getType())) {
 					packet.setSerializable(new RequestResultPacket(rp.getSessionId(),
 							ShitChatPlaceholder.INTERNAL_ERROR, rp.getType(), acc.toFullUser(registry)));
 					acc.removeOutgoingReq(rp.getTarget(), rp.getType());
 				} else {
-					System.out.println(rp.getType() + " req " + acc.getId() + " => " + rp.getTarget());
+					System.out.println(rp.getType() + " req " + acc.getUserId() + " => " + rp.getTarget());
 					target.getAllSessions().forEach(s -> s.sendPacket(new RequestReceivedPacket(s.getSessionId(),
 							acc.toUser(), target.toFullUser(registry), rp.getType())));
 					acc.getAllSessions().stream().filter(s -> !s.getSessionId().equals(rp.getSessionId()))

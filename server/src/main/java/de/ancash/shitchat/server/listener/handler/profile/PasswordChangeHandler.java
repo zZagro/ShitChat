@@ -49,7 +49,7 @@ public class PasswordChangeHandler {
 				} catch (IOException e) {
 					packet.setSerializable(new ProfileChangeResultPacket(ucp.getSessionId(), null,
 							ShitChatPlaceholder.INTERNAL_ERROR));
-					System.err.println("could not change password of " + acc.getId());
+					System.err.println("could not change password of " + acc.getUserId());
 					e.printStackTrace();
 				}
 			}

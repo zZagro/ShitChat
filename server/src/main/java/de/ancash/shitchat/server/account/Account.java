@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,12 @@ import org.simpleyaml.configuration.file.YamlFile;
 import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 import de.ancash.shitchat.ShitChatImage;
+import de.ancash.shitchat.channel.AbstractChannel;
+import de.ancash.shitchat.channel.ChannelType;
+import de.ancash.shitchat.channel.DirectChannel;
+import de.ancash.shitchat.channel.GroupChannel;
 import de.ancash.shitchat.packet.user.RequestType;
+import de.ancash.shitchat.server.channel.ChannelRegistry;
 import de.ancash.shitchat.server.client.Client;
 import de.ancash.shitchat.user.FriendList;
 import de.ancash.shitchat.user.FullUser;
@@ -39,6 +45,7 @@ public class Account {
 	private final Map<RequestType, Set<UUID>> incomingReqs = new HashMap<>();
 	private final Map<RequestType, Set<UUID>> outgoingReqs = new HashMap<>();
 	private final Map<RequestType, Set<UUID>> acceptedReqs = new HashMap<>();
+	private final Map<ChannelType, Set<UUID>> channels = new HashMap<>();
 	private byte[] pass;
 	private final YamlFile yml;
 	private long lastAccess = System.currentTimeMillis();
@@ -58,19 +65,35 @@ public class Account {
 		return s;
 	}
 
-	public Set<Session> getAllSessions() {
+	public synchronized Set<Session> getAllSessions() {
 		return new HashSet<>(sessions.values());
 	}
 
-	Session removeSession(UUID sid) {
+	synchronized Session removeSession(UUID sid) {
 		return sessions.remove(sid);
 	}
 
-	public User toUser() {
+	public synchronized Set<DirectChannel> getDirectChannels(ChannelRegistry cr) {
+		return channels.get(ChannelType.DIRECT).stream()
+				.map(i -> (DirectChannel) cr.getChannelById(i, ChannelType.DIRECT)).filter(ch -> ch != null)
+				.collect(Collectors.toSet());
+	}
+
+	public synchronized Set<GroupChannel> getGroupChannels(ChannelRegistry cr) {
+		return channels.get(ChannelType.DIRECT).stream()
+				.map(i -> (GroupChannel) cr.getChannelById(i, ChannelType.DIRECT)).filter(ch -> ch != null)
+				.collect(Collectors.toSet());
+	}
+
+	public synchronized DirectChannel getDirectChannel(ChannelRegistry cr, UUID id) {
+		return (DirectChannel) cr.getChannelById(id, ChannelType.DIRECT);
+	}
+
+	public synchronized User toUser() {
 		return new User(uid, username, getProfilePic());
 	}
 
-	public FullUser toFullUser(AccountRegistry registry) {
+	public synchronized FullUser toFullUser(AccountRegistry registry) {
 		return new FullUser(uid, username, getProfilePic(),
 				new FriendList(getUser(incomingReqs.get(RequestType.FRIEND), registry),
 						getUser(outgoingReqs.get(RequestType.FRIEND), registry),
@@ -80,25 +103,25 @@ public class Account {
 						getUser(acceptedReqs.get(RequestType.MESSAGE), registry)));
 	}
 
-	private Set<User> getUser(Set<UUID> ids, AccountRegistry registry) {
+	private synchronized Set<User> getUser(Set<UUID> ids, AccountRegistry registry) {
 		return ids.stream().map(registry::getAccount).filter(a -> a != null).map(Account::toUser).filter(a -> a != null)
 				.collect(Collectors.toSet());
 	}
 
-	public Session getSession(UUID id) {
+	public synchronized Session getSession(UUID id) {
 		return sessions.get(id);
 	}
 
-	public boolean hasSessions() {
+	public synchronized boolean hasSessions() {
 		return !sessions.isEmpty();
 	}
 
-	public int countSessions() {
+	public synchronized int countSessions() {
 		return sessions.size();
 	}
 
 	@SuppressWarnings("nls")
-	public ShitChatImage getProfilePic() {
+	public synchronized ShitChatImage getProfilePic() {
 		try {
 			return new ShitChatImage(profilePicFile.exists() ? Files.readAllBytes(profilePicFile.toPath()) : null);
 		} catch (IOException e) {
@@ -108,17 +131,32 @@ public class Account {
 		}
 	}
 
-	public long getLastAccess() {
+	public synchronized long getLastAccess() {
 		return lastAccess;
 	}
 
-	public Account updateLastAccess() {
+	public synchronized Account updateLastAccess() {
 		lastAccess = System.currentTimeMillis();
 		return this;
 	}
 
-	public byte[] getPassword() {
+	public synchronized byte[] getPassword() {
 		return pass;
+	}
+
+	public synchronized boolean hasDirectChatTo(UUID to, ChannelRegistry registry) {
+		return channels.get(ChannelType.DIRECT).stream().map(id -> registry.getChannelById(id, ChannelType.DIRECT))
+				.map(AbstractChannel::getUsers).flatMap(Collection::stream).filter(uid -> uid != null && uid.equals(to))
+				.findAny().isEmpty();
+	}
+
+	public synchronized UUID getDirectChannelTo(UUID to, ChannelRegistry registry) {
+		for (UUID id : channels.get(ChannelType.DIRECT)) {
+			DirectChannel ch = (DirectChannel) registry.getChannelById(id, ChannelType.DIRECT);
+			if (ch.getUsers().contains(to))
+				return id;
+		}
+		return null;
 	}
 
 	public synchronized void setPassword(byte[] pass) throws InvalidConfigurationException, IOException {
@@ -136,7 +174,7 @@ public class Account {
 		return username;
 	}
 
-	public UUID getId() {
+	public UUID getUserId() {
 		return uid;
 	}
 
@@ -282,11 +320,15 @@ public class Account {
 		System.out.println("wrote " + img.asBytes().length + " to " + to);
 	}
 
-	private void loadFromFile() throws InvalidConfigurationException, IOException {
+	private synchronized void loadFromFile() throws InvalidConfigurationException, IOException {
 		yml.load();
 		username = yml.getString(USER_NAME);
 		uid = UUID.fromString(yml.getString(UID));
 		email = yml.getString(USER_EMAIL);
+		incomingReqs.clear();
+		outgoingReqs.clear();
+		acceptedReqs.clear();
+		channels.clear();
 		incomingReqs.put(RequestType.FRIEND,
 				Optional.ofNullable(yml.getStringList(getPath(INCOMING_REQUESTS, RequestType.FRIEND)))
 						.orElse(new ArrayList<>()).stream().map(UUID::fromString).collect(Collectors.toSet()));
@@ -305,10 +347,28 @@ public class Account {
 		acceptedReqs.put(RequestType.MESSAGE,
 				Optional.ofNullable(yml.getStringList(getPath(ACCEPTED_REQUESTS, RequestType.MESSAGE)))
 						.orElse(new ArrayList<>()).stream().map(UUID::fromString).collect(Collectors.toSet()));
+
+		channels.put(ChannelType.DIRECT, Optional.ofNullable(yml.getStringList(DIRECT_CHANNELS))
+				.orElse(new ArrayList<>()).stream().map(UUID::fromString).collect(Collectors.toSet()));
+		channels.put(ChannelType.GROUP, Optional.ofNullable(yml.getStringList(GROUP_CHANNELS)).orElse(new ArrayList<>())
+				.stream().map(UUID::fromString).collect(Collectors.toSet()));
+
 		List<Byte> temp = yml.getByteList(USER_PASSWORD);
 		pass = new byte[temp.size()];
 		profilePicFile = new File(yml.getString(PROFILE_PIC_FILE));
 		IntStream.range(0, temp.size()).forEach(i -> pass[i] = temp.get(i));
 		yml.save();
+	}
+
+	public synchronized void addChannel(UUID channelId, ChannelType type)
+			throws InvalidConfigurationException, IOException {
+		channels.get(type).add(channelId);
+		yml.load();
+		yml.set(GROUP_CHANNELS,
+				channels.get(ChannelType.GROUP).stream().map(UUID::toString).collect(Collectors.toList()));
+		yml.set(DIRECT_CHANNELS,
+				channels.get(ChannelType.DIRECT).stream().map(UUID::toString).collect(Collectors.toList()));
+		yml.save();
+		loadFromFile();
 	}
 }

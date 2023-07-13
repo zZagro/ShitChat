@@ -22,7 +22,7 @@ import de.ancash.shitchat.server.ShitChatServer;
 import de.ancash.shitchat.server.client.Client;
 
 @SuppressWarnings("nls")
-public class AccountRegistry extends Thread {
+public class AccountRegistry implements Runnable {
 
 	private final File accountsDir = new File("data/accounts");
 	private final ShitChatServer server;
@@ -73,7 +73,7 @@ public class AccountRegistry extends Thread {
 			if (isUsernameUsed(newUserName) || !isSessionValid(sessionId))
 				return null;
 			Account acc = sesByUId.get(sessionId).getAccount();
-			if (!uidByUsername.get(acc.getUsername()).equals(acc.getId())) {
+			if (!uidByUsername.get(acc.getUsername()).equals(acc.getUserId())) {
 				System.err.println("very strange sync error");
 				return null;
 			}
@@ -81,12 +81,12 @@ public class AccountRegistry extends Thread {
 			try {
 				acc.setUsername(newUserName);
 			} catch (IOException e) {
-				System.err.println("Could not update username for " + acc.getId() + ": " + newUserName);
+				System.err.println("Could not update username for " + acc.getUserId() + ": " + newUserName);
 				e.printStackTrace();
 				return null;
 			}
 			uidByUsername.remove(old);
-			uidByUsername.put(newUserName, acc.getId());
+			uidByUsername.put(newUserName, acc.getUserId());
 			System.out.println("username change: " + old + " -> " + newUserName);
 			return acc;
 		});
@@ -100,11 +100,11 @@ public class AccountRegistry extends Thread {
 			try {
 				acc.setProfilePic(new ShitChatImage(newPp));
 			} catch (IOException e) {
-				System.err.println("Could not update pp for " + acc.getId() + ": " + e);
+				System.err.println("Could not update pp for " + acc.getUserId() + ": " + e);
 				e.printStackTrace();
 				return null;
 			}
-			System.out.println("pp change: " + acc.getId());
+			System.out.println("pp change: " + acc.getUserId());
 			return acc;
 		});
 	}

@@ -1,0 +1,501 @@
+messages:
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 0
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269070832
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 1
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269071871
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 2
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269072897
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 3
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269073922
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 4
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269074944
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 5
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269075965
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 6
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269076984
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 7
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269077995
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 8
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269079009
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 9
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269080022
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 10
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269081031
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 11
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269082040
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 12
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269083047
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 13
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269084058
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 14
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269085066
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 15
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269086075
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 16
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269087085
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 17
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269088094
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 18
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269089103
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 19
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269090111
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 20
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269091118
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 21
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269092125
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 22
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269093135
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 23
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269094144
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 24
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269095154
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 25
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269096163
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 26
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269097171
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 27
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269098179
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 28
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269099192
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 29
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269100200
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 30
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269101209
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 31
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269102217
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 32
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269103226
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 33
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269104236
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 34
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269105243
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 35
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269106251
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 36
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269107260
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 37
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269108271
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 38
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269109279
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 39
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269110287
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 40
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269111305
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 41
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269112314
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 42
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269113321
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 43
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269114331
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 44
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269115339
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 45
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269116348
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 46
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269117356
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 47
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269118365
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 48
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269119373
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 49
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269120383
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 50
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269121392
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 51
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269122403
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 52
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269123412
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 53
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269124420
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 54
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269125428
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 55
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269126437
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 56
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269127447
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 57
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269128456
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 58
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269129464
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 59
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269130472
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 60
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269131481
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 61
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269132490
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 62
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269133498
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 63
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269134506
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 64
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269135515
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 65
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269136523
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 66
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269137530
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 67
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269138538
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 68
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269139545
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 69
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269140555
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 70
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269141566
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 71
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269142576
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 72
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269143585
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 73
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269144594
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 74
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269145602
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 75
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269146609
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 76
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269147616
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 77
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269148623
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 78
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269149630
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 79
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269150638
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 80
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269151646
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 81
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269152653
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 82
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269153663
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 83
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269154670
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 84
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269155679
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 85
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269156686
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 86
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269157697
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 87
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269158703
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 88
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269159708
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 89
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269160712
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 90
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269161718
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 91
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269162724
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 92
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269163730
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 93
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269164738
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 94
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269165744
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 95
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269166749
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 96
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269167755
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 97
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269168762
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 98
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269169775
+  - ==: de.ancash.shitchat.message.StringMessage
+    msg: message 99
+    sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
+    channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
+    stamp: 1689269170781

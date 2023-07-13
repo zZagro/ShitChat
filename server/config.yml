@@ -1,6 +1,6 @@
 defaultProfilePicFile: defaultProfilePic.png
 server:
-  cacheTimeout: 600000 #in ms
+  cacheTimeout: 600000
   address: localhost
   port: 12345
   worker: 2
