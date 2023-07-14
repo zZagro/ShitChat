@@ -22,6 +22,7 @@ import java.util.stream.IntStream;
 import org.simpleyaml.configuration.file.YamlFile;
 import org.simpleyaml.exceptions.InvalidConfigurationException;
 
+import de.ancash.datastructures.tuples.Tuple;
 import de.ancash.shitchat.ShitChatImage;
 import de.ancash.shitchat.channel.AbstractChannel;
 import de.ancash.shitchat.channel.ChannelType;
@@ -30,6 +31,7 @@ import de.ancash.shitchat.channel.GroupChannel;
 import de.ancash.shitchat.packet.user.RequestType;
 import de.ancash.shitchat.server.channel.ChannelRegistry;
 import de.ancash.shitchat.server.client.Client;
+import de.ancash.shitchat.user.ChannelList;
 import de.ancash.shitchat.user.FriendList;
 import de.ancash.shitchat.user.FullUser;
 import de.ancash.shitchat.user.MessageList;
@@ -93,14 +95,19 @@ public class Account {
 		return new User(uid, username, getProfilePic());
 	}
 
-	public synchronized FullUser toFullUser(AccountRegistry registry) {
+	public synchronized FullUser toFullUser(AccountRegistry registry, ChannelRegistry cr) {
 		return new FullUser(uid, username, getProfilePic(),
 				new FriendList(getUser(incomingReqs.get(RequestType.FRIEND), registry),
 						getUser(outgoingReqs.get(RequestType.FRIEND), registry),
 						getUser(acceptedReqs.get(RequestType.FRIEND), registry)),
 				new MessageList(getUser(incomingReqs.get(RequestType.MESSAGE), registry),
 						getUser(outgoingReqs.get(RequestType.MESSAGE), registry),
-						getUser(acceptedReqs.get(RequestType.MESSAGE), registry)));
+						getUser(acceptedReqs.get(RequestType.MESSAGE), registry)),
+				new ChannelList(channels.entrySet().stream()
+						.map(e -> Tuple.of(e.getKey(),
+								e.getValue().stream().map(cid -> cr.getChannelById(cid, e.getKey()))
+										.collect(Collectors.toSet())))
+						.collect(Collectors.toMap(t -> t.getFirst(), t -> t.getSecond()))));
 	}
 
 	private synchronized Set<User> getUser(Set<UUID> ids, AccountRegistry registry) {

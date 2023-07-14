@@ -108,10 +108,10 @@ public class ShitChatServer implements Listener {
 						UUID.fromString("2b3e840d-cea9-4ebe-9752-3505143edcdf"));
 				System.out.println(dc.getMessages());
 				int i = 0;
-				while (true) {
-					System.out.println(i + ":" + channelRegistry.writeToChannel(accRegistry, dc, acc, "message " + i));
+				while (i < 1000) {
+					System.out.println(i + ":" + channelRegistry.writeToChannel(accRegistry, dc, acc,
+							"message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw " + i));
 					i++;
-					Thread.sleep(1000);
 				}
 			} catch (Throwable th) {
 				th.printStackTrace();
@@ -189,5 +189,9 @@ public class ShitChatServer implements Listener {
 
 	public long getCacheTimeout() {
 		return cacheTimeout;
+	}
+
+	public ChannelRegistry getChannelRegistry() {
+		return channelRegistry;
 	}
 }

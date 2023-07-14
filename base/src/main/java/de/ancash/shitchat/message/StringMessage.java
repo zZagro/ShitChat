@@ -1,5 +1,6 @@
 package de.ancash.shitchat.message;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -19,11 +20,12 @@ public class StringMessage extends AbstractMessage implements ConfigurationSeria
 
 	protected static final String MESSAGE_KEY = "msg";
 
-//	public static void main(String[] args) throws IOException {
+//	public static void main(String[] args) throws IOException, InterruptedException {
+//		System.out.println(isValid("message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw "));
 //		ConfigurationSerialization.registerClass(StringMessage.class);
 //		YamlFile file = new YamlFile("test.yml");
 //		file.createNewFile();
-//		file.set("test", new StringMessage(UUID.randomUUID(), UUID.randomUUID(), System.currentTimeMillis(), "asda sdas das23 34 34 3"));
+//		file.set("test", new StringMessage(UUID.randomUUID(), UUID.randomUUID(), System.currentTimeMillis(), "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw "));
 //		file.save();
 //		file.load();
 //		System.out.println(file.get("test"));
@@ -31,7 +33,8 @@ public class StringMessage extends AbstractMessage implements ConfigurationSeria
 //	}
 
 	public static boolean isValid(String message) {
-		return MESSAGE_PATTERN.matcher(message).matches();
+		return Arrays.asList(message.split("\n")).stream().map(MESSAGE_PATTERN::matcher).filter(m -> !m.matches())
+				.findAny().isEmpty() && message.length() <= MAX_STRING_MESSAGE_LENGTH;
 	}
 
 	private final String message;

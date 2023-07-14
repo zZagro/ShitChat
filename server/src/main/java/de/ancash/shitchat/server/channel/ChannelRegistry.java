@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +43,7 @@ public class ChannelRegistry implements Runnable {
 	private final ShitChatServer server;
 	private final CustomReentrantReadWriteLock lock = new CustomReentrantReadWriteLock();
 	private final ConcurrentHashMap<ChannelType, ConcurrentHashMap<UUID, AbstractChannel>> channelsById = new ConcurrentHashMap<ChannelType, ConcurrentHashMap<UUID, AbstractChannel>>();
+	private final Set<AbstractChannel> saveQueue = Collections.synchronizedSet(new LinkedHashSet<AbstractChannel>());
 
 	public ChannelRegistry(ShitChatServer server) throws InvalidConfigurationException, IOException {
 		this.server = server;
@@ -68,21 +72,14 @@ public class ChannelRegistry implements Runnable {
 	}
 
 	private boolean writeToChannel0(AccountRegistry ar, AbstractChannel channel, Account sender, String message) {
-		if (!StringMessage.isValid(message))
+		if (!StringMessage.isValid(message) || message.length() > 2000)
 			return false;
 		AbstractMessage msg = new StringMessage(channel.getChannelId(), sender.getUserId(), System.currentTimeMillis(),
 				message);
-
 		channel.addMessage(msg);
-		try {
-			saveChannelToFile(channel);
-		} catch (IOException e) {
-			System.err.println("could not write to " + channel.getChannelId() + ": " + message);
-			e.printStackTrace();
-			return false;
-		}
+		saveQueue.add(channel);
 		channel.getUsers().stream().map(ar::getAccount).map(Account::getAllSessions).flatMap(Collection::stream)
-				.filter(s -> !s.getAccount().getUserId().equals(sender.getUserId())).forEach(s -> {
+				.forEach(s -> {
 					s.sendPacket(new MessagePacket(s.getSessionId(), msg, MessageType.STRING));
 					System.out.println(
 							"published message to " + s.getAccount().getUserId() + " in " + channel.getChannelId());
@@ -181,6 +178,7 @@ public class ChannelRegistry implements Runnable {
 	public void run() {
 		while (server.isRunning()) {
 
+			lock.writeLock(() -> checkChannelsToSave());
 			lock.writeLock(() -> checkCacheTimeout());
 
 			try {
@@ -195,6 +193,26 @@ public class ChannelRegistry implements Runnable {
 		});
 	}
 
+	private void checkChannelsToSave() {
+		Iterator<AbstractChannel> iter = saveQueue.iterator();
+		long now = System.currentTimeMillis();
+		while (iter.hasNext()) {
+			AbstractChannel ch = iter.next();
+			if (ch.getLastAccess() + TimeUnit.SECONDS.toMillis(10) < now) {
+				long s = System.nanoTime();
+				try {
+					saveChannelToFile(ch);
+					System.out.println("saving chanel" + ch.getChannelId() + ":" + ch.getChannelType() + "saved in "
+							+ (System.nanoTime() - s) / 1000D + " micros");
+				} catch (IOException e) {
+					System.err.println("could not save " + ch);
+					e.printStackTrace();
+				}
+				iter.remove();
+			}
+		}
+	}
+
 	private void checkCacheTimeout() {
 		channelsById.values().forEach(e -> checkCacheTimeout(e.values()));
 	}
@@ -204,11 +222,12 @@ public class ChannelRegistry implements Runnable {
 		long now = System.currentTimeMillis();
 		while (chs.hasNext()) {
 			AbstractChannel cur = chs.next();
-			if (cur.getLastAccess() + TimeUnit.SECONDS.toMillis(10) < now) {
-				System.out.println(
-						"cache life time of " + cur.getChannelId() + ":" + cur.getChannelType() + " expired, saving");
+			if (cur.getLastAccess() + TimeUnit.SECONDS.toMillis(60) < now) {
+				long s = System.nanoTime();
 				try {
 					saveChannelToFile(cur);
+					System.out.println("cache life time of channel " + cur.getChannelId() + ":" + cur.getChannelType()
+							+ " expired, saved in " + (System.nanoTime() - s) / 1000D + " micros");
 				} catch (IOException e) {
 					System.err.println("could not save ");
 					e.printStackTrace();

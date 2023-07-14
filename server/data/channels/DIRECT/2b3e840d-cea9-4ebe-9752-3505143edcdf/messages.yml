@@ -1,501 +1,501 @@
 messages:
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 0
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 900"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269070832
+    stamp: 1689336689055
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 1
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 901"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269071871
+    stamp: 1689336689055
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 2
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 902"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269072897
+    stamp: 1689336689055
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 3
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 903"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269073922
+    stamp: 1689336689055
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 4
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 904"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269074944
+    stamp: 1689336689055
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 5
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 905"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269075965
+    stamp: 1689336689055
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 6
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 906"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269076984
+    stamp: 1689336689055
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 7
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 907"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269077995
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 8
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 908"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269079009
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 9
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 909"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269080022
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 10
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 910"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269081031
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 11
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 911"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269082040
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 12
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 912"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269083047
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 13
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 913"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269084058
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 14
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 914"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269085066
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 15
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 915"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269086075
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 16
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 916"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269087085
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 17
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 917"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269088094
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 18
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 918"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269089103
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 19
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 919"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269090111
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 20
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 920"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269091118
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 21
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 921"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269092125
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 22
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 922"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269093135
+    stamp: 1689336689056
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 23
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 923"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269094144
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 24
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 924"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269095154
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 25
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 925"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269096163
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 26
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 926"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269097171
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 27
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 927"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269098179
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 28
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 928"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269099192
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 29
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 929"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269100200
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 30
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 930"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269101209
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 31
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 931"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269102217
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 32
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 932"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269103226
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 33
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 933"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269104236
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 34
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 934"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269105243
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 35
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 935"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269106251
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 36
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 936"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269107260
+    stamp: 1689336689057
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 37
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 937"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269108271
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 38
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 938"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269109279
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 39
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 939"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269110287
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 40
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 940"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269111305
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 41
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 941"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269112314
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 42
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 942"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269113321
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 43
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 943"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269114331
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 44
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 944"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269115339
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 45
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 945"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269116348
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 46
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 946"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269117356
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 47
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 947"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269118365
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 48
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 948"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269119373
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 49
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 949"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269120383
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 50
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 950"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269121392
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 51
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 951"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269122403
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 52
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 952"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269123412
+    stamp: 1689336689058
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 53
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 953"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269124420
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 54
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 954"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269125428
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 55
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 955"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269126437
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 56
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 956"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269127447
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 57
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 957"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269128456
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 58
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 958"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269129464
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 59
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 959"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269130472
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 60
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 960"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269131481
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 61
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 961"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269132490
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 62
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 962"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269133498
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 63
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 963"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269134506
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 64
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 964"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269135515
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 65
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 965"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269136523
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 66
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 966"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269137530
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 67
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 967"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269138538
+    stamp: 1689336689059
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 68
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 968"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269139545
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 69
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 969"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269140555
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 70
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 970"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269141566
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 71
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 971"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269142576
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 72
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 972"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269143585
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 73
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 973"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269144594
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 74
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 974"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269145602
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 75
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 975"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269146609
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 76
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 976"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269147616
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 77
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 977"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269148623
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 78
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 978"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269149630
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 79
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 979"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269150638
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 80
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 980"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269151646
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 81
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 981"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269152653
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 82
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 982"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269153663
+    stamp: 1689336689060
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 83
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 983"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269154670
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 84
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 984"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269155679
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 85
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 985"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269156686
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 86
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 986"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269157697
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 87
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 987"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269158703
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 88
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 988"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269159708
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 89
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 989"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269160712
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 90
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 990"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269161718
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 91
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 991"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269162724
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 92
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 992"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269163730
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 93
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 993"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269164738
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 94
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 994"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269165744
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 95
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 995"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269166749
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 96
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 996"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269167755
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 97
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 997"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269168762
+    stamp: 1689336689061
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 98
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 998"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269169775
+    stamp: 1689336689062
   - ==: de.ancash.shitchat.message.StringMessage
-    msg: message 99
+    msg: "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw 999"
     sender: 1bd8c6e4-47e7-41b3-b841-3fc426919035
     channel: 2b3e840d-cea9-4ebe-9752-3505143edcdf
-    stamp: 1689269170781
+    stamp: 1689336689062

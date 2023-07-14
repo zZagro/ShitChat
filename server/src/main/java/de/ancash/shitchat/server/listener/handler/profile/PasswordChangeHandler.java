@@ -8,6 +8,7 @@ import de.ancash.shitchat.packet.profile.PasswordChangePacket;
 import de.ancash.shitchat.packet.profile.ProfileChangeResultPacket;
 import de.ancash.shitchat.server.account.Account;
 import de.ancash.shitchat.server.account.AccountRegistry;
+import de.ancash.shitchat.server.channel.ChannelRegistry;
 import de.ancash.shitchat.server.client.Client;
 import de.ancash.shitchat.server.listener.handler.HandlerUtil;
 import de.ancash.sockets.packet.Packet;
@@ -15,9 +16,11 @@ import de.ancash.sockets.packet.Packet;
 public class PasswordChangeHandler {
 
 	private final AccountRegistry registry;
+	private final ChannelRegistry cr;
 
-	public PasswordChangeHandler(AccountRegistry registry) {
+	public PasswordChangeHandler(AccountRegistry registry, ChannelRegistry cr) {
 		this.registry = registry;
+		this.cr = cr;
 	}
 
 	@SuppressWarnings("nls")
@@ -44,7 +47,7 @@ public class PasswordChangeHandler {
 				try {
 					acc.setPassword(ucp.getNewPass());
 					packet.setSerializable(
-							new ProfileChangeResultPacket(ucp.getSessionId(), acc.toFullUser(registry), null));
+							new ProfileChangeResultPacket(ucp.getSessionId(), acc.toFullUser(registry, cr), null));
 					System.out.println(cl.getRemoteAddress() + " change pwd successful");
 				} catch (IOException e) {
 					packet.setSerializable(new ProfileChangeResultPacket(ucp.getSessionId(), null,
