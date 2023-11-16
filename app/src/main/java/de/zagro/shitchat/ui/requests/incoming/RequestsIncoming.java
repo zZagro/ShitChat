@@ -14,17 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import de.ancash.shitchat.user.FullUser;
+import de.ancash.shitchat.user.User;
 import de.zagro.shitchat.SplashActivity;
 import de.zagro.shitchat.databinding.FragmentRequestsIncomingBinding;
-import de.zagro.shitchat.ui.requests.outgoing.RequestOutgoingUser;
-import de.zagro.shitchat.ui.requests.outgoing.RequestsOutgoingAdapter;
 
 public class RequestsIncoming extends Fragment {
 
     private FragmentRequestsIncomingBinding binding;
 
-    private List<RequestsIncomingUser> users;
+    private List<User> friendIncomingListRaw;
+    private List<RequestsIncomingUser> friendIncomingList;
 
     @Nullable
     @Override
@@ -37,39 +39,33 @@ public class RequestsIncoming extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        users = new ArrayList<>();
+        friendIncomingListRaw = new ArrayList<>();
+        friendIncomingList = new ArrayList<>();
 
-        showOutgoingRequests();
+        showIncomingRequests();
     }
 
-    private void getUsers()
+    private void getIncomingFriendRequests()
     {
-        users.clear();
+        friendIncomingListRaw.clear();
+        friendIncomingList.clear();
 
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
-        users.add(new RequestsIncomingUser("Zagro", Drawable.createFromStream(SplashActivity.client.getUser().getProfilePic().asStream(), "src name")));
+        FullUser user = (FullUser) SplashActivity.client.getUser();
+        Set<User> incoming = user.getFriendList().getIncoming();
+        friendIncomingListRaw.addAll(incoming);
 
+        for (User u : friendIncomingListRaw)
+        {
+            friendIncomingList.add(new RequestsIncomingUser(u.getUsername(), Drawable.createFromStream(u.getProfilePic().asStream(), "src name")));
+        }
     }
 
-    private void showOutgoingRequests()
+    private void showIncomingRequests()
     {
-        getUsers();
+        getIncomingFriendRequests();
         RecyclerView recyclerView = binding.requestsIncomingRecylcerview;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        RequestsIncomingAdapter recyclerAdapter = new RequestsIncomingAdapter(users);
+        RequestsIncomingAdapter recyclerAdapter = new RequestsIncomingAdapter(friendIncomingList);
         recyclerView.setAdapter(recyclerAdapter);
     }
 }

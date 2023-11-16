@@ -24,7 +24,7 @@ public class RequestsIncomingAdapter extends RecyclerView.Adapter<RequestsIncomi
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.incoming_user_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.requests_user_layout, parent, false);
         return new RequestsIncomingAdapter.MyViewHolder(view);
     }
 
@@ -45,8 +45,8 @@ public class RequestsIncomingAdapter extends RecyclerView.Adapter<RequestsIncomi
         ImageView templateUserImage;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            templateUsername = itemView.findViewById(R.id.requests_incoming_username);
-            templateUserImage = itemView.findViewById(R.id.requests_incoming_image);
+            templateUsername = itemView.findViewById(R.id.requests_user_username);
+            templateUserImage = itemView.findViewById(R.id.requests_user_image);
         }
     }
 }

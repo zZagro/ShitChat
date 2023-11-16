@@ -18,6 +18,7 @@
         app:layout_constraintWidth_percent="0.9"
         android:background="@drawable/gradient_border"
         android:foreground="?attr/selectableItemBackground"
+        android:stateListAnimator="@null"
         android:clickable="true"/>
 
     <com.google.android.material.imageview.ShapeableImageView

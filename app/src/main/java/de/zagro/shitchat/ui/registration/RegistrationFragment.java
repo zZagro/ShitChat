@@ -36,6 +36,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -125,27 +127,31 @@ public class RegistrationFragment extends Fragment {
 
         byte[] hashedPassword = AuthenticationUtil.hashPassword(email.getText().toString(), password.getText().toString().toCharArray());
 
-        Optional<String> optional = SplashActivity.client.signUp(email.getText().toString(), hashedPassword, username.getText().toString());
-        if (optional.isPresent())
-        {
-            String errorMessage = optional.get();
-            if (errorMessage.equals(ShitChatPlaceholder.INTERNAL_ERROR))
-                Toast.makeText(requireActivity(), "Something went wrong! Try again later!", Toast.LENGTH_SHORT).show();
-            if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_ALREADY_EXISTS))
-                Toast.makeText(requireActivity(), "The Email is already in use!", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
-            SharedPreferences.Editor edit = userDetails.edit();
-            edit.putString("email", email.getText().toString());
-            edit.putString("hashedPassword",  passToString(hashedPassword));
-            edit.apply();
+        Future<Optional<String>> optional = SplashActivity.client.signUp(email.getText().toString(), hashedPassword, username.getText().toString());
+        try {
+            if (optional.get().isPresent())
+            {
+                String errorMessage = optional.get().get();
+                if (errorMessage.equals(ShitChatPlaceholder.INTERNAL_ERROR))
+                    Toast.makeText(requireActivity(), "Something went wrong! Try again later!", Toast.LENGTH_SHORT).show();
+                if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_ALREADY_EXISTS))
+                    Toast.makeText(requireActivity(), "The Email is already in use!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = userDetails.edit();
+                edit.putString("email", email.getText().toString());
+                edit.putString("hashedPassword",  passToString(hashedPassword));
+                edit.apply();
 
-            Intent intent = new Intent(requireContext(), MainActivity.class);
-            intent.putExtra("status", "Signup");
-            startActivity(intent);
-            requireActivity().finish();
+                Intent intent = new Intent(requireContext(), MainActivity.class);
+                intent.putExtra("status", "Signup");
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

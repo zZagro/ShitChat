@@ -30,6 +30,8 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -214,53 +216,39 @@ public class ChangePasswordFragment extends Fragment {
             return;
         }
 
-        Log.d("EMAIL", SplashActivity.client.getEmail());
-        Log.d("CURRENT PASSWORD", currentPassword);
+        byte[] hashedPasswordNew = AuthenticationUtil.hashPassword(SplashActivity.client.getEmail(), inputConfirm.toCharArray());
+        byte[] hashedPasswordOld = AuthenticationUtil.hashPassword(SplashActivity.client.getEmail(), currentPassword.toCharArray());
 
-        Log.d("CONFIRM PASSWORD", inputNew);
-        Log.d("CONFIRM PASSWORD TRIMMED", trimmedInputNew);
+        Future<Optional<String>> optional = SplashActivity.client.changePassword(hashedPasswordOld, hashedPasswordNew);
 
-        Log.d("CONFIRM PASSWORD", inputConfirm);
-        Log.d("CONFIRM PASSWORD TRIMMED", trimmedInputConfirm);
+        try {
+            if (optional.get().isPresent())
+            {
+                String errorMessage = optional.get().get();
 
-        Handler handler = new Handler();
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                byte[] hashedPasswordNew = AuthenticationUtil.hashPassword(SplashActivity.client.getEmail(), inputConfirm.toCharArray());
-                Log.d("HASHED PW WITH RUNNABLE", Arrays.toString(hashedPasswordNew));
-
-                byte[] hashedPasswordOld = AuthenticationUtil.hashPassword(SplashActivity.client.getEmail(), currentPassword.toCharArray());
-
-                Optional<String> optional = SplashActivity.client.changePassword(hashedPasswordOld, hashedPasswordNew);
-
-                if (optional.isPresent())
-                {
-                    String errorMessage = optional.get();
-
-                    SplashActivity.client.sendErrorMessages(errorMessage, requireActivity());
-                }
-                else
-                {
-                    currentPasswordText.setText("");
-                    newPasswordText.setText("");
-                    confirmPasswordText.setText("");
-
-                    SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = userDetails.edit();
-                    edit.putString("hashedPassword",  passToString(hashedPasswordNew));
-                    edit.apply();
-
-                    Toast.makeText(requireActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(requireContext(), MainActivity.class);
-                    intent.putExtra("status", "Signup");
-                    startActivity(intent);
-                    requireActivity().finish();
-                }
+                SplashActivity.client.sendErrorMessages(errorMessage, requireActivity());
             }
-        };
-        handler.postDelayed(r, 100);
+            else
+            {
+                currentPasswordText.setText("");
+                newPasswordText.setText("");
+                confirmPasswordText.setText("");
+
+                SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = userDetails.edit();
+                edit.putString("hashedPassword",  passToString(hashedPasswordNew));
+                edit.apply();
+
+                Toast.makeText(requireActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(requireContext(), MainActivity.class);
+                intent.putExtra("status", "Signup");
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static byte[] stringToPass(String s) {

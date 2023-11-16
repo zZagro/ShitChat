@@ -42,6 +42,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -121,25 +123,29 @@ public class LoginFragment extends Fragment {
 
         byte[] hashedPassword = AuthenticationUtil.hashPassword(email.getText().toString(), password.getText().toString().toCharArray());
 
-        Optional<String> optional = SplashActivity.client.login(email.getText().toString(), hashedPassword);
-        if (optional.isPresent())
-        {
-            String errorMessage = optional.get();
+        Future<Optional<String>> optional = SplashActivity.client.login(email.getText().toString(), hashedPassword);
+        try {
+            if (optional.get().isPresent())
+            {
+                String errorMessage = optional.get().get();
 
-            SplashActivity.client.sendErrorMessages(errorMessage, requireActivity());
-        }
-        else
-        {
-            SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
-            SharedPreferences.Editor edit = userDetails.edit();
-            edit.putString("email", email.getText().toString());
-            edit.putString("hashedPassword",  passToString(hashedPassword));
-            edit.apply();
+                SplashActivity.client.sendErrorMessages(errorMessage, requireActivity());
+            }
+            else
+            {
+                SharedPreferences userDetails = requireActivity().getApplicationContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = userDetails.edit();
+                edit.putString("email", email.getText().toString());
+                edit.putString("hashedPassword",  passToString(hashedPassword));
+                edit.apply();
 
-            Intent intent = new Intent(requireContext(), MainActivity.class);
-            intent.putExtra("status", "Login");
-            startActivity(intent);
-            requireActivity().finish();
+                Intent intent = new Intent(requireContext(), MainActivity.class);
+                intent.putExtra("status", "Login");
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

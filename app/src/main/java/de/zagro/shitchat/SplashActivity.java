@@ -29,12 +29,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.ancash.shitchat.ShitChatPlaceholder;
 import de.ancash.shitchat.client.ShitChatClient;
+import de.ancash.shitchat.packet.user.RequestType;
 import de.ancash.shitchat.user.User;
 import de.zagro.shitchat.databinding.ActivitySplashBinding;
 
@@ -54,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        checkVersion();
+        //checkVersion();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
@@ -102,24 +106,23 @@ public class SplashActivity extends AppCompatActivity {
             String email = userDetails.getString("email", null);
             String password = userDetails.getString("hashedPassword", null);
 
-            Optional<String> optional = SplashActivity.client.login(email, stringToPass(password));
+            Future<Optional<String>> optional = SplashActivity.client.login(email, stringToPass(password));
 
-            if (optional.isPresent())
-            {
-                String errorMessage = optional.get();
-                if (errorMessage.equals(ShitChatPlaceholder.WRONG_PASSWORD))
-                    Toast.makeText(this, "Wrong Password!", Toast.LENGTH_SHORT).show();
-                if (errorMessage.equals(ShitChatPlaceholder.ACCOUNT_NONEXISTENT))
-                    Toast.makeText(this, "The Account does not exist!", Toast.LENGTH_SHORT).show();
-                if (errorMessage.equals(ShitChatPlaceholder.INTERNAL_ERROR))
-                    Toast.makeText(this, "Something went wrong! Try again later!", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("status", "Already logged in!");
-                startActivity(intent);
-                finish();
+            try {
+                if (optional.get().isPresent())
+                {
+                    String errorMessage = optional.get().get();
+                    client.sendErrorMessages(errorMessage, this);
+                }
+                else
+                {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra("status", "Already logged in!");
+                    startActivity(intent);
+                    finish();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -281,7 +284,27 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         @Override
+        public void onRequestSuccessful(UUID uuid, RequestType requestType) {
+
+        }
+
+        @Override
+        public void onRequestFailed(String s, UUID uuid, RequestType requestType) {
+
+        }
+
+        @Override
+        public void onRequestReceived(User user, RequestType requestType) {
+            Toast.makeText(SplashActivity.this, user.getUsername() + " sent " + requestType, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
         public void onConnectFailed() {
+
+        }
+
+        @Override
+        public void onUserUpdated() {
 
         }
 

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import de.ancash.shitchat.user.User;
 import de.zagro.shitchat.MainActivity;
@@ -68,11 +69,10 @@ public class RequestsSearch extends Fragment {
         checkInputUpdates(view);
     }
 
-    private void findUsers(String input)
-    {
+    private void findUsers(String input) throws ExecutionException, InterruptedException {
         users.clear();
 
-        userData = SplashActivity.client.searchUser(input).getFirst().get();
+        userData = SplashActivity.client.searchUser(input).get().getFirst().get();
 
         for (int i = 0; i < userData.size(); i++)
         {
@@ -90,7 +90,11 @@ public class RequestsSearch extends Fragment {
 
     private void showSearchedUsers(View view, String input)
     {
-        findUsers(input);
+        try {
+            findUsers(input);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         addUsersSearched(view.findViewById(R.id.requests_search_recylcerview));
     }

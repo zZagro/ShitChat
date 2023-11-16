@@ -18,14 +18,14 @@ public class GroupsFragment extends Fragment {
     private FragmentGroupsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        GroupsViewModel groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
-
         binding = FragmentGroupsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textGroups;
-        groupsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }
