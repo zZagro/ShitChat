@@ -35,8 +35,8 @@ public abstract class ShitChatClient implements Listener {
 
 	@SuppressWarnings("nls")
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
-//		ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565) {
-		ShitChatClient client = new ShitChatClient("localhost", 12345) {
+		ShitChatClient client = new ShitChatClient("denzo.algoholics.eu", 25565) {
+//		ShitChatClient client = new ShitChatClient("localhost", 12345) {
 
 			@Override
 			@EventHandler
@@ -150,9 +150,9 @@ public abstract class ShitChatClient implements Listener {
 		};
 		if (client.connect()) {
 			System.out.println("connected");
-			System.out.println(
-					client.login("joe@gmail.com", AuthenticationUtil.hashPassword("joe@gmail.com", "pwd".toCharArray()))
-							.get());
+			System.out.println(client
+					.login("joee@gmail.com", AuthenticationUtil.hashPassword("joee@gmail.com", "pwd".toCharArray()))
+					.get());
 //			System.out.println(client.changeUserName("joe mama"));
 			List<User> searched = client.searchUser("").get().getFirst().get();
 			for (User u : searched)
@@ -160,7 +160,16 @@ public abstract class ShitChatClient implements Listener {
 //			client.changePassword(AuthenticationUtil.hashPassword("joe@gmail.com", "password".toCharArray()),
 //					AuthenticationUtil.hashPassword("joe@gmail.com", "pwd".toCharArray()));
 			System.out.println(client
-					.sendRequest(UUID.fromString("532c1705-ead5-4abc-8064-3a925c1f705c"), RequestType.FRIEND).get());
+					.sendRequest(UUID.fromString("cafb3c52-440f-4b8b-be43-8885bf56ba3e"), RequestType.FRIEND).get());
+			System.out.println(client
+					.sendRequest(UUID.fromString("cafb3c52-440f-4b8b-be43-8885bf56ba3e"), RequestType.MESSAGE).get());
+//			for(int i = 0; i<1000; i++) {
+//				Packet p = new Packet(Packet.PING_PONG);
+//				p.setAwaitResponse(true);
+//				client.client.write(p);
+//				p.awaitResponse(1000);
+//				System.out.println((System.nanoTime() - p.getTimeStamp()) / 1000D + " micros pp");
+//			}
 			Thread.sleep(2000);
 			client.disconnect();
 		} else {
@@ -291,6 +300,7 @@ public abstract class ShitChatClient implements Listener {
 		logger.info("sid: " + sid);
 		logger.info("user: " + user.getUsername());
 		logger.info("email: " + email);
+		logger.info("id: " + user.getUserId());
 	}
 
 	@SuppressWarnings("nls")

@@ -7,6 +7,7 @@ import de.ancash.shitchat.packet.auth.SignUpPacket;
 import de.ancash.shitchat.server.account.Account;
 import de.ancash.shitchat.server.account.AccountRegistry;
 import de.ancash.shitchat.server.account.Session;
+import de.ancash.shitchat.server.channel.ChannelRegistry;
 import de.ancash.shitchat.server.client.Client;
 import de.ancash.shitchat.user.FullUser;
 import de.ancash.sockets.packet.Packet;
@@ -14,9 +15,11 @@ import de.ancash.sockets.packet.Packet;
 public class SignUpHandler {
 
 	private final AccountRegistry registry;
+	private final ChannelRegistry cr;
 
-	public SignUpHandler(AccountRegistry registry) {
+	public SignUpHandler(AccountRegistry registry, ChannelRegistry cr) {
 		this.registry = registry;
+		this.cr = cr;
 	}
 
 	@SuppressWarnings("nls")
@@ -41,7 +44,7 @@ public class SignUpHandler {
 				cl.putWrite(packet.toBytes());
 				return;
 			}
-			FullUser user = acc.toFullUser(registry);
+			FullUser user = acc.toFullUser(registry, cr);
 			Session s = registry.newSession(acc, cl);
 			packet.setSerializable(new AuthSuccessPacket(s.getSessionId(), user));
 			cl.setSID(s.getSessionId());

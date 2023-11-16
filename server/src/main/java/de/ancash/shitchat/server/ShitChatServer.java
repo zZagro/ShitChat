@@ -1,10 +1,15 @@
 package de.ancash.shitchat.server;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.simpleyaml.configuration.file.YamlFile;
+import org.simpleyaml.configuration.serialization.ConfigurationSerialization;
 import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 import de.ancash.cli.CLI;
@@ -14,8 +19,13 @@ import de.ancash.libs.org.bukkit.event.EventHandler;
 import de.ancash.libs.org.bukkit.event.EventManager;
 import de.ancash.libs.org.bukkit.event.Listener;
 import de.ancash.misc.io.IFormatter;
+import de.ancash.misc.io.ILoggerListener;
 import de.ancash.misc.io.LoggerUtils;
+import de.ancash.shitchat.channel.DirectChannel;
+import de.ancash.shitchat.message.StringMessage;
+import de.ancash.shitchat.server.account.Account;
 import de.ancash.shitchat.server.account.AccountRegistry;
+import de.ancash.shitchat.server.channel.ChannelRegistry;
 import de.ancash.shitchat.server.client.Client;
 import de.ancash.shitchat.server.client.ClientFactory;
 import de.ancash.shitchat.server.listener.ShitChatPacketListener;
@@ -42,8 +52,11 @@ public class ShitChatServer implements Listener {
 	private volatile boolean running = false;
 	private final IThreadPoolExecutor pool = IThreadPoolExecutor.newCachedThreadPool();
 	private final AccountRegistry accRegistry;
+	private final ChannelRegistry channelRegistry;
 	private final ShitChatPacketListener listener;
 	private final CLI cli = new CLI();
+	private final File log;
+	private final FileOutputStream fos;
 
 	@SuppressWarnings("nls")
 	public ShitChatServer() throws InvalidConfigurationException, IOException {
@@ -54,10 +67,56 @@ public class ShitChatServer implements Listener {
 		LoggerUtils.setErr(Level.SEVERE, formatter);
 		LoggerUtils.setOut(Level.INFO, formatter);
 		LoggerUtils.setGlobalLogger(formatter);
+		log = new File("logs/" + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(Calendar.getInstance().getTime())
+				+ ".log");
+		log.mkdirs();
+		log.delete();
+		log.createNewFile();
+		fos = new FileOutputStream(log);
+		formatter.addListener(new ILoggerListener() {
+
+			@Override
+			public void onLog(String arg0) {
+				try {
+					fos.write(("\n" + arg0.replace("\t", "   ").replaceAll("\u001B\\[[;\\d]*m", "")
+							.replaceAll("\\P{Print}", "")).getBytes());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		System.out.println("Logger set");
+		ConfigurationSerialization.registerClass(StringMessage.class);
 		accRegistry = new AccountRegistry(this);
+		channelRegistry = new ChannelRegistry(this);
 		listener = new ShitChatPacketListener(this);
 		loadConfig();
+		new Thread(() -> {
+			Thread.currentThread().setName("asdasdadasdaads");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				channelRegistry.createDirectChannel(
+						accRegistry.getAccount(UUID.fromString("1bd8c6e4-47e7-41b3-b841-3fc426919035")),
+						accRegistry.getAccount(UUID.fromString("1e9953d6-8515-41b7-a2c7-accc2a76fc8d")));
+				Account acc = accRegistry.getAccount(UUID.fromString("1bd8c6e4-47e7-41b3-b841-3fc426919035"));
+				DirectChannel dc = acc.getDirectChannel(channelRegistry,
+						UUID.fromString("2b3e840d-cea9-4ebe-9752-3505143edcdf"));
+				System.out.println(dc.getMessages());
+				int i = 0;
+				while (i < 1000) {
+					System.out.println(i + ":" + channelRegistry.writeToChannel(accRegistry, dc, acc,
+							"message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw " + i));
+					i++;
+				}
+			} catch (Throwable th) {
+				th.printStackTrace();
+			}
+		}).start();
 		start();
 	}
 
@@ -71,6 +130,7 @@ public class ShitChatServer implements Listener {
 		server.start();
 		System.out.println("Done");
 		pool.submit(accRegistry);
+		pool.submit(channelRegistry);
 		EventManager.registerEvents(listener, this);
 		cli.onInput(this::onInput);
 		cli.run();
@@ -92,6 +152,7 @@ public class ShitChatServer implements Listener {
 			try {
 				Thread.sleep(2000);
 				server.stop();
+				fos.close();
 			} catch (InterruptedException | IOException e) {
 				e.printStackTrace();
 			}
@@ -128,5 +189,9 @@ public class ShitChatServer implements Listener {
 
 	public long getCacheTimeout() {
 		return cacheTimeout;
+	}
+
+	public ChannelRegistry getChannelRegistry() {
+		return channelRegistry;
 	}
 }

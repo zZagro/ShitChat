@@ -5,6 +5,7 @@ import de.ancash.shitchat.packet.profile.ProfileChangeResultPacket;
 import de.ancash.shitchat.packet.profile.UsernameChangePacket;
 import de.ancash.shitchat.server.account.Account;
 import de.ancash.shitchat.server.account.AccountRegistry;
+import de.ancash.shitchat.server.channel.ChannelRegistry;
 import de.ancash.shitchat.server.client.Client;
 import de.ancash.shitchat.server.listener.handler.HandlerUtil;
 import de.ancash.sockets.packet.Packet;
@@ -12,9 +13,11 @@ import de.ancash.sockets.packet.Packet;
 public class UsernameChangeHandler {
 
 	private final AccountRegistry registry;
+	private final ChannelRegistry cr;
 
-	public UsernameChangeHandler(AccountRegistry registry) {
+	public UsernameChangeHandler(AccountRegistry registry, ChannelRegistry cr) {
 		this.registry = registry;
+		this.cr = cr;
 	}
 
 	@SuppressWarnings("nls")
@@ -38,7 +41,7 @@ public class UsernameChangeHandler {
 			} else {
 				System.out.println(cl.getRemoteAddress() + " change username successful");
 				packet.setSerializable(
-						new ProfileChangeResultPacket(ucp.getSessionId(), acc.toFullUser(registry), null));
+						new ProfileChangeResultPacket(ucp.getSessionId(), acc.toFullUser(registry, cr), null));
 			}
 		}
 		cl.putWrite(packet.toBytes());

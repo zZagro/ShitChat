@@ -40,13 +40,13 @@ public class ShitChatPacketListener implements Listener {
 
 	public ShitChatPacketListener(ShitChatServer server) {
 		this.server = server;
-		loginHandler = new LoginHandler(server.getAccountRegistry());
-		this.signUpHandler = new SignUpHandler(server.getAccountRegistry());
-		usernameChange = new UsernameChangeHandler(server.getAccountRegistry());
-		ppChange = new ProfilePicChangeHandler(server.getAccountRegistry());
-		pwdChange = new PasswordChangeHandler(server.getAccountRegistry());
+		loginHandler = new LoginHandler(server.getAccountRegistry(), server.getChannelRegistry());
+		this.signUpHandler = new SignUpHandler(server.getAccountRegistry(), server.getChannelRegistry());
+		usernameChange = new UsernameChangeHandler(server.getAccountRegistry(), server.getChannelRegistry());
+		ppChange = new ProfilePicChangeHandler(server.getAccountRegistry(), server.getChannelRegistry());
+		pwdChange = new PasswordChangeHandler(server.getAccountRegistry(), server.getChannelRegistry());
 		searchUser = new SearchUserHandler(server.getAccountRegistry());
-		reqHandler = new RequestHandler(server.getAccountRegistry());
+		reqHandler = new RequestHandler(server.getAccountRegistry(), server.getChannelRegistry());
 	}
 
 	@SuppressWarnings("nls")

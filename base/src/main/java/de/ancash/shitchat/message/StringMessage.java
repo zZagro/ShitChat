@@ -1,41 +1,52 @@
 package de.ancash.shitchat.message;
 
-import java.io.StringReader;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
 
 import de.ancash.libs.org.apache.commons.lang3.Validate;
-import de.ancash.shitchat.channel.AbstractChat;
+import de.ancash.shitchat.channel.AbstractChannel;
 import de.ancash.shitchat.user.User;
 
 @SuppressWarnings("nls")
-public class StringMessage extends AbstractMessage {
+public class StringMessage extends AbstractMessage implements ConfigurationSerializable {
 
+	private static final long serialVersionUID = -2469343375731176578L;
 	public static final int MAX_STRING_MESSAGE_LENGTH = 1000;
-	public static final String MESSAGE_REGEX = "[a-zA-Z0-9]*";
+	public static final Pattern MESSAGE_PATTERN = Pattern.compile("[\\x20-\\x7F]*");
 
 	protected static final String MESSAGE_KEY = "msg";
 
+//	public static void main(String[] args) throws IOException, InterruptedException {
+//		System.out.println(isValid("message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw "));
+//		ConfigurationSerialization.registerClass(StringMessage.class);
+//		YamlFile file = new YamlFile("test.yml");
+//		file.createNewFile();
+//		file.set("test", new StringMessage(UUID.randomUUID(), UUID.randomUUID(), System.currentTimeMillis(), "message\nasdasdasdas\nasaw ada wd aw \nasd as dw aw "));
+//		file.save();
+//		file.load();
+//		System.out.println(file.get("test"));
+//		file.deleteFile();
+//	}
+
 	public static boolean isValid(String message) {
-		for (String s : message.split("\n"))
-			if (!s.matches(MESSAGE_REGEX))
-				return false;
-		return true;
+		return Arrays.asList(message.split("\n")).stream().map(MESSAGE_PATTERN::matcher).filter(m -> !m.matches())
+				.findAny().isEmpty() && message.length() <= MAX_STRING_MESSAGE_LENGTH;
 	}
 
 	private final String message;
 
-	public StringMessage(AbstractChat channel, User sender, long millis, String message) {
+	public StringMessage(AbstractChannel channel, User sender, long millis, String message) {
 		this(channel.getChannelId(), sender.getUserId(), millis, message);
 	}
 
 	public StringMessage(UUID channel, UUID sender, long millis, String message) {
-		super(channel, sender, millis, Type.STRING);
+		super(channel, sender, millis, MessageType.STRING);
 		Validate.isTrue(message.length() <= MAX_STRING_MESSAGE_LENGTH, "message too long");
-		Validate.isTrue(isValid(message), "invalid message, only " + MESSAGE_REGEX);
+		Validate.isTrue(isValid(message), "invalid message, only " + MESSAGE_PATTERN.pattern());
 		this.message = message;
 	}
 
@@ -48,16 +59,15 @@ public class StringMessage extends AbstractMessage {
 	}
 
 	@Override
-	public String serialize() {
-		JsonObjectBuilder builder = serializeBase();
-		builder.add(MESSAGE_KEY, message);
-		return builder.build().toString();
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = super.serialize();
+		map.put(MESSAGE_KEY, message);
+		return map;
 	}
 
-	public static StringMessage deserialize(String json) {
-		JsonObject object = Json.createReader(new StringReader(json)).readObject();
-		return new StringMessage(UUID.fromString(object.getString(CHANNEL_ID_KEY)),
-				UUID.fromString(object.getString(SENDER_ID_KEY)), object.getJsonNumber(TIMESTAMP_KEY).longValue(),
-				object.getString(MESSAGE_KEY));
+	public static StringMessage deserialize(Map<String, Object> map) {
+		return new StringMessage(UUID.fromString((String) map.get(CHANNEL_ID_KEY)),
+				UUID.fromString((String) map.get(SENDER_ID_KEY)), (long) map.get(TIMESTAMP_KEY),
+				(String) map.get(MESSAGE_KEY));
 	}
 }

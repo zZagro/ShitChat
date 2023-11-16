@@ -10,11 +10,18 @@ public class FullUser extends User {
 
 	private final FriendList friendList;
 	private final MessageList messageReqList;
+	private final ChannelList channelList;
 
-	public FullUser(UUID id, String name, ShitChatImage img, FriendList friendList, MessageList messageReqList) {
+	public FullUser(UUID id, String name, ShitChatImage img, FriendList friendList, MessageList messageReqList,
+			ChannelList channelList) {
 		super(id, name, img);
 		this.friendList = friendList;
 		this.messageReqList = messageReqList;
+		this.channelList = channelList;
+	}
+
+	public ChannelList getChannelList() {
+		return channelList;
 	}
 
 	public FriendList getFriendList() {

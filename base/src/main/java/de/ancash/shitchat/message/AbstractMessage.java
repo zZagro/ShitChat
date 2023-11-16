@@ -1,19 +1,17 @@
 package de.ancash.shitchat.message;
 
-import java.io.StringReader;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
-import de.ancash.shitchat.channel.AbstractChat;
+import de.ancash.shitchat.channel.AbstractChannel;
 import de.ancash.shitchat.user.User;
 
 @SuppressWarnings("nls")
-public abstract class AbstractMessage {
+public abstract class AbstractMessage implements Serializable {
 
-	protected static final String TYPE_KEY = "type";
+	private static final long serialVersionUID = 5816473586212316568L;
 	protected static final String CHANNEL_ID_KEY = "channel";
 	protected static final String SENDER_ID_KEY = "sender";
 	protected static final String TIMESTAMP_KEY = "stamp";
@@ -21,17 +19,17 @@ public abstract class AbstractMessage {
 	protected final UUID channel;
 	protected final UUID sender;
 	protected final long millis;
-	protected final Type type;
+	protected final MessageType messageType;
 
-	public AbstractMessage(AbstractChat channel, User sender, long millis, Type type) {
-		this(channel.getChannelId(), sender.getUserId(), millis, type);
+	public AbstractMessage(AbstractChannel channel, User sender, long millis, MessageType messageType) {
+		this(channel.getChannelId(), sender.getUserId(), millis, messageType);
 	}
 
-	public AbstractMessage(UUID channel, UUID sender, long millis, Type type) {
+	public AbstractMessage(UUID channel, UUID sender, long millis, MessageType messageType) {
 		this.channel = channel;
 		this.sender = sender;
 		this.millis = millis;
-		this.type = type;
+		this.messageType = messageType;
 	}
 
 	public UUID getChannelId() {
@@ -46,28 +44,11 @@ public abstract class AbstractMessage {
 		return millis;
 	}
 
-	protected JsonObjectBuilder serializeBase() {
-		JsonObjectBuilder builder = Json.createObjectBuilder();
-		builder.add(TYPE_KEY, type.name());
-		builder.add(CHANNEL_ID_KEY, channel.toString());
-		builder.add(SENDER_ID_KEY, sender.toString());
-		builder.add(TIMESTAMP_KEY, millis);
-		return builder;
-	}
-
-	public abstract String serialize();
-
-	public static AbstractMessage deserialize(String json) {
-		JsonObject object = Json.createReader(new StringReader(json)).readObject();
-		switch (Type.valueOf(object.getString(TYPE_KEY))) {
-		case STRING:
-			return StringMessage.deserialize(json);
-		default:
-			throw new IllegalArgumentException(Type.valueOf(object.getString(TYPE_KEY)).name());
-		}
-	}
-
-	public enum Type {
-		STRING;
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = new HashMap<>();
+		map.put(CHANNEL_ID_KEY, channel.toString());
+		map.put(SENDER_ID_KEY, sender.toString());
+		map.put(TIMESTAMP_KEY, millis);
+		return map;
 	}
 }
