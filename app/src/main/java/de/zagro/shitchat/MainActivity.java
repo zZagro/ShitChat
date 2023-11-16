@@ -33,6 +33,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.Objects;
+
 import de.zagro.shitchat.databinding.ActivityMainBinding;
 import de.zagro.shitchat.ui.toolbar.ToolbarManager;
 
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                String currentFragment = navController.getCurrentDestination().getLabel().toString();
+                String currentFragment = Objects.requireNonNull(navController.getCurrentDestination()).getLabel().toString();
                 Log.i("Current Fragment", currentFragment);
                 if (item.getItemId() == R.id.navigation_home)
                 {

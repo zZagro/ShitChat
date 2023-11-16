@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
@@ -76,59 +77,43 @@ public class RequestsSearchAdapter extends RecyclerView.Adapter<RequestsSearchAd
                 TextView username = popUp.findViewById(R.id.requests_search_popup_username);
                 username.setText(users.get(position).getName());
 
-                /*View popUpToggle = popUp.getRootView().findViewById(R.id.requests_search_popup_friend_slider_dot);
-                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) popUpToggle.getLayoutParams();
-                popUpToggle.setOnTouchListener(new OnSwipeTouchListener(view.getContext()) {
-                    public void onSwipeRight() {
-                        constraintLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
-                        params.horizontalBias = 0.9f;
-                        popUpToggle.setLayoutParams(params);
-
-                        popUpToggle.setOnTouchListener(null);
-
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                closePopUp(params, popUpToggle, popUpBg, popUp);
-                                try {
-                                    Future<Optional<String>> optional = SplashActivity.client.sendRequest(SplashActivity.client.searchUser(users.get(position).getName()).get().getFirst().get().get(0).getUserId(), RequestType.MESSAGE);
-                                    if (optional.get().isPresent())
-                                    {
-                                        Toast.makeText(view.getContext(), "Failed to send Message Request! Try Again.", Toast.LENGTH_SHORT).show();
-                                    }
-                                    Toast.makeText(view.getContext(), "Successfully sent Message Request to " + users.get(position).getName(), Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    Toast.makeText(view.getContext(), "Failed to send Message Request! Try Again.", Toast.LENGTH_SHORT).show();
-                                    throw new RuntimeException(e);
-                                }
+                MaterialButton friendRequestBtn = popUp.findViewById(R.id.requests_search_popup_friend_button);
+                friendRequestBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            Future<Optional<String>> optional = SplashActivity.client.sendRequest(SplashActivity.client.searchUser(users.get(position).getName()).get().getFirst().get().get(0).getUserId(), RequestType.FRIEND);
+                            if (optional.get().isPresent())
+                            {
+                                Toast.makeText(view.getContext(), "Failed to send Friend Request! Try Again.", Toast.LENGTH_SHORT).show();
                             }
-                        }, 500);
+                            closePopUp(popUpBg, popUp);
+                            Toast.makeText(view.getContext(), "Successfully sent Friend Request to " + users.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(view.getContext(), "Failed to send Friend Request! Try Again.", Toast.LENGTH_SHORT).show();
+                            throw new RuntimeException(e);
+                        }
                     }
+                });
 
-                    public void onSwipeLeft() {
-                        constraintLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
-                        params.horizontalBias = 0.1f;
-                        popUpToggle.setLayoutParams(params);
-
-                        popUpToggle.setOnTouchListener(null);
-
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                closePopUp(params, popUpToggle, popUpBg, popUp);
-                                try {
-                                    Future<Optional<String>> optional = SplashActivity.client.sendRequest(SplashActivity.client.searchUser(users.get(position).getName()).get().getFirst().get().get(0).getUserId(), RequestType.FRIEND);
-                                    Toast.makeText(view.getContext(), "Successfully sent Friend Request to " + users.get(position).getName(), Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    Toast.makeText(view.getContext(), "Failed to send Friend Request! Try Again.", Toast.LENGTH_SHORT).show();
-                                    throw new RuntimeException(e);
-                                }
+                MaterialButton messageRequestBtn = popUp.findViewById(R.id.requests_search_popup_message_button);
+                messageRequestBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            Future<Optional<String>> optional = SplashActivity.client.sendRequest(SplashActivity.client.searchUser(users.get(position).getName()).get().getFirst().get().get(0).getUserId(), RequestType.MESSAGE);
+                            if (optional.get().isPresent())
+                            {
+                                Toast.makeText(view.getContext(), "Failed to send Message Request! Try Again.", Toast.LENGTH_SHORT).show();
                             }
-                        }, 500);
+                            closePopUp(popUpBg, popUp);
+                            Toast.makeText(view.getContext(), "Successfully sent Message Request to " + users.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(view.getContext(), "Failed to send Message Request! Try Again.", Toast.LENGTH_SHORT).show();
+                            throw new RuntimeException(e);
+                        }
                     }
-                });*/
+                });
 
                 ImageView exitBtn = popUp.findViewById(R.id.requests_search_popup_cross);
                 exitBtn.setOnClickListener(new View.OnClickListener() {
